@@ -43,5 +43,6 @@
 	}
 	$mysql->close();
 ?>
+	<a href="index.html"><button style="radius: 4px;">Home</button></a>
 </body>
 </html>
