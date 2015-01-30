@@ -1,0 +1,20 @@
+Contribution Creation:
+	<name>:
+	<type>:
+		Class, Race, Background, Weapon, Spell, Consumable, Ingredient, Crafting, Enchanting, Enchantment, Feat, Artifact, Quest Item, Tool, Misc
+	<Intended game, edition>: (Drop down list of ones already in DB or a custom field)
+	<Description>:
+	[Lore]:
+	[How to use]:
+	[Effect]:
+	[Attack rating]:
+	[Image]: URL or an actual image upload (select from a dropdown)
+	
+Contribution Storage:
+	Contribution Table:
+		Columns: id, username, name, type, game, desc, img, json, uses, rating_id, forum_id, timestamp
+	Notes:
+		json: Will keep track of all other optional fields
+		forum_id: ID mapping this contribution to an element of forum table
+		rating_id: ID mapping this contribution to an element of rating table
+		timestamp: creation date
