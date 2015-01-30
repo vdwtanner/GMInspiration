@@ -1,0 +1,10 @@
+**This assumes you have completed set up of SmartGit**
+Each day, pull the latest code into Git(master). This is your local Dev branch.
+
+When you are ready to work on a new project, checkout a new local branch and name it something to do with your current project. When you have completed development of this new functionality, merge it back into master and then do a commit & push. Feel free to do commits along the way in your new branch; I don't think that will cause any issues, but IDK for sure.
+
+If you have any issues, Google is going to be your best bet. While I do have some experience with Git, it is very minimal and I am still learning as much as anyone else in the group, especially with this new UI. Let me know if you have a problem and I will try to help, but no guarentees haha.
+
+Good luck, and may the odds be ever in your favor!
+
+--Tanner
