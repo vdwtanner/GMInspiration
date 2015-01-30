@@ -1,0 +1,30 @@
+<DOCTYPE html>
+<html>
+<head>
+	<title>Contribute</title>
+	<link rel="stylesheet" href="css/example/global.css" media="all">
+	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
+	
+	<script type="text/javascript" language="javascript">
+		function editionCheck(version){
+			if(version.value=="other"){
+				document.getElementById("other").style.display="inline-block";
+			}else{
+				document.getElementById("other").style.display="none";
+			}
+		}
+	</script>
+</head>
+<body>
+	<h2>Dungeon Crawlers - Contribute</h2>
+	<form method="POST">
+		<label for="name">Name:</label><input id="name" name="name" type="text" maxlength="100" placeholder="Enter kick-ass name here" required/></br>
+		<label for="type">Intended Version:</label><select id="type" name="type" required oninput="editionCheck(this)">
+			<option value="Dungeons and Dragons: 5th edition">Dungeons and Dragons: 5th edition</option>
+			<option value="other">Other</option>
+		</select><input id="other" name="other" type="text" maxlength="75" style="display: none" placeholder="Enter Game name: version" maxlength="75" title="Example: &quot;Dungeons and Dragons: 5th edition&quot;"/></br>
+		
+	</form>
+	<a href="index.html"><button style="border-radius: 10px;">Home</button></a>
+</body>
+</html>
