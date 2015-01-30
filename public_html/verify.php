@@ -2,6 +2,8 @@
 <html>
 <head>
 	<title>Email Verification</title>
+	<link rel="stylesheet" href="css/example/global.css" media="all">
+	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 </head>
 <body>
 	<div id="header">

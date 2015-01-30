@@ -1,6 +1,9 @@
 <DOCTYPE html>
 <html>
 <head>
+	<title>Sign up</title>
+	<link rel="stylesheet" href="css/example/global.css" media="all">
+	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 </head>
 <body>
 <?php
@@ -55,6 +58,6 @@
 	}
 	$mysql->close();
 ?>
-	<a href="index.html"><button style="radius: 4px;">Home</button></a>
+	<a href="index.html"><button style="border-radius: 4px;">Home</button></a>
 </body>
 </html>
