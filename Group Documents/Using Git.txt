@@ -7,4 +7,6 @@ If you have any issues, Google is going to be your best bet. While I do have som
 
 Good luck, and may the odds be ever in your favor!
 
+OK, so I finally figured out how to push a separate branch to Google Code (actually quite simple, I'd just never found the option), so set your tracked branch to origin/Developer. This is where we will be merging changes and things. When we get ready to make a "release" we will push origin/developer onto origin/master.
+
 --Tanner
