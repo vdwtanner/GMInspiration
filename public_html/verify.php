@@ -36,6 +36,6 @@
 			}
 		?>
 	</div>
-	<a href="index.html"><button style="radius: 4px;">Home</button></a>
+	<a href="index.html"><button style="border-radius: 10px;">Home</button></a>
 </body>
 </html>

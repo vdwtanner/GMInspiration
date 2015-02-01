@@ -4,21 +4,18 @@
 <DOCTYPE html>
 <html>
 <head>
-	<title>Log Off</title>
+	<title>Contribute</title>
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 </head>
 <body>
+	<h2>Dungeon Crawlers - Contribute</h2>
 	<?php
-		echo $_SESSION["username"] . ", ";
-		try{
-			session_unset();
-			session_destroy();
-		}catch(Exception $e){
-			echo "there was an error during logoff. Please go cry in a corner.";
-		}
-		echo "you were successfully logged off.";
+		echo "Welcome to the contribution screen, ".$_SESSION["username"];
 	?>
+	<form method="POST">
+		<label for="name">Name:</label>
+	</form>
 	<a href="index.html"><button style="border-radius: 10px;">Home</button></a>
 </body>
 </html>

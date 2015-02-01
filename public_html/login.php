@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <DOCTYPE html>
 <html>
 <head>
@@ -24,6 +27,7 @@
 				$result->free();
 				if($row["active"]){
 					echo "<h1>Successful login!</h1>";
+					$_SESSION["username"] = $_POST["username"];
 				}else{
 					echo "<h4>This account is not active yet. Please check your inbox for the verification email. It may have been caught by your spam filter.</h4>";
 				}
