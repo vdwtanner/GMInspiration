@@ -13,18 +13,57 @@
 				document.getElementById("other").style.display="none";
 			}
 		}
+		
+		function typeCheck(type){
+			if(type.value=="Weapon"){
+				document.getElementById("wdiv").style.display="block";
+			}else{
+				document.getElementById("wdiv").style.display="none";
+			}
+		}
+		
+		var extras=0;
+		function addField(){
+			var div = document.getElementById("extra");
+			var newdiv = document.createElement("div");
+			extras++;
+			newdiv.id=extras;
+			newdiv.innerHTML = "<input id='label "+extras+"' name='label "+extras+"' type='text' style='vertical-align: top' placeholder='Enter label here' /><textarea id='text "+extras+"' name='text "+extras+"' placeholder='Enter extra info here' rows='5' cols='50'></textarea></br>";
+			div.appendChild(newdiv);
+		}
 	</script>
 </head>
 <body>
 	<h2>Dungeon Crawlers - Contribute</h2>
-	<form method="POST">
+	<form id="" method="POST" action="save_contribution.php">
 		<label for="name">Name:</label><input id="name" name="name" type="text" maxlength="100" placeholder="Enter kick-ass name here" required/></br>
-		<label for="type">Intended Version:</label><select id="type" name="type" required oninput="editionCheck(this)">
+		<label for="game">Intended Version:</label><select id="game" name="game" required oninput="editionCheck(this)">
 			<option value="Dungeons and Dragons: 5th edition">Dungeons and Dragons: 5th edition</option>
 			<option value="other">Other</option>
 		</select><input id="other" name="other" type="text" maxlength="75" style="display: none" placeholder="Enter Game name: version" maxlength="75" title="Example: &quot;Dungeons and Dragons: 5th edition&quot;"/></br>
-		
+		<label for="type">Contribution Type:</label><select id="type" name="type" required oninput="typeCheck(this)">
+			<option value="Weapon">Weapon</option>
+			<option value="Spell">Spell</option>
+			<option value="Consumable">Consumable</option>
+			<option value="Crafting">Crafting</option>
+			<option value="Feat">Feat</option>
+			<option value="Artifact">Artifact</option>
+			<option value="Tool">Tool</option>
+		</select></br>
+		<div id="wdiv" style="display: none"><label for="wtype">Weapon type:</label><input id="wtype" name="wtype" type="text" placeholder="Enter weapon type here" /></div>
+		<label for="desc" style="vertical-align: top">Description:</label><textarea id="desc" name="desc" required placeholder="Enter a bad ass description here" rows="5" cols="50"></textarea></br>
+		<label for="img">Image:</label><input id="img" name="img" type="text" placeholder="paste the image URL here" size="30" /><br>
+		<label for="lore" style="vertical-align: top">Lore:</label><textarea id="lore" name="lore" required placeholder="Enter a some mind blowing lore here" rows="5" cols="50"></textarea></br>
+		<label for="how" style="vertical-align: top">How to use:</label><textarea id="how" name="how" required placeholder="Tell us how to use this" rows="5" cols="50"></textarea></br>
+		<label for="effect" style="vertical-align: top">Effect:</label><textarea id="effect" name="effect" required placeholder="What effect(s) does this have?" rows="5" cols="50"></textarea></br>
+		<label for="attack">Attack:</label><input id="attack" name="attack" type="text" maxlength="60" placeholder="How much damage does this do?" size="26" title="Examples: 3d6, 5, (half your level)+strength modifier, etc"/></br>
+		<div id="extra"></div>
+		</br>
+		<button style="border-radius: 10px;" onclick="addField()">Add Field</button>
+		<input type="submit" style="border-radius: 10px;"/>
 	</form>
+	</br>
+	
 	<a href="index.html"><button style="border-radius: 10px;">Home</button></a>
 </body>
 </html>
