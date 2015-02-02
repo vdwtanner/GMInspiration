@@ -26,11 +26,21 @@
 		$desc=$_POST["desc"];
 		$img=$_POST["img"];
 		$loc = 0;
+		$extra=0;
 		$array=array();
 		foreach($_POST as $key => $item){
 			if($loc++>6){
 				$array[$key] = $item;
+				if(preg_match("[label_.+]",$key))
+					$extra++;
 			}
+		}
+		for	($x=1; $x<=$extra; $x++){
+			$key=$array["label_".$x];
+			$value=$array["text_".$x];
+			unset($array["label_".$x]);
+			unset($array["text_".$x]);
+			$array[$key]=$value;
 		}
 		//print_r($array);
 		echo "</br>";
