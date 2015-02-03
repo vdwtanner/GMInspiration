@@ -113,7 +113,7 @@
 			<option value="other" id="other_option">Other</option>
 		</select><input id="other" name="other" type="text" maxlength="75" style="display: none" placeholder="Enter Game name: version" maxlength="75" title="Example: &quot;Dungeons and Dragons: 5th edition&quot;" onblur="other_option.value=this.value"/></br>
 		<?php echo $e;?>
-		<label for="type">Contribution Type:</label><select id="type" name="type" required oninput="typeCheck(this)">
+		<label for="type">Contribution Type:</label><select id="type" name="type" required >
 			<option value="Weapon">Weapon</option>
 			<option value="Spell">Spell</option>
 			<option value="Consumable">Consumable</option>
@@ -122,7 +122,7 @@
 			<option value="Artifact">Artifact</option>
 			<option value="Tool">Tool</option>
 		</select></br>
-		<div id="wdiv" style="display: none"><label for="wtype">Weapon type:</label><input id="wtype" name="wtype" type="text" placeholder="Enter weapon type here" /></div>
+		<div id="subtype"><label for="Sub type">Sub type:</label><input id="Sub type" name="Sub type" type="text" placeholder="Enter sub type(s) here" maxlength="75" /><a class="button" onclick="removeField(this.parentNode)">Delete</a></div>
 		<label for="desc" style="vertical-align: top">Description:</label><textarea id="desc" name="desc" required placeholder="Enter a bad ass description here" rows="5" cols="50"></textarea></br>
 		<div id="lore"><label for="Lore" style="vertical-align: top">Lore:</label><textarea id="Lore" name="Lore" placeholder="Enter a some mind blowing lore here" rows="5" cols="50"></textarea><a class="button" onclick="removeField(this.parentNode)">Delete</a></div>
 		<div id="how"><label for="How to use" style="vertical-align: top">How to use:</label><textarea id="How to use" name="How to use" placeholder="Tell us how to use this" rows="5" cols="50"></textarea><a  class="button" onclick="removeField(this.parentNode)">Delete</a></div>
