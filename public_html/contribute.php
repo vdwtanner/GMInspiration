@@ -7,7 +7,32 @@
 	<title>Contribute</title>
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
-	
+	<style>
+		a {
+			cursor: pointer;
+		}
+		a.button {
+			margin: .3em;
+			padding: 0 .3em 0 .3em;
+			vertical-align: top;
+			background: #FFAD33;
+			border-radius: 10px;
+		}
+		a.button:hover {
+			margin: .3em;
+			padding: 0 .3em 0 .3em;
+			vertical-align: top;
+			background: #EC9C2E;
+			border-radius: 10px;
+		}
+		a.button:active {
+			margin: .3em;
+			padding: 0 .3em 0 .3em;
+			vertical-align: top;
+			background: #E8A643;
+			border-radius: 10px;
+		}
+	</style>
 	<script type="text/javascript" language="javascript">
 		function editionCheck(version){
 			if(version.value=="other"){
@@ -43,13 +68,17 @@
 			var newdiv = document.createElement("div");
 			extras++;
 			newdiv.id=extras;
-			newdiv.innerHTML = "<input id='label "+extras+"' name='label "+extras+"' type='text' style='vertical-align: top' placeholder='Enter label here' /><textarea id='text "+extras+"' name='text "+extras+"' placeholder='Enter extra info here' rows='5' cols='50'></textarea></br>";
+			newdiv.innerHTML = "<input id='label "+extras+"' name='label "+extras+"' type='text' style='vertical-align: top' placeholder='Enter label here' /><textarea id='text "+extras+"' name='text "+extras+"' placeholder='Enter extra info here' rows='5' cols='50'></textarea><a class='button' onclick='removeField(this.parentNode)'>Delete</a></br>";
 			div.appendChild(newdiv);
 		}
 		
 		function removeField(element){
-			var form = document.getElementById("contribute");
-			form.remove
+			//alert("removing: " + element.id);
+			while(element.firstChild){
+				element.removeChild(element.firstChild);
+			}
+			//var form = document.getElementById("contribute");
+			//form.remove(element);
 		}
 		
 	</script>
@@ -95,10 +124,10 @@
 		</select></br>
 		<div id="wdiv" style="display: none"><label for="wtype">Weapon type:</label><input id="wtype" name="wtype" type="text" placeholder="Enter weapon type here" /></div>
 		<label for="desc" style="vertical-align: top">Description:</label><textarea id="desc" name="desc" required placeholder="Enter a bad ass description here" rows="5" cols="50"></textarea></br>
-		<label for="Lore" style="vertical-align: top">Lore:</label><textarea id="Lore" name="Lore" placeholder="Enter a some mind blowing lore here" rows="5" cols="50"></textarea></br>
-		<label for="How to use" style="vertical-align: top">How to use:</label><textarea id="How to use" name="How to use" placeholder="Tell us how to use this" rows="5" cols="50"></textarea></br>
-		<label for="Effect" style="vertical-align: top">Effect:</label><textarea id="Effect" name="Effect" placeholder="What effect(s) does this have?" rows="5" cols="50"></textarea></br>
-		<label for="Attack">Attack:</label><input id="Attack" name="Attack" type="text" maxlength="60" placeholder="How much damage does this do?" size="26" title="Examples: 3d6, 5, (half your level)+strength modifier, etc"/></br>
+		<div id="lore"><label for="Lore" style="vertical-align: top">Lore:</label><textarea id="Lore" name="Lore" placeholder="Enter a some mind blowing lore here" rows="5" cols="50"></textarea><a class="button" onclick="removeField(this.parentNode)">Delete</a></div>
+		<div id="how"><label for="How to use" style="vertical-align: top">How to use:</label><textarea id="How to use" name="How to use" placeholder="Tell us how to use this" rows="5" cols="50"></textarea><a  class="button" onclick="removeField(this.parentNode)">Delete</a></div>
+		<div id="effect"><label for="Effect" style="vertical-align: top">Effect:</label><textarea id="Effect" name="Effect" placeholder="What effect(s) does this have?" rows="5" cols="50"></textarea><a  class="button" onclick="removeField(this.parentNode)">Delete</a></div>
+		<div id="attack"><label for="Attack">Attack:</label><input id="Attack" name="Attack" type="text" maxlength="60" placeholder="How much damage does this do?" size="26" title="Examples: 3d6, 5, (half your level)+strength modifier, etc"/><a class="button" onclick="removeField(this.parentNode)">Delete</a></div>
 		<div id="extra"></div>
 		</br>
 	</form>
