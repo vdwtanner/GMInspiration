@@ -15,10 +15,14 @@
 		if(!$_SESSION["username"]){
 			die("You must be logged in in order to access this part of the site.");
 		}
+		if(!$_POST["id"]){
+			die("No ID found, cannot complete update.");
+		}
 		//echo "Welcome to the contribution screen, ".$_SESSION["username"];
 		echo "</br>";
 		//print_r($_POST);
 		//echo "</br>";
+		$id=$_POST["id"];
 		$name=$_POST["name"];
 		$game=$_POST["game"];
 		$type=$_POST["type"];
@@ -44,6 +48,7 @@
 		unset($array["Sub type"]);
 		unset($array["desc"]);
 		unset($array["other"]);
+		unset($array["id"]);
 		for	($x=1; $x<=$extra; $x++){
 			$key=$array["label ".$x];
 			$value=$array["text ".$x];
@@ -62,9 +67,9 @@
 		try{
 			$mysql->query("START TRANSACTION");
 			if($img){
-				$mysql->query("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, img, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$img."','".$json."')");
+				$mysql->query("UPDATE contributions SET name='".$name."', `type`='".$type."', sub_type='".$subtype."', game='".$game."', `desc`='".$desc."', json='".$json."', img='".$img."' WHERE id=".$id."");
 			}else{
-				$mysql->query("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$json."')");
+				$mysql->query("UPDATE contributions SET name='".$name."', `type`='".$type."', sub_type='".$subtype."', game='".$game."', `desc`='".$desc."', json='".$json."' WHERE id=".$id."");
 			}
 			echo $_SESSION["username"].", Your contribution was successfully added.";
 			$mysql->commit();
