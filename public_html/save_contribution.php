@@ -43,6 +43,7 @@
 		unset($array["type"]);
 		unset($array["Sub type"]);
 		unset($array["desc"]);
+		unset($array["other"]);
 		for	($x=1; $x<=$extra; $x++){
 			$key=$array["label ".$x];
 			$value=$array["text ".$x];

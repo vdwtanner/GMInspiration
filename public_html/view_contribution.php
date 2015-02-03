@@ -28,11 +28,11 @@
         echo "<div class='img' style='float: left'><img href='".$row["img"]."' alt='An image depicting ".$row["name"]."' /></div>";
         echo "<h2>".$row["name"]." - ".$row["type"].(($row["sub_type"])? " <span title='Sub Type'>(".$row["sub_type"].")":"")."</span></h2>";
         echo "<h3>submitted by ".$row["username"]." for ".$row["game"]."</h3>";
-        echo "<h4>Description</h4>";
-        echo "<p>".$row["desc"]."</p>";
+        echo "<h4 style='margin-bottom: .1em; padding-bottom: 0em'>Description</h4>";
+        echo "<p style='margin-top: .1em'>".$row["desc"]."</p>";
         foreach($fields as $key => $value){
-			echo "<h4>".$key."</h4>";
-			echo "<p>".$value."</p>";
+			echo "<h4 style='margin-bottom: .1em; padding-bottom: 0em'>".$key."</h4>";
+			echo "<p style='margin-top: .1em'>".$value."</p>";
 		}
         echo "<h6>Contribution ID: ".$id."</h6>";
     }catch(Exception $e)
