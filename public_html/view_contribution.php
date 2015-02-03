@@ -12,7 +12,13 @@
     if ($mysql->connect_error) {
         die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
     }
-    $id=$_POST["id"];
+
+    // Tanner might wanna change this, and just use GET in the end. (we need to use GET in order to link contributions)
+    if($_GET["contid"])
+	$id=$_GET["contid"];
+    else
+	$id=$_POST["id"];
+
     try{
         $mysql->query("START TRANSACTION");
         $result = $mysql->query("SELECT * from contributions where id='".$id."'");
