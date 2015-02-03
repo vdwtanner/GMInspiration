@@ -13,9 +13,18 @@
 </head>
 <body>
 <?php
+
 	echo "<hr>";
-	if($_SESSION["username"])	
+	if($_GET["user"]){
+		$username=$_GET["user"];
+		if($_SESSION["username"])	
+			echo "<h4>Welcome, ".$_SESSION["username"]."</h4>";
+	}else if($_SESSION["username"]){
+		$username=$_SESSION["username"];
 		echo "<h4>Welcome, ".$_SESSION["username"]."</h4>";
+	}else{
+		echo "<a href='login.html'>Please log in! or else im afraid this page isnt terribly interesting.</a>";
+	}
 
 	echo "<hr>";
 	$mysql = new mysqli("mysql14.000webhost.com","a9044814_crawler","d&d4days", "a9044814_dungeon");
@@ -23,8 +32,7 @@
 		die('Connect Error ('.$mysqli->connect_errno.')'.$mysqli->connect_error);
 	}
 	
-//	$username=$_POST["username"];
-	$username="tehcoconut";
+
 
 	try{
 		$mysql->query("START TRANSACTION");
@@ -55,15 +63,16 @@
 		}		
 		
 		echo "<div class='boxele'>";
+		echo "<div style='padding-left: 2em'>";
 		echo "<h5>Contributions</h5>";
 		if($crowarr){
 			foreach($crowarr as $key => $value){
-				echo "<p>&nbsp".$value["name"]."</p>";
+				echo "<a href='view_contribution.php?contid=".$value["id"]."'>".$value["name"]."</p>";
 			}
 		}else{
 			echo $username." has yet to submit any contributions!";
 		}
-		
+		echo "</div>";
 		echo "</div>";
 		
 
