@@ -30,7 +30,7 @@
         echo "<h6>Contribution ID: ".$id."</h6>";
     }catch(Exception $e)
     {
-    
+		echo "We appear to have rolled a natural 1... *sigh* Copy the following error message and submit it to us <a href="">here</a>:</br>".$e;
     }
 ?>
 </body>
