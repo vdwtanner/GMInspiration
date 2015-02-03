@@ -35,15 +35,15 @@
 			$key=str_replace('_', ' ', $key);
 			if($loc++>5){
 				$array[$key] = $item;
-				if(preg_match("[label_.+]",$key))
+				if(preg_match("[label .+]",$key))
 					$extra++;
 			}
 		}
 		for	($x=1; $x<=$extra; $x++){
-			$key=$array["label_".$x];
-			$value=$array["text_".$x];
-			unset($array["label_".$x]);
-			unset($array["text_".$x]);
+			$key=$array["label ".$x];
+			$value=$array["text ".$x];
+			unset($array["label ".$x]);
+			unset($array["text ".$x]);
 			$array[$key]=$value;
 		}
 		//print_r($array);
