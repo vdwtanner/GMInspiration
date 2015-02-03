@@ -17,12 +17,12 @@
 		}
 		//echo "Welcome to the contribution screen, ".$_SESSION["username"];
 		echo "</br>";
-		//print_r($_POST);
+		print_r($_POST);
 		//echo "</br>";
 		$name=$_POST["name"];
 		$game=$_POST["game"];
 		$type=$_POST["type"];
-		$wtype=$_POST["wtype"];
+		$subtype=$_POST["Sub_type"];
 		$desc=$_POST["desc"];
 		$img=$_POST["img"];
 		if($game=="other"){
@@ -33,17 +33,21 @@
 		$array=array();
 		foreach($_POST as $key => $item){
 			$key=str_replace('_', ' ', $key);
-			if($loc++>5){
-				$array[$key] = $item;
-				if(preg_match("[label_.+]",$key))
-					$extra++;
-			}
+			$array[$key] = $item;
+			if(preg_match("[label .+]",$key))
+				$extra++;
 		}
+		//remove main elements from array so that they can be stored separately in database
+		unset($array["name"]);
+		unset($array["game"]);
+		unset($array["type"]);
+		unset($array["Sub type"]);
+		unset($array["desc"]);
 		for	($x=1; $x<=$extra; $x++){
-			$key=$array["label_".$x];
-			$value=$array["text_".$x];
-			unset($array["label_".$x]);
-			unset($array["text_".$x]);
+			$key=$array["label ".$x];
+			$value=$array["text ".$x];
+			unset($array["label ".$x]);
+			unset($array["text ".$x]);
 			$array[$key]=$value;
 		}
 		//print_r($array);
@@ -56,11 +60,10 @@
 		//print($json);
 		try{
 			$mysql->query("START TRANSACTION");
-			//echo "Query text: INSERT INTO `contributions` (`id`, `username`, `name`, `type`, `wtype`, `game`, `desc`, `img`, `json`, `uses`, `timestamp`) VALUES (NULL, '".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$wtype."','".$game."','".$desc."', NULL, '".$json."', '0', CURRENT_TIMESTAMP";
 			if($img){
-				$mysql->query("INSERT INTO contributions (username, name, `type`, wtype, game, `desc`, img, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$wtype."','".$game."','".$desc."','".$img."','".$json."')");
+				$mysql->query("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, img, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$img."','".$json."')");
 			}else{
-				$mysql->query("INSERT INTO contributions (username, name, `type`, wtype, game, `desc`, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$wtype."','".$game."','".$desc."','".$json."')");
+				$mysql->query("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$json."')");
 			}
 			echo $_SESSION["username"].", Your contribution was successfully added.";
 			$mysql->commit();
