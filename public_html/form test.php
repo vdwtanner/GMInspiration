@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <DOCTYPE html>
 <html>
 <head>
@@ -69,12 +72,10 @@
 		</select></br>
 		<div id="wdiv" style="display: none"><label for="wtype">Weapon type:</label><input id="wtype" name="wtype" type="text" placeholder="Enter weapon type here" /></div>
 		<label for="desc" style="vertical-align: top">Description:</label><textarea id="desc" name="desc" required placeholder="Enter a bad ass description here" rows="5" cols="50"></textarea></br>
-
 		<label for="Lore" style="vertical-align: top">Lore:</label><textarea id="Lore" name="Lore" placeholder="Enter a some mind blowing lore here" rows="5" cols="50"></textarea></br>
 		<label for="How to use" style="vertical-align: top">How to use:</label><textarea id="How to use" name="How to use" placeholder="Tell us how to use this" rows="5" cols="50"></textarea></br>
 		<label for="Effect" style="vertical-align: top">Effect:</label><textarea id="Effect" name="Effect" placeholder="What effect(s) does this have?" rows="5" cols="50"></textarea></br>
 		<label for="Attack">Attack:</label><input id="Attack" name="Attack" type="text" maxlength="60" placeholder="How much damage does this do?" size="26" title="Examples: 3d6, 5, (half your level)+strength modifier, etc"/></br>
-
 		<div id="extra"></div>
 		</br>
 	</form>
