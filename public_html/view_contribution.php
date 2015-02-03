@@ -18,8 +18,9 @@
         $result = $mysql->query("SELECT * from contributions where id='".$id."'");
         $row = $result->fetch_array(MYSQL_BOTH);
         $fields = json_decode($row["json"]);    //create associative array from json
+		//echo print_r($row);
         echo "<div class='img' style='float: left'><img href='".$row["img"]."' alt='An image depicting ".$row["name"]."' /></div>";
-        echo "<h2>".$row["name"]."</h2>";
+        echo "<h2>".$row["name"]." - ".$row["type"].(($row["sub_type"])? " <span title='Sub Type'>(".$row["sub_type"].")":"")."</span></h2>";
         echo "<h3>submitted by ".$row["username"]." for ".$row["game"]."</h3>";
         echo "<h4>Description</h4>";
         echo "<p>".$row["desc"]."</p>";
@@ -30,7 +31,7 @@
         echo "<h6>Contribution ID: ".$id."</h6>";
     }catch(Exception $e)
     {
-		echo "We appear to have rolled a natural 1... *sigh* Copy the following error message and submit it to us <a href="">here</a>:</br>".$e;
+		echo "We appear to have rolled a natural 1... *sigh* Copy the following error message and submit it to us <a href=''>here</a>:</br>".$e;
     }
 ?>
 </body>
