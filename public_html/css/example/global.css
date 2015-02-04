@@ -8,6 +8,11 @@ This file contains the unique styles needed for example.html which do not appear
 html { 
   background: rgb(244, 244, 244);
   }
+body {
+    -webkit-text-size-adjust:100%;
+    -moz-text-size-adjust:100%;
+    -ms-text-size-adjust:100%;
+}
 
 /* 5. GLOBAL LAYOUT & GLOBAL CUSTOM TYPOGRAPHY
 ----------------------------------------------------------------------------------------*/

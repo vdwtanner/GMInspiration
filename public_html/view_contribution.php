@@ -4,8 +4,9 @@
 <DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="initial-scale=1">
 	<link rel="stylesheet" href="css/example/global.css" media="all">
-	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
+	<link rel="stylesheet" href="css/example/layout.css" media="all">
 	<style>
 		a {
 			cursor: pointer;
@@ -89,7 +90,7 @@
 	</script>
 </head>
 <body>
-<div id="container">
+<div id="container" class="cf">
 <?php
     //echo "Hello ".$_SESSION("username");
     $mysql = new mysqli("mysql14.000webhost.com","a9044814_crawler","d&d4days", "a9044814_dungeon");
@@ -112,15 +113,16 @@
         $fields = json_decode($row["json"]);    //create associative array from json
 		//echo print_r($row);
 		if($row["username"]!=$_SESSION["username"]){
-			echo "<div class='img' style='float: left'><img href='".$row["img"]."' alt='An image depicting ".$row["name"]."' /></div>";
-			echo "<h2>".$row["name"]." - ".$row["type"].(($row["sub_type"])? " <span title='Sub Type'>(".$row["sub_type"].")":"")."</span></h2>";
-			echo "<h3>submitted by ".$row["username"]." for ".$row["game"]."</h3>";
-			echo "<h4 style='margin-bottom: .1em; padding-bottom: 0em'>Description</h4>";
+			echo "<div class='profile_img'><img src='".$row["img"]."' alt='An image depicting ".$row["name"]."' width='175' height='175' /></div>";
+			echo "<div class='name_user_game' ><h2>".$row["name"]." - ".$row["type"].(($row["sub_type"])? " <span title='Sub Type'>(".$row["sub_type"].")":"")."</span></h2>";
+			echo "<h3>submitted by ".$row["username"]."</h3><h3>".$row["game"]."</h3></div>";
+			echo "<div style='display: block; clear: both;'><h4 style='margin-bottom: .1em; padding-bottom: 0em'>Description</h4>";
 			echo "<p style='margin-top: .1em'>".$row["desc"]."</p>";
 			foreach($fields as $key => $value){
 				echo "<h4 style='margin-bottom: .1em; padding-bottom: 0em'>".$key."</h4>";
 				echo "<p style='margin-top: .1em'>".$value."</p>";
 			}
+			echo "</div>";
 		}else{
 			echo "<h2>This page is still under construction. Submit updates at your own risk.</h2>";
 			echo "<p id='cont_type' style='display: none;'>".$row["type"]."</p>";
@@ -129,7 +131,7 @@
 					$('$type').value=$('#cont_type').text();
 				});</script>";
 			echo "<form method='POST' action='update_contribution.php'>";
-			echo "<div class='img' style='float: left'><img href='".$row["img"]."' alt='An image depicting ".$row["name"]."' /></div></br>";
+			echo "<div class='img' style='float: left'><img src='".$row["img"]."' alt='An image depicting ".$row["name"]."' width='175' height='175' /></div></br>";
 			echo "<label for='name'>Name: </label><input id='name' name='name' type='text' value='".$row['name']."' maxlength='75' title='Name of contribution'/></br>";
 			echo "<label for='type'>Contribution Type:</label><select id='type' name='type' required value='".$row["type"]."'>
 				<option value='Weapon'>Weapon</option>

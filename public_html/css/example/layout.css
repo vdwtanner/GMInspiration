@@ -56,6 +56,10 @@ footer p { max-width: 17.942em; }
 	display: none;
 }
 
+div.profile_img {
+	float: left;
+}
+
 /* 9. CUSTOM LAYOUT & TYPOGRAPHY (Mummy bear)
 ----------------------------------------------------------------------------------------*/
 @media screen and (min-width: 30em) and (max-width: 63.236em) {
@@ -74,15 +78,54 @@ p.intro {
   max-width: 33em;
   }
   
+div.profile_img {
+	float: none;
+	margin: .5em auto;
+	text-align: center;
+}
+  
 aside {
   float: none;
   width: auto;
   height: auto;
   margin: 0 0 2.2em;
   }
+  
+div.name_user_game {
+	clear: both;
+}
 
 .smallOnly {
 	display: block;
 }
   
+}
+
+/* 10. CUSTOM LAYOUT & TYPOGRAPHY (Baby bear)
+-----------------------------------------------------------------------------------------*/
+@media screen and (min-width: 20em) (max-width: 29.999em){
+	#container {
+		width: 20em;
+	}
+	
+aside {
+  float: none;
+  width: auto;
+  height: auto;
+  margin: 0 0 2.2em;
+}
+	
+div.name_user_game {
+	clear: both;
+}
+
+div.profile_img {
+	float:none;
+	margin: .5em auto;
+	text-align: center;
+}
+
+.smallOnly {
+	display: block;
+}
 }
