@@ -10,7 +10,7 @@
 	}
 	try{
 		$mysql->query("START TRANSACTION");
-		$mysql->query("INSERT INTO contribution_comments (contribution_id, username, comment) VALUES (".$cid.", '".$user."', '".$comment."')");
+		$mysql->query("INSERT INTO contribution_comments (contribution_id, username, comment) VALUES (".$cid.", '".$user."', '".$mysql->real_escape_string($comment)."')");
 		//echo "WE GOOD";
 		$result=$mysql->query("SELECT picture FROM users WHERE username='".$user."'");
 		$row=$result->fetch_array(MYSQL_BOTH);
@@ -20,7 +20,7 @@
 		$mysql->rollback();
 	}
 	$mysql->close();
-	echo "<img src='".$img."' alt='".$user."&#39s profile picture' width='50' height='50'><div id='namedate'><h4 style='padding-left: 1em;'>".$user."</h4>";
-	echo "<h5>".date("F j, Y g:i A")."</h5></div>";
-	echo "<p>".$comment."</p>";
+	echo "<div class='comment'><img src='".$img."' alt='".$user."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$user."</h4>";
+	echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date("F j, Y g:i A")."</h5></div></br>";
+	echo "<p style='padding: 0em; margin: 0em;'>".$comment."</p></div>";
 ?>

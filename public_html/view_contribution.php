@@ -39,6 +39,9 @@
 			border-radius: 10px;
 			margin: .5em;
 		}
+		div.namedate {
+			padding-left: 1em;
+		}
 	</style>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script><!--Including some JQuery because yes-->
 	<script type="text/javascript" language="javascript">
@@ -59,20 +62,22 @@
 						comment: com,
 					}),
 					//Expect to receive HTML back
-					success: function(data){
-						alert(data);
+					success: function(html){
+						//alert(data);
 						//data is whatever is returned from php
 						//alert("comment added");
 						//Come back later and make this add the new comment
-						var newdiv = document.createElement("div");
-						newdiv.innerHTML=data;
-						var comments = $("#comments");
+						//var newdiv = document.createElement("div");
+						//newdiv.innerHTML=data;
+						//var comments = $("#comments");
 						try{
-							comments.insertBefore(comments.firstChild);
+							$("#comments").prepend(html);
+							$("#comment").val("");
+							//comments.insertBefore(html, comments.firstChild);
 							//alert(1);
 						}catch(e){
-							comments.appendChild(newdiv);
-							//alert(2);
+							//comments.appendChild(newdiv);
+							alert("error");
 						}
 					},
 					error: function(xhr, status, error){
@@ -117,9 +122,24 @@
 				echo "<p style='margin-top: .1em'>".$value."</p>";
 			}
 		}else{
+			echo "<h2>This page is still under construction. Submit updates at your own risk.</h2>";
+			echo "<p id='cont_type' style='display: none;'>".$row["type"]."</p>";
+			echo "<script type='text/javascript' language='javascript'>
+				$(document).ready(function(){
+					$('$type').value=$('#cont_type').text();
+				});</script>";
 			echo "<form method='POST' action='update_contribution.php'>";
-			echo "<div class='img' style='float: left'><img href='".$row["img"]."' alt='An image depicting ".$row["name"]."' /></br></div>";
+			echo "<div class='img' style='float: left'><img href='".$row["img"]."' alt='An image depicting ".$row["name"]."' /></div></br>";
 			echo "<label for='name'>Name: </label><input id='name' name='name' type='text' value='".$row['name']."' maxlength='75' title='Name of contribution'/></br>";
+			echo "<label for='type'>Contribution Type:</label><select id='type' name='type' required value='".$row["type"]."'>
+				<option value='Weapon'>Weapon</option>
+				<option value='Spell'>Spell</option>
+				<option value='Consumable'>Consumable</option>
+				<option value='Crafting'>Crafting</option>
+				<option value='Feat'>Feat</option>
+				<option value='Artifact'>Artifact</option>
+				<option value='Tool'>Tool</option>
+				</select></br>";
 			echo "<label for='sub_type'>Sub Type: </label><input id='sub_type' name='sub_type' value='".$row["sub_type"]."' />";
 			echo "<h4 style='margin-bottom: .1em; padding-bottom: 0em' >Description</h4>";
 			echo "<textarea id='desc' name='desc' rows='5' cols='50' >".$row["desc"]."</textarea>";
@@ -149,9 +169,9 @@
 			while($row=$result->fetch_array(MYSQL_BOTH)){
 				$result2 = $mysql->query("SELECT picture from users WHERE username='".$row["username"]."'");
 				$img=$result2->fetch_array(MYSQL_BOTH);
-				echo "<div class='comment'><img src='".$img["picture"]."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='padding-left: 1em;'>".$row["username"]."</h4>";
-				echo "<h5>".$row["timestamp"]."</h5></div>";
-				echo "<p style='padding: 0em; margin: 0em;'>".$row["comment"]."</p></div>";
+				echo "<div class='comment'><img src='".$img["picture"]."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4>";
+				echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
+				echo "<p style=' margin: 0em;'>".$row["comment"]."</p></div>";
 			}
 		?>
 	</div>
