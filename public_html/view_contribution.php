@@ -158,11 +158,17 @@
     }
 ?>
 	<h3>Comment</h3>
-	<form id="make_comment">
-		<textarea id="comment" rows="5" cols="50" placeholder="Enter comment here." required ></textarea>
-	</form>
-	<a class="button" onclick="comment();">Submit</a>
-	<div id="comments">
+	<?php
+		if($_SESSION["username"]){
+			echo "<form id='make_comment'>
+				<textarea id='comment' rows='5' cols='50' placeholder='Enter comment here.' required ></textarea>
+				</form>;
+				<a class='button' onclick='comment();'>Submit</a>";
+		}else{
+			echo "You must <a href='login.html'>login</a> before you can comment.";
+		}
+	?>
+	<div id='comments'>
 		<?php
 			$result->free();
 			$result=$mysql->query("SELECT * from contribution_comments WHERE contribution_id =".$id." ORDER BY timestamp DESC");
