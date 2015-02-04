@@ -26,7 +26,7 @@
 		$name=$_POST["name"];
 		$game=$_POST["game"];
 		$type=$_POST["type"];
-		$subtype=$_POST["Sub_type"];
+		$subtype=$_POST["sub_type"];
 		$desc=$_POST["desc"];
 		$img=$_POST["img"];
 		if($game=="other"){
@@ -45,7 +45,7 @@
 		unset($array["name"]);
 		unset($array["game"]);
 		unset($array["type"]);
-		unset($array["Sub type"]);
+		unset($array["sub type"]);
 		unset($array["desc"]);
 		unset($array["other"]);
 		unset($array["id"]);
@@ -71,10 +71,10 @@
 			}else{
 				$mysql->query("UPDATE contributions SET name='".$name."', `type`='".$type."', sub_type='".$subtype."', game='".$game."', `desc`='".$desc."', json='".$json."' WHERE id=".$id."");
 			}
-			echo $_SESSION["username"].", Your contribution was successfully added.";
+			echo $_SESSION["username"].", Your contribution was successfully updated.";
 			$mysql->commit();
 		}catch(Exception $e){
-			echo "An error occurred while saving your contribution.</br>".$e;
+			echo "An error occurred while updating your contribution.</br>".$e;
 		}
 		$mysql->close();
 	?>
