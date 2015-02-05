@@ -9,8 +9,8 @@
 	<?php
 		echo "Suck it ".$_SESSION["username"];
 	?>
-	<form method="POST" action="view_contribution.php">
-		<label for="id">Select an ID: </label><select id="id" name="id">
+	<form method="GET" action="view_contribution.php">
+		<label for="contid">Select an ID: </label><select id="contid" name="contid">
 			<?php
 				$mysql = new mysqli("mysql14.000webhost.com","a9044814_crawler","d&d4days", "a9044814_dungeon");
 				if ($mysql->connect_error) {
