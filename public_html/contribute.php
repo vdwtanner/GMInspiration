@@ -123,6 +123,7 @@
 			<option value="Tool">Tool</option>
 		</select></br>
 		<div id="subtype"><label for="Sub type">Sub type:</label><input id="Sub type" name="Sub type" type="text" placeholder="Enter sub type(s) here" maxlength="75" /><a class="button" onclick="removeField(this.parentNode)">Delete</a></div>
+		<div id="image"><label for="img">Link to image:</label><input id="img" name="img" type="text" placeholder="Paste image URL here" /><a class="button" onclick="removeField(this.parentNode)">Delete</a></div>
 		<label for="desc" style="vertical-align: top">Description:</label><textarea id="desc" name="desc" required placeholder="Enter a bad ass description here" rows="5" cols="50"></textarea></br>
 		<div id="lore"><label for="Lore" style="vertical-align: top">Lore:</label><textarea id="Lore" name="Lore" placeholder="Enter a some mind blowing lore here" rows="5" cols="50"></textarea><a class="button" onclick="removeField(this.parentNode)">Delete</a></div>
 		<div id="how"><label for="How to use" style="vertical-align: top">How to use:</label><textarea id="How to use" name="How to use" placeholder="Tell us how to use this" rows="5" cols="50"></textarea><a  class="button" onclick="removeField(this.parentNode)">Delete</a></div>
