@@ -8,10 +8,10 @@
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 	<link rel="stylesheet" href="css/example/profile.css" media="all">
-	<div id='container'>
-	<a id='homelink' href="index.html">Dungeon Crawlers</a>
+	<?php include "header.php";?>
 </head>
 <body>
+<div id='container'>
 <?php
 
 	function saveSettings(){
@@ -32,21 +32,14 @@
 	}
 	$display = true;
 	
-	// PAGE HEADER
-	echo "<hr>";
 	if($_GET["user"]){
 		$username=$_GET["user"];
-		if($_SESSION["username"])	
-			echo "<h4>Welcome, ".$_SESSION["username"]."</h4>";
 	}else if($_SESSION["username"]){
 		$username=$_SESSION["username"];
-		echo "<h4>Welcome, ".$_SESSION["username"]."</h4>";
 	}else{
-		echo "<a href='login.html'>Please log in! or else im afraid this page isnt terribly interesting.</a>";
+		echo "<h4>Please log in! or else im afraid this page isnt terribly interesting.</h4>";
 		$display = false;	
 	}
-
-	echo "<hr>";
 
 	// IF WE'RE RETURNING FROM THE EDIT SETTINGS PAGE
 	if($_POST["settingEdit"]){
@@ -119,6 +112,6 @@
 	}
 
 ?>
-	</div>
+</div>
 </body>
 </html>

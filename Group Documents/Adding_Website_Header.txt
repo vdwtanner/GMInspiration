@@ -1,0 +1,14 @@
+header.php has been added to the repo. With this, you can now add the basic site header to any .php page
+(This means all pages with probs have to go php. Down with .html!!! All hail the .php!!!)
+
+Just add the line
+
+	<?php include "header.php";?>
+
+after your .css links, then place a
+
+	<div id="container">
+
+around your page's content in the body.
+
+Please refer to profile.php and profilesettings.php for examples.

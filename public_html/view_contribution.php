@@ -115,7 +115,7 @@
 		if($row["username"]!=$_SESSION["username"]){
 			echo "<div class='profile_img'><img src='".$row["img"]."' alt='An image depicting ".$row["name"]."' width='175' height='175' /></div>";
 			echo "<div class='name_user_game' ><h2>".$row["name"]." - ".$row["type"].(($row["sub_type"])? " <span title='Sub Type'>(".$row["sub_type"].")":"")."</span></h2>";
-			echo "<h3>submitted by ".$row["username"]."</h3><h3>".$row["game"]."</h3></div>";
+			echo "<h3>submitted by <a href=profile.php?user=".$row["username"].">".$row["username"]."</a></h3><h3>".$row["game"]."</h3></div>";
 			echo "<div style='display: block; clear: both;'><h4 style='margin-bottom: .1em; padding-bottom: 0em'>Description</h4>";
 			echo "<p style='margin-top: .1em'>".$row["desc"]."</p>";
 			foreach($fields as $key => $value){
