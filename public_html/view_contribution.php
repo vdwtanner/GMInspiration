@@ -165,7 +165,7 @@
 		if($_SESSION["username"]){
 			echo "<form id='make_comment'>
 				<textarea id='comment' rows='5' cols='50' placeholder='Enter comment here.' required ></textarea>
-				</form>;
+				</form>
 				<a class='button' onclick='comment();'>Submit</a>";
 		}else{
 			echo "You must <a href='login.html'>login</a> before you can comment.";
