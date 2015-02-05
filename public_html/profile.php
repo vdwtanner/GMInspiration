@@ -24,6 +24,7 @@
 		try{
 			$mysql->query("START TRANSACTION");
 			$result = $mysql->query("UPDATE users SET description='".$_POST["descrEdit"]."' where username='".$username."'");
+			$result = $mysql->query("UPDATE users SET picture='".$_POST["imgurl"]."' where username='".$username."'");
 		}catch(Exception $e){
 
 		}
@@ -68,7 +69,7 @@
 			$row = $result->fetch_array(MYSQL_BOTH);
 
 			//IMG and PROFILE NAME
-			echo "<img href='".$row["picture"]."' style='float:left' height='100' width='100' alt='An image depicting ".$row["username"]."' />";
+			echo "<img src='".$row["picture"]."' style='float:left' height='100' width='100' alt='An image depicting ".$row["username"]."' />";
 			echo "<div id='namedate'>";
 			echo "<h2 style=''>".$row["username"]."</h2>";
 			echo "<h4> User since ".$row["joined"];
