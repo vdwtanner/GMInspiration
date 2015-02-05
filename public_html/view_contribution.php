@@ -7,6 +7,7 @@
 	<meta name="viewport" content="initial-scale=1">
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all">
+	<?php include "header.php";?>
 	<style>
 		a {
 			cursor: pointer;
@@ -115,7 +116,7 @@
 		if($row["username"]!=$_SESSION["username"]){
 			echo "<div class='profile_img'><img src='".$row["img"]."' alt='An image depicting ".$row["name"]."' width='175' height='175' /></div>";
 			echo "<div class='name_user_game' ><h2>".$row["name"]." - ".$row["type"].(($row["sub_type"])? " <span title='Sub Type'>(".$row["sub_type"].")":"")."</span></h2>";
-			echo "<h3>submitted by ".$row["username"]."</h3><h3>".$row["game"]."</h3></div>";
+			echo "<h3>submitted by <a href=profile.php?user=".$row["username"].">".$row["username"]."</a></h3><h3>".$row["game"]."</h3></div>";
 			echo "<div style='display: block; clear: both;'><h4 style='margin-bottom: .1em; padding-bottom: 0em'>Description</h4>";
 			echo "<p style='margin-top: .1em'>".$row["desc"]."</p>";
 			foreach($fields as $key => $value){
@@ -177,7 +178,7 @@
 			while($row=$result->fetch_array(MYSQL_BOTH)){
 				$result2 = $mysql->query("SELECT picture from users WHERE username='".$row["username"]."'");
 				$img=$result2->fetch_array(MYSQL_BOTH);
-				echo "<div class='comment'><img src='".$img["picture"]."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4>";
+				echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img["picture"]."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4></a>";
 				echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
 				echo "<p style=' margin: 0em;'>".$row["comment"]."</p></div>";
 			}
