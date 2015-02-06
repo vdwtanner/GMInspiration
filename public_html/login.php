@@ -1,14 +1,7 @@
 <?php
 	session_start();
 ?>
-<DOCTYPE html>
-<html>
-<head>
-	<title>Login</title>
-	<link rel="stylesheet" href="css/example/global.css" media="all">
-	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
-</head>
-<body>
+
 <?php
 	$mysql = new mysqli("mysql14.000webhost.com","a9044814_crawler","d&d4days", "a9044814_dungeon");
 	if ($mysql->connect_error) {
@@ -45,6 +38,3 @@
 	}
 	$mysql->close();
 ?>
-	<a href="index.html"><button style="radius: 4px;">Home</button></a>
-</body>
-</html>
