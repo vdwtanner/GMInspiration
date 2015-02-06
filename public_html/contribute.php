@@ -84,7 +84,7 @@
 	</script>
 </head>
 <body>
-	<h2>Dungeon Crawlers - Contribute</h2>
+	<h2 id="page_title">Dungeon Crawlers - Contribute</h2>
 	<?php
 		if(!$_SESSION["username"]){
 			die("You must be logged in in order to access this part of the site.");
@@ -122,7 +122,7 @@
 			<option value="Artifact">Artifact</option>
 			<option value="Tool">Tool</option>
 		</select></br>
-		<div id="subtype"><label for="Sub type">Sub type:</label><input id="Sub type" name="Sub type" type="text" placeholder="Enter sub type(s) here" maxlength="75" /><a class="button" onclick="removeField(this.parentNode)">Delete</a></div>
+		<div id="subtype"><label for="Sub_type">Sub type:</label><input id="Sub_type" name="Sub_type" type="text" placeholder="Enter sub type(s) here" maxlength="75" /><a class="button" onclick="removeField(this.parentNode)">Delete</a></div>
 		<div id="image"><label for="img">Link to image:</label><input id="img" name="img" type="text" placeholder="Paste image URL here" /><a class="button" onclick="removeField(this.parentNode)">Delete</a></div>
 		<label for="desc" style="vertical-align: top">Description:</label><textarea id="desc" name="desc" required placeholder="Enter a bad ass description here" rows="5" cols="50"></textarea></br>
 		<div id="lore"><label for="Lore" style="vertical-align: top">Lore:</label><textarea id="Lore" name="Lore" placeholder="Enter a some mind blowing lore here" rows="5" cols="50"></textarea><a class="button" onclick="removeField(this.parentNode)">Delete</a></div>
@@ -132,8 +132,8 @@
 		<div id="extra"></div>
 		</br>
 	</form>
-	<button style="border-radius: 10px;" onclick="addField()">Add Field</button>
-	<button style="border-radius: 10px;" onclick="submitForm(contribute)">Submit</button>
+		<button id="add_field" style="border-radius: 10px;" onclick="addField()">Add Field</button>
+		<div id="submit_button"><button id="submit_contribution" style="border-radius: 10px;" onclick="submitForm(contribute)">Submit</button></div>
 	</br>
 	
 	<a href="index.html"><button style="border-radius: 10px;">Home</button></a>

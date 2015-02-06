@@ -16,6 +16,7 @@
 			die("You must be logged in in order to access this part of the site.");
 		}
 		if(!$_POST["id"]){
+			print_r($_POST);
 			die("No ID found, cannot complete update.");
 		}
 		//echo "Welcome to the contribution screen, ".$_SESSION["username"];
@@ -26,7 +27,7 @@
 		$name=$_POST["name"];
 		$game=$_POST["game"];
 		$type=$_POST["type"];
-		$subtype=$_POST["sub_type"];
+		$subtype=$_POST["Sub_type"];
 		$desc=$_POST["desc"];
 		$img=$_POST["img"];
 		if($game=="other"){
@@ -45,10 +46,11 @@
 		unset($array["name"]);
 		unset($array["game"]);
 		unset($array["type"]);
-		unset($array["sub type"]);
+		unset($array["Sub type"]);
 		unset($array["desc"]);
 		unset($array["other"]);
 		unset($array["id"]);
+		unset($array["img"]);
 		for	($x=1; $x<=$extra; $x++){
 			$key=$array["label ".$x];
 			$value=$array["text ".$x];

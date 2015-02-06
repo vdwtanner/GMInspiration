@@ -142,7 +142,7 @@
 	echo "<a id='homelink' href='index.html'>Dungeon Crawlers</a>";
 	echo "<div id='headerlinks'>";
 	if($_SESSION["username"]){
-		echo "<h2>Welcome, ".$_SESSION["username"]." <a onclick='logoff()'>logout</a></h4>";
+		echo "<h2>Welcome, <a href='profile.php'>".$_SESSION["username"]."</a> <a onclick='logoff()'>logout</a></h4>";
 	}else{
 		echo "<h4><a onclick='(login())'>Login</a><br><a href='sign_up.html'>Sign up</a></h4>";
 	}

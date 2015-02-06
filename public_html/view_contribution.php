@@ -91,6 +91,72 @@
 				})
 			}
 		}
+		
+		function update(){
+			var name=$("#name").text();
+			var game=$("#game").text();
+			var type=$("#type").text();
+			var subtype=$("#subtype").text();
+			var desc=$("#desc").text();
+			var img=$("#img").attr("src");
+			var labels=[];
+			$("[name*='label ']").each(function() {labels.push($(this).text())});
+			var texts=[];
+			$("[name*='text ']").each(function() {texts.push($(this).text())});
+			console.log(name);
+			console.log(game);
+			console.log(type);
+			console.log(subtype);
+			console.log(desc);
+			console.log(img);
+			console.log(labels);
+			console.log(texts);
+			$.ajax({
+				url: "contribute.php",
+				success: function(html){
+					var p = document.createElement("p");
+					p.innerHTML="<b>Select a contribution type. For some reason that does not load right now.</b>"
+					$("#update_button").replaceWith(p);
+					var h2 = document.createElement("h2");
+					h2.innerHTML="Update Contribution"
+					$("#page_title").replaceWith(h2);
+					$("#contribution").html(html);
+					$("#name").val(name);
+					$("#game").val(game);
+					$("#type").filter(function() {
+						//may want to use $.trim in here
+						return $(this).text() == type; 
+					}).prop('selected', true);
+					$("#type").val(type);
+					$("#Sub_type").val(subtype);
+					$("#desc").val(desc);
+					$("#img").val(img);
+					$("#contribute").attr("action", "update_contribution.php");
+					$("#contribute").append("<input id='id' name='id' style='display: none;' value='"+$("#contid").text()+"' />");
+					$("#submit_contribution").text("Update");
+					$("#lore").remove();
+					$("#how").remove();
+					$("#effect").remove();
+					$("#attack").remove();
+					var extras=0;
+					labels.forEach(function(label){
+						$("#add_button").click();
+						var div = document.getElementById("extra");
+						var newdiv = document.createElement("div");
+						extras++;
+						newdiv.id=extras;
+						newdiv.innerHTML = "<input id='label_"+extras+"' name='label_"+extras+"' type='text' style='vertical-align: top' placeholder='Enter label here' /><textarea id='text_"+extras+"' name='text_"+extras+"' placeholder='Enter extra info here' rows='5' cols='50'></textarea><a class='button' onclick='removeField(this.parentNode)'>Delete</a></br>";
+						div.appendChild(newdiv);
+						$("#label_"+extras).val(labels[extras-1]);
+						$("#text_"+extras).val(texts[extras-1]);
+					});
+					
+				},
+				error: function(xhr, status, error){
+					alert(error);
+				}
+			});
+		}
 	</script>
 </head>
 <body>
@@ -116,48 +182,23 @@
         $row = $result->fetch_array(MYSQL_BOTH);
         $fields = json_decode($row["json"]);    //create associative array from json
 		//echo print_r($row);
-		if($row["username"]!=$_SESSION["username"]){
-			echo "<div class='profile_img'><img src='".$row["img"]."' alt='An image depicting ".$row["name"]."' width='175' height='175' /></div>";
-			echo "<div class='name_user_game' ><h2>".$row["name"]." - ".$row["type"].(($row["sub_type"])? " <span title='Sub Type'>(".$row["sub_type"].")":"")."</span></h2>";
-			echo "<h3>submitted by <a href=profile.php?user=".$row["username"].">".$row["username"]."</a></h3><h3>".$row["game"]."</h3></div>";
-			echo "<div style='display: block; clear: both;'><h4 style='margin-bottom: .1em; padding-bottom: 0em'>Description</h4>";
-			echo "<p style='margin-top: .1em'>".$row["desc"]."</p>";
-			foreach($fields as $key => $value){
-				echo "<h4 style='margin-bottom: .1em; padding-bottom: 0em'>".$key."</h4>";
-				echo "<p style='margin-top: .1em'>".$value."</p>";
-			}
-			echo "</div>";
-		}else{
-			echo "<h2>This page is still under construction. Submit updates at your own risk.</h2>";
-			echo "<p id='cont_type' style='display: none;'>".$row["type"]."</p>";
-			echo "<script type='text/javascript' language='javascript'>
-				$(document).ready(function(){
-					$('$type').value=$('#cont_type').text();
-				});</script>";
-			echo "<form method='POST' action='update_contribution.php'>";
-			echo "<div class='img' style='float: left'><img src='".$row["img"]."' alt='An image depicting ".$row["name"]."' width='175' height='175' /></div></br>";
-			echo "<label for='name'>Name: </label><input id='name' name='name' type='text' value='".$row['name']."' maxlength='75' title='Name of contribution'/></br>";
-			echo "<label for='type'>Contribution Type:</label><select id='type' name='type' required value='".$row["type"]."'>
-				<option value='Weapon'>Weapon</option>
-				<option value='Spell'>Spell</option>
-				<option value='Consumable'>Consumable</option>
-				<option value='Crafting'>Crafting</option>
-				<option value='Feat'>Feat</option>
-				<option value='Artifact'>Artifact</option>
-				<option value='Tool'>Tool</option>
-				</select></br>";
-			echo "<label for='sub_type'>Sub Type: </label><input id='sub_type' name='sub_type' value='".$row["sub_type"]."' />";
-			echo "<h4 style='margin-bottom: .1em; padding-bottom: 0em' >Description</h4>";
-			echo "<textarea id='desc' name='desc' rows='5' cols='50' >".$row["desc"]."</textarea>";
-			foreach($fields as $key => $value){
-				echo "<h4 style='margin-bottom: .1em; padding-bottom: 0em'>".$key."</h4>";
-				echo "<textarea id='".$key."' name='".$key."' style='margin-top: .1em' rows='5' cols='50'>".$value."</textarea>";
-			}
-			echo "</br><input id='id' name='id' type='text' readonly style='display: none;' value='".$row["id"]."' size='".strlen($row["id"])."'/></br>";
-			echo "<input type='submit' value='Update contribution' />";
-			echo "</form>";
+		if($row["username"]==$_SESSION["username"]){
+			echo "<a id='update_button' class='button' onclick='update()'>Update</a></br>";
 		}
-        echo "<h6>Contribution ID: ".$id."</h6>";
+			echo "<div id='contribution'><div class='profile_img'><img id='img' src='".$row["img"]."' alt='An image depicting ".$row["name"]."' width='175' height='175' /></div>";
+			echo "<div class='name_user_game' ><h2><span id='name'>".$row["name"]."</span> - <span id='type'>".$row["type"].(($row["sub_type"])? " </span>(<span id='subtype' title='Sub Type'>".$row["sub_type"]."</span>)":"")."</h2>";
+			echo "<h3>submitted by <a href=profile.php?user=".$row["username"].">".$row["username"]."</a></h3><h3 id='game'>".$row["game"]."</h3></div>";
+			echo "<div style='display: block; clear: both;'><h4 style='margin-bottom: .1em; padding-bottom: 0em'>Description</h4>";
+			echo "<p id='desc' style='margin-top: .1em'>".$row["desc"]."</p>";
+			$num=1;
+			foreach($fields as $key => $value){
+				echo "<h4 id='label ".$num."' name='label ".$num."' style='margin-bottom: .1em; padding-bottom: 0em'>".$key."</h4>";
+				echo "<p id='text ".$num."' name='text ".$num."' style='margin-top: .1em'>".$value."</p>";
+				$num++;
+			}
+			echo "</div></div>";
+		
+        echo "<h6>Contribution ID: <span  id='contid'>".$id."</span></h6>";
     }catch(Exception $e)
     {
 		echo "We appear to have rolled a natural 1... *sigh* Copy the following error message and submit it to us <a href=''>here</a>:</br>".$e;
