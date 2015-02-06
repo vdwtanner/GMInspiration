@@ -8,7 +8,8 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<script type="text/javascript" language="javascript">
-		function submitLogin(){
+		function submitLogin(dialog){
+			
 			var user=$("#login_username").val();
 			var pass=$("#login_pass").val();
 			$.ajax({
@@ -19,12 +20,24 @@
 					pass: pass,
 				}),
 				success: function(html){
-					$("#login_container").html("<b>Successful Login</b>");
-					setTimeout(500);
-					location.reload();
+					$("#login_container").html(html);
+					$("#modal_area").dialog("option", "buttons", [{
+						text: "Close",
+						click: function(){
+							$(this).dialog("close");
+							location.reload();
+						}
+					}]);
+					setTimeout(function(){location.reload()},1500);
 				},
 				error: function(xhr, status, error){
-					$("#login_container").html("<b>An error occurred.</b>");
+					$("#login_container").html(error);
+					$("#modal_area").dialog("option", "buttons", [{
+						text: "Close",
+						click: function(){
+							$(this).dialog("close");
+						}
+					}]);
 				}
 			});
 		}
@@ -41,7 +54,7 @@
 				position: {my: "center top", at: "center top", of: window},
 				buttons: {
 					"Login": function(){
-						submitLogin();
+						submitLogin(this);
 					},
 					"Cancel": function(){
 						$(this).dialog("close");
