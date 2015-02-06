@@ -1,17 +1,49 @@
 <DOCTYPE html>
 <html>
 <head>
-	<title>Login</title>
+	<style>
+		a {
+			cursor: pointer;
+		}
+		a.button {
+			margin: .3em;
+			padding: 0 .3em 0 .3em;
+			vertical-align: top;
+			background: #FFAD33;
+			border-radius: 10px;
+		}
+		a.button:hover {
+			margin: .3em;
+			padding: 0 .3em 0 .3em;
+			vertical-align: top;
+			background: #EC9C2E;
+			border-radius: 10px;
+		}
+		a.button:active {
+			margin: .3em;
+			padding: 0 .3em 0 .3em;
+			vertical-align: top;
+			background: #E8A643;
+			border-radius: 10px;
+		}
+	</style>
+	<!--<title>Login</title>
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script type="text/javascript" language="javascript">
+		
+	</script>-->
 </head>
 <body>
+<div id="login_container">
 	<form method="POST" action="login.php">
 		<label for="username">Username:</label>
-		<input id="username" name="username" type="text" maxlength="20" required/></br>
+		<input id="login_username" name="username" type="text" maxlength="20" required/></br>
 		<label for="pass">Password:</label>
-		<input id="pass" name="pass" type="password" pattern=".{6,25}" title="6-25 characters required" required /></br>
-		<input type="submit" value="Login"/>
+		<input id="login_pass" name="pass" type="password" pattern=".{6,25}" title="6-25 characters required" required /></br>
 	</form>
+	<!--<a class="button" onclick="submitLogin()">Login</a>-->
+</div>
 </body>
 </html>
