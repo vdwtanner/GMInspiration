@@ -92,6 +92,15 @@
 			}
 		}
 		
+		/*function submitUpdate(){
+			var id=$("#contid").text();
+			var game=$("#name").val();
+			var type=$("#type").val();
+			var subtype=$("#desc").val();
+			var img=$("#").attr("src");
+			
+		}*/
+		
 		function update(){
 			var name=$("#name").text();
 			var game=$("#game").text();

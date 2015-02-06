@@ -24,21 +24,21 @@
 		//print_r($_POST);
 		//echo "</br>";
 		$id=$_POST["id"];
-		$name=$_POST["name"];
-		$game=$_POST["game"];
-		$type=$_POST["type"];
-		$subtype=$_POST["Sub_type"];
-		$desc=$_POST["desc"];
+		$name=htmlspecialchars($_POST["name"], ENT_QUOTES);
+		$game=htmlspecialchars($_POST["game"]);
+		$type=htmlspecialchars($_POST["type"]);
+		$subtype=htmlspecialchars($_POST["Sub_type"]);
+		$desc=htmlspecialchars($_POST["desc"]);
 		$img=$_POST["img"];
 		if($game=="other"){
-			$game=$_POST["other"];
+			$game=htmlspecialchars($_POST["other"]);
 		}
 		$loc = 0;
 		$extra=0;
 		$array=array();
 		foreach($_POST as $key => $item){
 			$key=str_replace('_', ' ', $key);
-			$array[$key] = $item;
+			$array[htmlspecialchars($key)] = htmlspecialchars($item);
 			if(preg_match("[label .+]",$key))
 				$extra++;
 		}
@@ -80,6 +80,6 @@
 		}
 		$mysql->close();
 	?>
-	<a href="index.html"><button style="border-radius: 10px;">Home</button></a>
+	<button onclick="window.history.back()" style="border-radius: 10px;">Back</button>
 </body>
 </html>
