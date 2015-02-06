@@ -9,6 +9,7 @@
 	}
 	$usr = $mysql->real_escape_string($_POST["username"]);
 	$pass = $mysql->real_escape_string(md5($_POST["pass"]));
+	$msg;
 	try{
 		$mysql->query("START TRANSACTION");
 		$result = $mysql->query("SELECT * FROM `users` WHERE username='".$usr."'");
@@ -19,17 +20,17 @@
 				$row=$result->fetch_array(MYSQLI_BOTH);
 				$result->free();
 				if($row["active"]){
-					echo "<h1>Successful login!</h1>";
+					$msg = "<h4>Successful login!</h4>";
 					$_SESSION["username"] = $_POST["username"];
 				}else{
-					echo "<h4>This account is not active yet. Please check your inbox for the verification email. It may have been caught by your spam filter.</h4>";
+					$msg= "<h4>This account is not active yet. Please check your inbox for the verification email. It may have been caught by your spam filter.</h4>";
 				}
 				$mysql->commit();
 			}else{
-				echo "<h4>Incorrect password. Please go <a onclick='window.history.back()'>back</a> and try again.";
+				$msg="<h4>Incorrect password.";
 			}
 		}else{
-			echo "<h4>I'm sorry, that username is invalid. Please go <a onclick='window.history.back()'>back</a> and try again.</h4>";
+			$msg= "<h4>I'm sorry, that username is invalid.</h4>";
 		}
 	}catch(Exception $e){
 		echo "<h1 style='color:red'>An error occurred while saving data to the database</h1>";
@@ -37,4 +38,10 @@
 		$mysql->rollback();
 	}
 	$mysql->close();
+	if($msg!="<h4>Successful login!</h4>"){
+		header("HTTP/1.1 412 ".$msg);
+		die($msg);
+	}else{
+		echo $msg;
+	}
 ?>

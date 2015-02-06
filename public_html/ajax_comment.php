@@ -1,7 +1,7 @@
 <?php
 	$user = $_POST["user"];
 	$cid = $_POST["c_id"];
-	$comment = $_POST["comment"];
+	$comment = htmlspecialchars($_POST["comment"], ENT_QUOTES);
 	$img;
 	//echo print_r($_POST);
 	$mysql = new mysqli("mysql14.000webhost.com","a9044814_crawler","d&d4days", "a9044814_dungeon");
