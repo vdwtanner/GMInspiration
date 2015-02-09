@@ -55,29 +55,30 @@
 
 		$mysql->query("START TRANSACTION");
 
-		// FIRST PRIORITY (RELEVANCE)
-		$result = $mysql->query("SELECT * FROM contributions WHERE name SOUNDS LIKE '".$keywords."'");
+		// SORTED BY RELEVANCE (we should probably add more ordering conditions later to keep it more 'Relevant')
+		$result = $mysql->query("SELECT * FROM contributions WHERE name SOUNDS LIKE '".$keywords."' OR name LIKE '%".$keywords."%'
+						ORDER BY CASE WHEN name = '".$keywords."' THEN 0
+						WHEN name LIKE '".$keywords."%' THEN 1
+						WHEN name LIKE '%".$keywords."%' THEN 2
+						WHEN name LIKE '%".$keywords."' THEN 3
+						ELSE 4 END, name ASC");
 
 		while($row = $result->fetch_assoc()){
 			$crowarr[] = $row;			
 		}
-		$result = $mysql->query("SELECT * FROM users WHERE username SOUNDS LIKE '".$keywords."'");
+
+		// SORTED BY RELEVANCE
+		$result = $mysql->query("SELECT * FROM users WHERE username SOUNDS LIKE '".$keywords."' OR username LIKE '%".$keywords."%'
+						ORDER BY CASE WHEN username = '".$keywords."' THEN 0
+						WHEN username LIKE '".$keywords."%' THEN 1
+						WHEN username LIKE '%".$keywords."%' THEN 2
+						WHEN username LIKE '%".$keywords."' THEN 3
+						ELSE 4 END, username ASC");
 		
 		while($row = $result->fetch_assoc()){
 			$rowarr[] = $row;			
 		}
 
-		// SECOND PRIORITY (RELEVANCE)
-		$result = $mysql->query("SELECT * FROM contributions WHERE name LIKE '%".$keywords."%'");
-
-		while($row = $result->fetch_assoc()){
-			$crowarr[] = $row;			
-		}
-		$result = $mysql->query("SELECT * FROM users WHERE username LIKE '%".$keywords."%'");
-
-		while($row = $result->fetch_assoc()){
-			$rowarr[] = $row;			
-		}
 
 		echo "<h2>".(count($rowarr)+count($crowarr))." results found!</h2>";
 
