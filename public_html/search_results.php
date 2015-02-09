@@ -38,8 +38,12 @@
 			foreach($rowarr as $key => $value){
 				echo "<li class='searchlistitem'>";
 				echo "<div class='searchresult'>";
+				//echo "<img src='".$value["picture"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["username"]."' />";
+				//echo "<a href='profile.php?user=".$value["username"]."'>".$value["username"]."</a>";
+				echo "<a href='profile.php?user=".$value["username"]."'>";
 				echo "<img src='".$value["picture"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["username"]."' />";
-				echo "<a href='profile.php?user=".$value["username"]."'>".$value["username"]."</a>";
+				echo "<h2 style='float:right'>".$value["username"]."</h2>";
+				echo "</a>";
 				echo "</div>";
 				echo "</li>";
 				echo "<br>";
@@ -50,8 +54,12 @@
 			foreach($crowarr as $key => $value){
 				echo "<li class='searchlistitem'>";
 				echo "<div class='searchresult'>";
+				//echo "<img src='".$value["img"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["name"]."' />";
+				//echo "<a href='view_contribution.php?contid=".$value["id"]."'>".$value["name"]."</a>";
+				echo "<a href='view_contribution.php?contid=".$value["id"]."'>";
 				echo "<img src='".$value["img"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["name"]."' />";
-				echo "<a href='view_contribution.php?contid=".$value["id"]."'>".$value["name"]."</a>";
+				echo "<h2 style='float:right'>".$value["name"]."</h2>";
+				echo "</a>";
 				echo "</div>";
 				echo "</li>";
 				echo "<br>";
