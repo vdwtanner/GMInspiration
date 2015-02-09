@@ -12,29 +12,87 @@
 
 </head>
 <body>
+
+<script type="text/javascript" language="javascript">
+	function toggle_vis(list, hide){
+		var e = document.getElementById(list);
+		if(e.style.display != "none") {
+			e.style.display = "none";
+		}else{
+			e.style.display = "block";
+		}
+		if(hide.text != "[show]"){
+			hide.text = "[show]";
+		}else{
+			hide.text = "[hide]";
+		}
+	}
+
+</script>
+
 <div id='container'>
 <?php
 	$keywords = $_GET["keywords"];
+	$keyregex = $_GET["keywords"];
+/*
+	for($i = 0; $i<strlen($keyregex); $i++){
+		if(!($i == 0 || $i == (strlen($keyregex)-1))){
+			$keyregex[$i] = '%';
+		}
+	}
+	var_dump($keyregex);
+	print($keyregex);
+*/
 	$mysql = new mysqli("mysql14.000webhost.com","a9044814_crawler","d&d4days", "a9044814_dungeon");
 	if($mysql->connect_error){
 		die('Connect Error ('.$mysqli->connect_errno.')'.$mysqli->connect_error);
 	}
 
 	try{
+		/******************************************************************
+			$_GET["csort"] and $_GET["usort"] dictate sorting procedure
+		********************************************************************/
+
 		$mysql->query("START TRANSACTION");
-		$result = $mysql->query("SELECT * FROM users WHERE username LIKE '%".$keywords."%'");
+
+		// FIRST PRIORITY (RELEVANCE)
+		$result = $mysql->query("SELECT * FROM contributions WHERE name SOUNDS LIKE '".$keywords."'");
+
+		while($row = $result->fetch_assoc()){
+			$crowarr[] = $row;			
+		}
+		$result = $mysql->query("SELECT * FROM users WHERE username SOUNDS LIKE '".$keywords."'");
 		
 		while($row = $result->fetch_assoc()){
 			$rowarr[] = $row;			
 		}
 
-		$result = $mysql->query("SELECT * FROM contributions WHERE name LIKE '%".$keywords."%'");	
+		// SECOND PRIORITY (RELEVANCE)
+		$result = $mysql->query("SELECT * FROM contributions WHERE name LIKE '%".$keywords."%'");
+
 		while($row = $result->fetch_assoc()){
 			$crowarr[] = $row;			
-		}		
+		}
+		$result = $mysql->query("SELECT * FROM users WHERE username LIKE '%".$keywords."%'");
+
+		while($row = $result->fetch_assoc()){
+			$rowarr[] = $row;			
+		}
+
 		echo "<h2>".(count($rowarr)+count($crowarr))." results found!</h2>";
-		echo "<ul id='searchlist'>";
+
+		echo "<div id='utop'>";
 		if($rowarr){
+			echo "<h2 class='zacsh2'>User Results</h2>";
+			echo "<label for='usort' style='padding-left: .5em'>Sort by </label><select id='usort' name='usort'>";
+			echo "<option value='relevance'>Relevance</option>";
+			echo "<option value='rating'>Rating</option>";
+			echo "<option value='joindate'>Join Date</option>";
+			echo "</select>";
+			echo "<div class='listshowhide'>";
+			echo "<a href='#' id='uhide' onclick='toggle_vis(\"ulist\",this);'>[hide]</a>";
+			echo "</div><hr>";
+			echo "<ul id='ulist'>";
 			foreach($rowarr as $key => $value){
 				echo "<li class='searchlistitem'>";
 				echo "<div class='searchresult'>";
@@ -49,8 +107,23 @@
 				echo "<br>";
 				echo "<br>";
 			}
+			echo "</ul>";
 		}
+
+		echo "</div>";
+
+		echo "<div id='ctop'>";
 		if($crowarr){
+			echo "<h2 class='zacsh2'>Contribution Results</h2>";
+			echo "<label for='csort' style='padding-left: .5em'>Sort by </label><select id='csort' name='csort'>";
+			echo "<option value='relevance'>Relevance</option>";
+			echo "<option value='rating'>Rating</option>";
+			echo "<option value='submitdate'>Submission Date</option>";
+			echo "</select>";
+			echo "<div class='listshowhide'>";
+			echo "<a href='#' id='chide' onclick='toggle_vis(\"clist\",this);'>[hide]</a>";
+			echo "</div><hr>";
+			echo "<ul id='clist'>";
 			foreach($crowarr as $key => $value){
 				echo "<li class='searchlistitem'>";
 				echo "<div class='searchresult'>";
@@ -75,6 +148,9 @@
 	}
 
 ?>
+
+
+
 </div>
 </body>
 </html>

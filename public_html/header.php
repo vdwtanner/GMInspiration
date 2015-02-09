@@ -153,6 +153,8 @@
 	echo "<hr>";
 	echo "<form method='GET' action='search_results.php'>";
 	echo "<input type='text' name='keywords' style='width: 20em'>";
+	echo "<input type='hidden' name='usort' value='relevance'>";
+	echo "<input type='hidden' name='csort' value='relevance'>";
 	echo "<input type='submit' name='searchSubmit' value='Search'>";
 	echo "</form>";
 	echo "<hr>";
