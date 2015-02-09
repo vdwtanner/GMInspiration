@@ -41,6 +41,15 @@
 				}
 			});
 		}
+		
+		$("#login_pass").keypress(function(e){
+			console.log("Key pressed: "+ e);
+			if(e.keyCode == $.ui.keyCode.ENTER) {
+				console.log("ENTER pressed");
+				var buttons = $("#modal_area").dialog("option", "buttons");
+				buttons["Login"].click.apply(dialog);
+			}
+		});
 	
 		function login(){
 			var dialog, form;
@@ -59,6 +68,16 @@
 					"Cancel": function(){
 						$(this).dialog("close");
 					}
+				},
+				open: function() {
+					$("#modal_area").keypress(function(e) {
+					//console.log("Key pressed: " +e.keyCode);
+					if (e.keyCode == 13) {
+						var buttons = $("#modal_area").dialog("option", "buttons");
+						//console.log(buttons);
+						submitLogin(dialog);
+					}
+					});
 				}
 			});
 		}
