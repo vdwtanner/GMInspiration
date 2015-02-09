@@ -96,7 +96,8 @@
 			echo "<h5>Contributions</h5>";
 			if($crowarr){
 				foreach($crowarr as $key => $value){
-					echo "<a href='view_contribution.php?contid=".$value["id"]."'>".$value["name"]."</p>";
+					echo "<a href='view_contribution.php?contid=".$value["id"]."'><p>".$value["name"]."</p></a>";
+					echo "<br>";
 				}
 			}else{
 				echo $username." has yet to submit any contributions!";

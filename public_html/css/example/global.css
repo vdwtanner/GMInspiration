@@ -77,6 +77,13 @@ Zac's lovely header css. Dont hurt me dalton. :(
   margin: 0 auto; 
   max-width: 60em;
 }
+#searchlist{
+  list-style-type: none;
+}
+
+.searchlistitem{
+  display: inline-block;
+}
 	
 
 

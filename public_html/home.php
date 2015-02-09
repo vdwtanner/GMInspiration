@@ -1,3 +1,4 @@
+
 <DOCTYPE html>
 <html>
 <head>
@@ -12,8 +13,7 @@
 	<aside><div style="text-align: center">
 	<a href="contribute.php"><button style="border-radius: 10px;">Contribute!</button></a>
 	<a href="select_contribution_id.php"><button style="border-radius: 10px;">Test view a contribution</button></a>
-	<a href="profile.php"><button style="border-radius: 10px;">Test your Profile Page</button></a>
-	</div></aside>
+	</aside>
 	<p>Now we just need to do the things:P</p>
 	<label for="Tanner updates">Tanner's updates to the group:</label>
 	<ul id="Tanner updates">
