@@ -5,6 +5,11 @@
 	margin: 0 auto; 
 	max-width: 60em;
 	}
+
+#nav {
+	max-width: 10em;
+	float: left;
+	padding: 2em}
 	
 header h2:before, header h2:after { width: 42%; }
 
@@ -42,8 +47,8 @@ p.intro {
   }
 
 aside {/*Will be in right hand column*/
-  float: right;
-  clear: right;
+  float: left;
+  clear: left;
   width: 25em;
   /*margin-top:-12.5em; the height of p.intro*/
   /*margin-bottom:13em; Add spacing between asides*/
