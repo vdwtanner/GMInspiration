@@ -55,41 +55,87 @@
 
 		$mysql->query("START TRANSACTION");
 
-		// SORTED BY RELEVANCE (we should probably add more ordering conditions later to keep it more 'Relevant')
-		$result = $mysql->query("SELECT * FROM contributions WHERE name SOUNDS LIKE '".$keywords."' OR name LIKE '%".$keywords."%'
-						ORDER BY CASE WHEN name = '".$keywords."' THEN 0
-						WHEN name LIKE '".$keywords."%' THEN 1
-						WHEN name LIKE '%".$keywords."%' THEN 2
-						WHEN name LIKE '%".$keywords."' THEN 3
-						ELSE 4 END, name ASC");
-
-		while($row = $result->fetch_assoc()){
-			$crowarr[] = $row;			
-		}
-
 		// SORTED BY RELEVANCE
-		$result = $mysql->query("SELECT * FROM users WHERE username SOUNDS LIKE '".$keywords."' OR username LIKE '%".$keywords."%'
-						ORDER BY CASE WHEN username = '".$keywords."' THEN 0
-						WHEN username LIKE '".$keywords."%' THEN 1
-						WHEN username LIKE '%".$keywords."%' THEN 2
-						WHEN username LIKE '%".$keywords."' THEN 3
-						ELSE 4 END, username ASC");
-		
-		while($row = $result->fetch_assoc()){
-			$rowarr[] = $row;			
+		if($_GET["usort"] == "relevance"){
+			$result = $mysql->query("SELECT * FROM users WHERE username SOUNDS LIKE '".$keywords."' OR username LIKE '%".$keywords."%'
+							ORDER BY CASE WHEN username = '".$keywords."' THEN 0
+							WHEN username LIKE '".$keywords."%' THEN 1
+							WHEN username LIKE '%".$keywords."%' THEN 2
+							WHEN username LIKE '%".$keywords."' THEN 3
+							ELSE 4 END, username ASC");
+			while($row = $result->fetch_assoc()){
+				$rowarr[] = $row;			
+			}		
+
+		}else if($_GET["usort"] == "joindate"){
+			$result = $mysql->query("SELECT * FROM users WHERE username SOUNDS LIKE '".$keywords."' OR username LIKE '%".$keywords."%'
+							ORDER BY joined ASC");
+			while($row = $result->fetch_assoc()){
+				$rowarr[] = $row;			
+			}				
 		}
 
+
+		// SORTED BY RELEVANCE (we should probably add more ordering conditions later to keep it more 'Relevant')
+		// Contributions should check keywords against type, wtype, and game as well as name
+		if($_GET["csort"] == "relevance"){
+			$result = $mysql->query("SELECT * FROM contributions WHERE name SOUNDS LIKE '".$keywords."' OR name LIKE '%".$keywords."%'
+							OR type SOUNDS LIKE '".$keywords."'
+							OR sub_type SOUNDS LIKE '".$keywords."' OR sub_type LIKE '%".$keywords."%'
+							OR game SOUNDS LIKE '".$keywords."'
+							ORDER BY CASE WHEN name = '".$keywords."' THEN 0
+							WHEN name LIKE '".$keywords."%' THEN 1
+							WHEN name LIKE '%".$keywords."%' THEN 2
+							WHEN name LIKE '%".$keywords."' THEN 3
+							ELSE 4 END, name ASC");
+
+			while($row = $result->fetch_assoc()){
+				$crowarr[] = $row;			
+			}
+		}else if($_GET["csort"] == "rating"){
+			$result = $mysql->query("SELECT * FROM contributions WHERE name SOUNDS LIKE '".$keywords."' OR name LIKE '%".$keywords."%'
+							OR type SOUNDS LIKE '".$keywords."' 
+							OR sub_type SOUNDS LIKE '".$keywords."' OR sub_type LIKE '%".$keywords."%'
+							OR game SOUNDS LIKE '".$keywords."' 
+							ORDER BY CASE WHEN name = '".$keywords."' THEN 0
+							WHEN name LIKE '".$keywords."%' THEN 1
+							WHEN name LIKE '%".$keywords."%' THEN 2
+							WHEN name LIKE '%".$keywords."' THEN 3
+							ELSE 4 END, name ASC");
+
+			while($row = $result->fetch_assoc()){
+				$crowarr[] = $row;			
+			}
+		}else if($_GET["csort"] == "submitdate"){
+			$result = $mysql->query("SELECT * FROM contributions WHERE name SOUNDS LIKE '".$keywords."' OR name LIKE '%".$keywords."%'
+							OR type SOUNDS LIKE '".$keywords."'
+							OR sub_type SOUNDS LIKE '".$keywords."' OR sub_type LIKE '%".$keywords."%'
+							OR game SOUNDS LIKE '".$keywords."' 
+							ORDER BY timestamp ASC");
+
+			while($row = $result->fetch_assoc()){
+				$crowarr[] = $row;			
+			}
+		}
 
 		echo "<h2>".(count($rowarr)+count($crowarr))." results found!</h2>";
 
 		echo "<div id='utop'>";
 		if($rowarr){
 			echo "<h2 class='zacsh2'>User Results</h2>";
-			echo "<label for='usort' style='padding-left: .5em'>Sort by </label><select id='usort' name='usort'>";
-			echo "<option value='relevance'>Relevance</option>";
-			echo "<option value='rating'>Rating</option>";
-			echo "<option value='joindate'>Join Date</option>";
+			echo "<form method=GET class='inlineform' action='search_results.php'>";
+			echo "<label for='usort' style='padding-left: .5em'>Sort by </label><select id='usort' name='usort' onchange='this.form.submit()'>";
+			if($_GET["usort"] == "relevance"){
+				echo "<option value='relevance' selected='selected'>Relevance</option>";
+				echo "<option value='joindate'>Join Date</option>";
+			}else{
+				echo "<option value='relevance'>Relevance</option>";
+				echo "<option value='joindate' selected='selected'>Join Date</option>";
+			}
 			echo "</select>";
+			echo "<input type='hidden' name='csort' value='".$_GET["csort"]."'>";
+			echo "<input type='hidden' name='keywords' value='".$_GET["keywords"]."'>";
+			echo "</form>";
 			echo "<div class='listshowhide'>";
 			echo "<a href='#' id='uhide' onclick='toggle_vis(\"ulist\",this);'>[hide]</a>";
 			echo "</div><hr>";
@@ -116,11 +162,25 @@
 		echo "<div id='ctop'>";
 		if($crowarr){
 			echo "<h2 class='zacsh2'>Contribution Results</h2>";
-			echo "<label for='csort' style='padding-left: .5em'>Sort by </label><select id='csort' name='csort'>";
-			echo "<option value='relevance'>Relevance</option>";
-			echo "<option value='rating'>Rating</option>";
-			echo "<option value='submitdate'>Submission Date</option>";
+			echo "<form method=GET class='inlineform' action='search_results.php'>";
+			echo "<label for='csort' style='padding-left: .5em'>Sort by </label><select id='csort' name='csort' onchange='this.form.submit()' selected='".$_GET["csort"]."'>";
+			if($_GET["csort"] == "relevance"){
+				echo "<option value='relevance' selected='selected'>Relevance</option>";
+				echo "<option value='rating'>Rating</option>";
+				echo "<option value='submitdate'>Submission Date</option>";
+			}else if($_GET["csort"] == "rating"){
+				echo "<option value='relevance'>Relevance</option>";
+				echo "<option value='rating' selected='selected'>Rating</option>";
+				echo "<option value='submitdate'>Submission Date</option>";
+			}else{
+				echo "<option value='relevance'>Relevance</option>";
+				echo "<option value='rating'>Rating</option>";
+				echo "<option value='submitdate' selected='selected'>Submission Date</option>";
+			}
 			echo "</select>";
+			echo "<input type='hidden' name='usort' value='".$_GET["usort"]."'>";
+			echo "<input type='hidden' name='keywords' value='".$_GET["keywords"]."'>";
+			echo "</form>";
 			echo "<div class='listshowhide'>";
 			echo "<a href='#' id='chide' onclick='toggle_vis(\"clist\",this);'>[hide]</a>";
 			echo "</div><hr>";
