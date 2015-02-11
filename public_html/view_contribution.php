@@ -318,7 +318,7 @@
 				</form>
 				<a class='button' onclick='comment();'>Submit</a>";
 		}else{
-			echo "You must <a onclick='login()'>login</a> before you can comment.";
+			echo "You must <a href='login.html'>login</a> before you can comment.";
 		}
 	?>
 	<div id='comments'>
