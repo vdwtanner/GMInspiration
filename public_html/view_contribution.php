@@ -46,7 +46,8 @@
 		}
 		span.stars, span.stars span {
 			display: inline-block;
-			background: url(img/stars.png) 0 -16px repeat-x;
+			background: url(img/dice64x64.png) 0 -16px repeat-x;
+			background-size: 16px 32px;
 			width: 80px;
 			height: 16px;
 		}
