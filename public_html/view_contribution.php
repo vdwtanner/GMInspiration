@@ -44,6 +44,15 @@
 		div.namedate {
 			padding-left: 1em;
 		}
+		span.stars, span.stars span {
+			display: inline-block;
+			background: url(img/stars.png) 0 -16px repeat-x;
+			width: 80px;
+			height: 16px;
+		}
+		span.stars span {
+			background-position: 0 0;
+		}
 	</style>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -166,6 +175,79 @@
 				}
 			});
 		}
+		
+		function submitRating(form){
+			var fun = $("#fun_rating").val();
+			var balance = $("#balance_rating").val();
+			var comment = $("#rating_comment").val();
+			console.log(comment);
+			$.ajax({
+				url: "submit_rating.php",
+				type: "POST",
+				data: ({
+					id: $("#contribution_id").text(),
+					fun: fun,
+					bal: balance,
+					comment: comment,
+				}),
+				success: function(html){
+					$(form).html(html);
+					$(form).dialog("option", "buttons", [{
+						text: "Close",
+						click: function(){
+							$(this).dialog("close");
+							location.reload();
+						}
+					}]);
+					//setTimeout(function(){location.reload();},1000);
+				},
+				error: function(xhr, status, error){
+					$(form).html(error);
+					$(form).dialog("option", "buttons", [{
+						text: "Close",
+						click: function(){
+							$(this).dialog("close");
+						}
+					}]);
+				}
+			});
+		}
+		
+		function rate(){
+			var form = document.createElement("div");
+			$(form).load("rating_form.html");
+			$(form).dialog({
+				height: 350,
+				width: 400,
+				modal: true,
+				position: {my: "center top", at: "center top", of: window},
+				buttons: {
+					"Submit": function(){
+						submitRating(form);
+					},
+					"Cancel": function(){
+						$(this).dialog("close");
+					}
+				}
+			});
+		}
+		
+		$.fn.stars = function() {
+			return $(this).each(function() {
+			// Get the value
+			var val = parseFloat($(this).html());
+			// Make sure that the value is in 0 - 5 range, multiply to get width
+			var size = Math.max(0, (Math.min(5, val))) * 16;
+			// Create stars holder
+			var $span = $('<span />').width(size);
+			// Replace the numerical value with stars
+			$(this).html($span);
+		});
+	}
+		
+	$(function() {
+		$('span.stars').stars();
+	});
 	</script>
 </head>
 <body>
@@ -187,31 +269,46 @@
 	echo "<p id='user' style='display: none;'>".$_SESSION["username"]."</p>";
     try{
         $mysql->query("START TRANSACTION");
+		$ratings=$mysql->query("SELECT COUNT(*), SUM(fun), SUM(balance) FROM ratings WHERE contribution_id=".$id);
+		$row=$ratings->fetch_array(MYSQL_BOTH);
+		//print_r($row);
+		$num_ratings=$row[0];
+		if($row[0]>0){
+			$fun=$row[1]/$row[0];
+			$balance=$row[2]/$row[0];
+		}
         $result = $mysql->query("SELECT * from contributions where id='".$id."'");
         $row = $result->fetch_array(MYSQL_BOTH);
         $fields = json_decode($row["json"]);    //create associative array from json
 		//echo print_r($row);
 		if($row["username"]==$_SESSION["username"]){
 			echo "<a id='update_button' class='button' onclick='update()'>Update</a></br>";
+		}	
+		echo "<div id='contribution'><div class='profile_img'><img id='img' src='".$row["img"]."' alt='An image depicting ".$row["name"]."' width='175' height='175' /></div>";
+		echo "<div class='name_user_game' ><h2><span id='name'>".$row["name"]."</span> - <span id='type'>".$row["type"].(($row["sub_type"])? " </span>(<span id='subtype' title='Sub Type'>".$row["sub_type"]."</span>)":"")."</h2>";
+		echo "<h3>submitted by <a href=profile.php?user=".$row["username"].">".$row["username"]."</a></h3><h3 id='game'>".$row["game"]."</h3></div>";
+		if($num_ratings>0){
+			echo "<b>Fun</b><span class='stars'>".$fun."</span></br><b>Balance</b><span class='stars'>".$balance."</span>";
+		}else{
+			echo "<b>Not yet rated</b>";
 		}
-			echo "<div id='contribution'><div class='profile_img'><img id='img' src='".$row["img"]."' alt='An image depicting ".$row["name"]."' width='175' height='175' /></div>";
-			echo "<div class='name_user_game' ><h2><span id='name'>".$row["name"]."</span> - <span id='type'>".$row["type"].(($row["sub_type"])? " </span>(<span id='subtype' title='Sub Type'>".$row["sub_type"]."</span>)":"")."</h2>";
-			echo "<h3>submitted by <a href=profile.php?user=".$row["username"].">".$row["username"]."</a></h3><h3 id='game'>".$row["game"]."</h3></div>";
-			echo "<div style='display: block; clear: both;'><h4 style='margin-bottom: .1em; padding-bottom: 0em'>Description</h4>";
-			echo "<p id='desc' style='margin-top: .1em'>".$row["desc"]."</p>";
-			$num=1;
-			foreach($fields as $key => $value){
-				echo "<h4 id='label ".$num."' name='label ".$num."' style='margin-bottom: .1em; padding-bottom: 0em'>".$key."</h4>";
-				echo "<p id='text ".$num."' name='text ".$num."' style='margin-top: .1em'>".$value."</p>";
-				$num++;
-			}
-			echo "</div></div>";
-		
+		echo "<div style='display: block; clear: both;'><h4 style='margin-bottom: .1em; padding-bottom: 0em'>Description</h4>";
+		echo "<p id='desc' style='margin-top: .1em'>".$row["desc"]."</p>";
+		$num=1;
+		foreach($fields as $key => $value){
+			echo "<h4 id='label ".$num."' name='label ".$num."' style='margin-bottom: .1em; padding-bottom: 0em'>".$key."</h4>";
+			echo "<p id='text ".$num."' name='text ".$num."' style='margin-top: .1em'>".$value."</p>";
+			$num++;
+		}
+		echo "</div></div>";
         echo "<h6>Contribution ID: <span  id='contid'>".$id."</span></h6>";
     }catch(Exception $e)
     {
 		echo "We appear to have rolled a natural 1... *sigh* Copy the following error message and submit it to us <a href=''>here</a>:</br>".$e;
     }
+	if($_SESSION["username"]){
+		echo "<a style='button' onclick='rate()'>Rate!</a>";
+	}
 ?>
 	<h3>Comment</h3>
 	<?php

@@ -1,0 +1,52 @@
+<!--<label for="fun">How fun was it?</label></br>
+<select id="fun">
+	<option value="1">Did not enjoy</option>
+	<option value="2">Could've been worse</option>
+	<option value="3">Meh.</option>
+	<option value="4">Fun to play/use</option>
+	<option value="5">Awesome! Can't wait to use again!	</option>
+</select></br>
+<label for="balance">How balanced was it?</label></br>
+<select id="balance">
+	<option value="1">I've rolled nat 1's that were more powerful than this</option>
+	<option value="2">Slightly better, but still sucked</option>
+	<option value="3">Had a little use. Emphasis on little.</option>
+	<option value="4">Not too bad, but could use a bit of a buff</option>
+	<option value="5">Perfect balance</option>
+	<option value="6">Not too bad, but could use a bit of a nerf</option>
+	<option value="7">Things are starting to get out of hand</option>
+	<option value="8">DMs beware!</option>
+	<option value="9">Did I just see a level one character insta-kill a boss???</option>
+	<option value="10">THIS IS IMBA!</option>
+</select></br>-->
+<head>
+	<link rel="stylesheet" href="css/starRating.css" />
+	<script type="text/javascript" language="javascript">
+		$(':radio[name=fun]').change(function(){
+			console.log(this.value);
+			$('#fun_rating').val( this.value );
+		});
+		
+		$(':radio[name=balance]').change(function(){
+			console.log(this.value);
+			$('#balance_rating').val( this.value );
+		});
+	</script>
+</head>
+<label for="fun">How fun was it?</label>
+<span id="fun" class="star-rating">
+  <input type="radio" name="fun" value="1"><i></i>
+  <input type="radio" name="fun" value="2"><i></i>
+  <input type="radio" name="fun" value="3"><i></i>
+  <input type="radio" name="fun" value="4"><i></i>
+  <input type="radio" name="fun" value="5"><i></i>
+</span><input type="text" id="fun_rating" style="display: none" /></br>
+<label for="balance">How balanced was it?</label>
+<span id="balance" class="star-rating">
+  <input type="radio" name="balance" value="1"><i></i>
+  <input type="radio" name="balance" value="2"><i></i>
+  <input type="radio" name="balance" value="3"><i></i>
+  <input type="radio" name="balance" value="4"><i></i>
+  <input type="radio" name="balance" value="5"><i></i>
+</span><input type="text" id="balance_rating" style="display: none" /></br>
+<textarea style="margin-top: .5em" id="rating_comment" rows="5" cols="30" placeholder="Enter other comments here"></textarea>
