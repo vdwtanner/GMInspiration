@@ -171,7 +171,7 @@
 	echo "<div style='clear: both;'>";
 	echo "<hr>";
 	echo "<form method='GET' action='search_results.php'>";
-	echo "<input type='text' name='keywords' style='width: 20em'>";
+	echo "<input type='text' name='keywords' style='width: 20em' placeholder='Enter keywords here' title='Search for users, contributions, types, subtypes, and game versions'>";
 	echo "<input type='hidden' name='usort' value='relevance'>";
 	echo "<input type='hidden' name='csort' value='relevance'>";
 	echo "<input type='submit' name='searchSubmit' value='Search'>";
