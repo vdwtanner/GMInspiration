@@ -70,7 +70,7 @@
 			if($username == $_SESSION["username"])
 				echo "<a href='profilesettings.php'>edit your profile settings</a>";
 			else
-				echo "<a href='privatemessage.php'>Send this user a private message</a>";
+				echo "<a href='composemsg.php?recipient=".$username."&redirect=p'>Send this user a private message</a>";
 			echo "</div>";
 			echo "</div>";
 

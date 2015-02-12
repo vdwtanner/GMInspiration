@@ -105,4 +105,12 @@ Zac's search lists!
   display: inline;
 }
 
+.msgheader{
+  display: block;
+}
+
+.msgbody{
+  display: inline-block;
+}
+
 
