@@ -86,7 +86,8 @@
 						//newdiv.innerHTML=data;
 						//var comments = $("#comments");
 						try{
-							$("#comments").prepend(html);
+							//$("#comments").prepend(html);
+							$(html).insertAfter("#submit_comment");
 							$("#comment").val("");
 							//comments.insertBefore(html, comments.firstChild);
 							//alert(1);
@@ -249,6 +250,20 @@
 	$(function() {
 		$('span.stars').stars();
 	});
+	
+	function showComments(){
+		$("#comments").show();
+		$("#ratings").hide();
+		$("#ratings_tab").prop("disabled", false);
+		$("#comments_tab").prop("disabled", true);
+	}
+	
+	function showRatings(){
+		$("#comments").hide();
+		$("#ratings").show();
+		$("#ratings_tab").prop("disabled", true);
+		$("#comments_tab").prop("disabled", false);
+	}
 	</script>
 </head>
 <body>
@@ -289,7 +304,7 @@
 		echo "<div class='name_user_game' ><h2><span id='name'>".$row["name"]."</span> - <span id='type'>".$row["type"].(($row["sub_type"])? " </span>(<span id='subtype' title='Sub Type'>".$row["sub_type"]."</span>)":"")."</h2>";
 		echo "<h3>submitted by <a href=profile.php?user=".$row["username"].">".$row["username"]."</a></h3><h3 id='game'>".$row["game"]."</h3></div>";
 		if($num_ratings>0){
-			echo "<b>Fun</b><span class='stars'>".$fun."</span></br><b>Balance</b><span class='stars'>".$balance."</span>";
+			echo "<table class='rating_table'><tr><td><b>Fun</b></td><td><span class='stars'>".$fun."</span></td></tr><tr><td><b>Balance</b></td><td><span class='stars'>".$balance."</span></td></tr></table>";
 		}else{
 			echo "<b>Not yet rated</b>";
 		}
@@ -307,23 +322,19 @@
     {
 		echo "We appear to have rolled a natural 1... *sigh* Copy the following error message and submit it to us <a href=''>here</a>:</br>".$e;
     }
-	if($_SESSION["username"]){
-		echo "<a style='button' onclick='rate()'>Rate!</a>";
-	}
+	
 ?>
-	<h3>Comment</h3>
-	<?php
-		if($_SESSION["username"]){
-			echo "<form id='make_comment'>
-				<textarea id='comment' rows='5' cols='50' placeholder='Enter comment here.' required ></textarea>
-				</form>
-				<a class='button' onclick='comment();'>Submit</a>";
-		}else{
-			echo "You must <a href='login.html'>login</a> before you can comment.";
-		}
-	?>
+	<span><button id="comments_tab" onclick="showComments()" disabled="true">Comments</button><button id="ratings_tab" onclick="showRatings()">Ratings</button></span>
 	<div id='comments'>
 		<?php
+			if($_SESSION["username"]){
+				echo "<form id='make_comment'>
+					<textarea id='comment' rows='5' cols='50' placeholder='Enter comment here.' required ></textarea>
+					</form>
+					<a class='button' onclick='comment();' id='submit_comment'>Submit</a>";
+			}else{
+				echo "You must <a href='login.html'>login</a> before you can comment.";
+			}
 			$result->free();
 			$result=$mysql->query("SELECT * from contribution_comments WHERE contribution_id =".$id." ORDER BY timestamp DESC");
 			while($row=$result->fetch_array(MYSQL_BOTH)){
@@ -331,6 +342,29 @@
 				$img=$result2->fetch_array(MYSQL_BOTH);
 				echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img["picture"]."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4></a>";
 				echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
+				echo "<p style=' margin: 0em;'>".$row["comment"]."</p></div>";
+			}
+		?>
+	</div>
+	<div id="ratings" style="display:none;">
+		<?php
+			if($_SESSION["username"]){
+				$rating_check=$mysql->query("SELECT * FROM ratings WHERE contribution_id=".$id." AND username='".$_SESSION["username"]."'");
+				if(count($rating_check->fetch_array(MYSQL_BOTH))>0){
+					echo "<b>You have already rated this contribution</b>";
+				}else{
+					echo "<a class='button' onclick='rate()'>Rate!</a></br>";
+				}
+			}
+			$result->free();
+			$result=$mysql->query("SELECT * FROM ratings WHERE contribution_id =".$id." ORDER BY timestamp DESC");
+			while($row=$result->fetch_array(MYSQL_BOTH)){
+				$result2 = $mysql->query("SELECT picture from users WHERE username='".$row["username"]."'");
+				$img=$result2->fetch_array(MYSQL_BOTH);
+				echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img["picture"]."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4></a>";
+				echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
+				echo "<table class='rating_table'><tr><td><b>Fun</b></td><td><span class='stars'>".$fun."</span></td></tr>
+					<tr><td><b>Balance</b></td><td><span class='stars'>".$balance."</span></td></tr></table>";
 				echo "<p style=' margin: 0em;'>".$row["comment"]."</p></div>";
 			}
 		?>
