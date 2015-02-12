@@ -70,8 +70,12 @@ Zac's lovely header css. Dont hurt me dalton. :(
   font-size: 3em;
 }
 #headerlinks{
-  float: right;
-}
+  a{
+  display: inline;
+  }
+  float: left; 
+  max-width: 60em;
+  }
 #headcontainer {	/*In case we want the header to be different size than the page content... Idk how to web design.*/
   padding: 1.618em;
   margin: 0 auto; 

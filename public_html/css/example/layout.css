@@ -47,8 +47,8 @@ p.intro {
   }
 
 aside {/*Will be in right hand column*/
-  float: left;
-  clear: left;
+  float: right;
+  clear: right;
   width: 25em;
   /*margin-top:-12.5em; the height of p.intro*/
   /*margin-bottom:13em; Add spacing between asides*/
