@@ -67,14 +67,14 @@
 			//$result = $mysql->query("SELECT * FROM private_messages");
 			//print_r($row);
 			while($row = $result->fetch_assoc()){
-				$rowarr[] = $row;			
+				$rowarr[] = $row;		
 			}	
-			//print_r($rowarr);
+
 			$count = 0;
 			if($rowarr){
 				foreach($rowarr as $key => $value){
 					echo "<div class='msgheader'>";
-					echo "<b>From:</b>&nbsp<a href='profile.php?user='".$value["sender"]."'>".$value["sender"]."</a>";
+					echo "<b>From:</b>&nbsp<a href='profile.php?user=".$value["sender"]."'>".$value["sender"]."</a>";
 					echo "<b style='padding-left: 10px'>Subject:</b>&nbsp".$value["subject"];
 					echo "<div class='listshowhide'>";
 					echo "<a href='#' onclick='toggle_vis(\"b".$count."\",this);' style='float: right;'>[show]</a>";

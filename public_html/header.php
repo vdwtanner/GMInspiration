@@ -191,14 +191,14 @@
 			$result = $mysql->query("SELECT * FROM private_messages WHERE recipient='".$_SESSION["username"]."'");
 
 			while($row = $result->fetch_assoc()){
-				$rowarr[] = $row;			
+				$countrowarr[] = $row;			
 			}	
 			
 		}catch(Exception $e){
 
 		}
 
-		echo "<a href='inbox.php' style='float: right;'><b>Inbox [".count($rowarr)." messages]</b></a>";
+		echo "<a href='inbox.php' style='float: right;'><b>Inbox [".count($countrowarr)." messages]</b></a>";
 	}
 	echo "<hr>";
 	echo "</div>";
