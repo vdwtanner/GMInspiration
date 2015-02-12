@@ -158,28 +158,51 @@
 <body>
 
 <?php
+
+
+
 	echo "<div id='headcontainer'>";
 	echo "<a id='homelink' href='index.html'>Dungeon Crawlers</a>";
 	echo "<div id='headerlinks'>";
 	if($_SESSION["username"]){
+
 		echo "<h2>Welcome, <a href='profile.php?user=".$_SESSION["username"]."'>".$_SESSION["username"]."</a> <a onclick='logoff()'>logout</a></h4>";
 	}else{
 		echo "<h4><a onclick='(login())'>Login</a><br><a href='sign_up.html'>Sign up</a></h4>";
 	}
 	echo "</div>";
 
+
 	echo "<div style='clear: both;'>";
 	echo "<hr>";
-	echo "<form method='GET' action='search_results.php'>";
+	echo "<form method='GET' action='search_results.php' style='display: inline;'>";
 	echo "<input type='text' name='keywords' style='width: 20em' placeholder='Enter keywords here' title='Search for users, contributions, types, subtypes, and game versions'>";
 	echo "<input type='hidden' name='usort' value='relevance'>";
 	echo "<input type='hidden' name='csort' value='relevance'>";
 	echo "<input type='submit' name='searchSubmit' value='Search'>";
 	echo "</form>";
+	if($_SESSION["username"]){
+		$mysql = new mysqli("mysql14.000webhost.com","a9044814_crawler","d&d4days", "a9044814_dungeon");
+		if($mysql->connect_error){
+			die('Connect Error ('.$mysqli->connect_errno.')'.$mysqli->connect_error);
+		}
+		try{
+			$mysql->query("START TRANSACTION");
+			$result = $mysql->query("SELECT * FROM private_messages WHERE recipient='".$_SESSION["username"]."'");
+
+			while($row = $result->fetch_assoc()){
+				$rowarr[] = $row;			
+			}	
+			
+		}catch(Exception $e){
+
+		}
+
+		echo "<a href='inbox.php' style='float: right;'><b>Inbox [".count($rowarr)." messages]</b></a>";
+	}
 	echo "<hr>";
 	echo "</div>";
 	echo "</div>";
-
 
 ?>
 	<div id="test" title="test" style="display: none;"><p>This is a modal test</p></div>
