@@ -31,8 +31,10 @@
 		}
 
 		try{
+			$emsgsub = htmlspecialchars($_POST["msgsubject"]);
+			$emsgbody= htmlspecialchars($_POST["msgbody"]);
 			$mysql->query("START TRANSACTION");
-			$result = $mysql->query("INSERT INTO private_messages (sender, recipient, subject, message) VALUES ('".$_SESSION["username"]."','".$_GET["recipient"]."','".$_POST["msgsubject"]."','".$_POST["msgbody"]."')");
+			$result = $mysql->query("INSERT INTO private_messages (sender, recipient, subject, message) VALUES ('".$_SESSION["username"]."','".$_GET["recipient"]."','".$emsgsub."','".$emsgbody."')");
 			echo "<b>Your message was successfully sent! Yay!";
 			
 		}catch(Exception $e){
