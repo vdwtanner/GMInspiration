@@ -41,8 +41,8 @@
 			$result = $mysql->query("SELECT * FROM `users` WHERE email='".$email."'");
 			if(!$result->num_rows){
 				$result->free();
-				$mysql->query("INSERT into users (username,pass,email,hash) VALUES ('".$usr."','".$pass."','".$email."','".$hash."')");
-				sendVerifyMsg($email,$_POST["username"],$_POST["pass"],$hash);
+				$mysql->query("INSERT into users (username,pass,email,hash, picture) VALUES ('".$usr."','".$pass."','".$email."','".$hash."', 'img/man_wearing_hat.svg')");
+				sendVerifyMsg($_POST["email"],$_POST["username"],$_POST["pass"],$hash);
 				echo "<h1>Successful sign up!</h1>";
 				$mysql->commit();
 			}else{
