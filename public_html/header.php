@@ -153,6 +153,11 @@
 				}
 			});
 		}
+		
+		$(document).ready(function(){
+			
+		});
+		
 	</script>
 </head>
 <body>
@@ -198,7 +203,7 @@
 
 		}
 
-		echo "<a href='inbox.php' style='float: right;'><b>Inbox [".count($countrowarr)." messages]</b></a>";
+		echo "<a href='inbox.php' style='float: right;'><b>Inbox [".count($countrowarr)." message".((count($countrowarr)==1)?"":"s")."]</b></a>";
 	}
 	echo "<hr>";
 	echo "</div>";
