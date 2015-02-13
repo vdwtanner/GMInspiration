@@ -12,7 +12,7 @@
 	$msg;
 	try{
 		$mysql->query("START TRANSACTION");
-		$result = $mysql->query("SELECT * FROM `users` WHERE username='".$usr."'");
+		$result = $mysql->query("SELECT * FROM `users` WHERE username='".$usr."' OR email='".$usr."'");
 		if($result->num_rows){
 			$result->free();
 			$result = $mysql->query("SELECT * FROM `users` WHERE pass='".$pass."'");
@@ -21,7 +21,7 @@
 				$result->free();
 				if($row["active"]){
 					$msg = "<h4>Successful login!</h4>";
-					$_SESSION["username"] = $_POST["username"];
+					$_SESSION["username"] = $row["username"];
 				}else{
 					$msg= "<h4>This account is not active yet. Please check your inbox for the verification email. It may have been caught by your spam filter.</h4>";
 				}
