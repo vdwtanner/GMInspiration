@@ -154,8 +154,20 @@
 			});
 		}
 		
-		$(document).ready(function(){
-			
+		function updateInboxNotification(){
+			console.log("updateInboxNotification()");
+			$.ajax({
+				url: "scripts/getNumberUnreadMessages.php",
+				type: "POST",
+				success: function(html){
+					$("#inbox_notification").html(html);
+				}
+			});
+			window.setTimeout(function(){updateInboxNotification()},5000);//update every 5 seconds
+		}
+		
+		$(function(){
+			setTimeout(function(){updateInboxNotification()},500);//update after 500 milliseconds
 		});
 		
 	</script>
@@ -203,7 +215,7 @@
 
 		}
 
-		echo "<a href='inbox.php' style='float: right;'><b>Inbox [".count($countrowarr)." message".((count($countrowarr)==1)?"":"s")."]</b></a>";
+		echo "<a href='inbox.php' style='float: right;'><b id='inbox_notification'>Inbox [".count($countrowarr)." message".((count($countrowarr)==1)?"":"s")."]</b></a>";
 	}
 	echo "<hr>";
 	echo "</div>";
