@@ -22,8 +22,9 @@
 			die('Connect Error ('.$mysqli->connect_errno.')'.$mysqli->connect_error);
 		}
 		try{
+			$edescrEdit = htmlspecialchars($_POST["descrEdit"]);
 			$mysql->query("START TRANSACTION");
-			$result = $mysql->query("UPDATE users SET description='".$_POST["descrEdit"]."' where username='".$username."'");
+			$result = $mysql->query("UPDATE users SET description='".$edescrEdit."' where username='".$username."'");
 			$result = $mysql->query("UPDATE users SET picture='".$_POST["imgurl"]."' where username='".$username."'");
 		}catch(Exception $e){
 

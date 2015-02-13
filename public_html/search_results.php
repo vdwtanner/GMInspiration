@@ -33,7 +33,8 @@
 <div id='container'>
 <?php
 	$keywords = $_GET["keywords"];
-	$keyregex = $_GET["keywords"];
+	$words = explode(" ", $keywords);
+
 /*
 	for($i = 0; $i<strlen($keyregex); $i++){
 		if(!($i == 0 || $i == (strlen($keyregex)-1))){
@@ -54,74 +55,116 @@
 		********************************************************************/
 
 		$mysql->query("START TRANSACTION");
+		$udupecount = array();
+		$dupecount = array();	
+
 
 		// SORTED BY RELEVANCE
 		if($_GET["usort"] == "relevance"){
-			$result = $mysql->query("SELECT * FROM users WHERE username SOUNDS LIKE '".$keywords."' OR username LIKE '%".$keywords."%'
-							ORDER BY CASE WHEN username = '".$keywords."' THEN 0
-							WHEN username LIKE '".$keywords."%' THEN 1
-							WHEN username LIKE '%".$keywords."%' THEN 2
-							WHEN username LIKE '%".$keywords."' THEN 3
+			foreach($words as $value){
+				$result = $mysql->query("SELECT * FROM users WHERE username SOUNDS LIKE '".$value."' OR username LIKE '%".$value."%'
+							ORDER BY CASE WHEN username = '".$value."' THEN 0
+							WHEN username LIKE '".$value."%' THEN 1
+							WHEN username LIKE '%".$value."%' THEN 2
+							WHEN username LIKE '%".$value."' THEN 3
 							ELSE 4 END, username ASC");
-			while($row = $result->fetch_assoc()){
-				$rowarr[] = $row;			
-			}		
+				while($row = $result->fetch_assoc()){
+					$rowarr[$row["username"]] = $row;	
+					if(isset($udupecount[$row["username"]]))		// dupecount is gonna keep track of how many hits we get for each result
+						$udupecount[$row["username"]]++;
+					else
+						$udupecount[$row["username"]] = 1;			
+				}
+			}
 
 		}else if($_GET["usort"] == "joindate"){
-			$result = $mysql->query("SELECT * FROM users WHERE username SOUNDS LIKE '".$keywords."' OR username LIKE '%".$keywords."%'
+			foreach($words as $value){
+				$result = $mysql->query("SELECT * FROM users WHERE username SOUNDS LIKE '".$value."' OR username LIKE '%".$value."%'
 							ORDER BY joined ASC");
-			while($row = $result->fetch_assoc()){
-				$rowarr[] = $row;			
-			}				
+				while($row = $result->fetch_assoc()){
+					$rowarr[$row["username"]] = $row;	
+					if(isset($udupecount[$row["username"]]))		// dupecount is gonna keep track of how many hits we get for each result
+						$udupecount[$row["username"]]++;
+					else
+						$udupecount[$row["username"]] = 1;			
+				}				
+			}		
 		}
 
 
 		// SORTED BY RELEVANCE (we should probably add more ordering conditions later to keep it more 'Relevant')
 		// Contributions should check keywords against type, wtype, and game as well as name
 		if($_GET["csort"] == "relevance"){
-			$result = $mysql->query("SELECT * FROM contributions WHERE name SOUNDS LIKE '".$keywords."' OR name LIKE '%".$keywords."%'
-							OR type SOUNDS LIKE '".$keywords."'
-							OR sub_type SOUNDS LIKE '".$keywords."' OR sub_type LIKE '%".$keywords."%'
-							OR game SOUNDS LIKE '".$keywords."'
-							ORDER BY CASE WHEN name = '".$keywords."' THEN 0
-							WHEN name LIKE '".$keywords."%' THEN 1
-							WHEN name LIKE '%".$keywords."%' THEN 2
-							WHEN name LIKE '%".$keywords."' THEN 3
+			foreach($words as $value){
+				$result = $mysql->query("SELECT * FROM contributions WHERE name SOUNDS LIKE '".$value."' OR name LIKE '%".$value."%'
+							OR type SOUNDS LIKE '".$value."'
+							OR sub_type SOUNDS LIKE '".$value."' OR sub_type LIKE '%".$value."%'
+							OR game SOUNDS LIKE '".$value."'
+							ORDER BY CASE WHEN name = '".$value."' THEN 0
+							WHEN name LIKE '".$value."%' THEN 1
+							WHEN name LIKE '%".$value."%' THEN 2
+							WHEN name LIKE '%".$value."' THEN 3
 							ELSE 4 END, name ASC");
 
-			while($row = $result->fetch_assoc()){
-				$crowarr[] = $row;			
-			}
+				while($row = $result->fetch_assoc()){
+					$crowarr[$row["id"]] = $row;
+					if(isset($dupecount[$row["id"]]))		// dupecount is gonna keep track of how many hits we get for each result
+						$dupecount[$row["id"]]++;
+					else
+						$dupecount[$row["id"]] = 1;		
+				}	
+			}	
 		}else if($_GET["csort"] == "rating"){
-			$result = $mysql->query("SELECT * FROM contributions WHERE name SOUNDS LIKE '".$keywords."' OR name LIKE '%".$keywords."%'
-							OR type SOUNDS LIKE '".$keywords."' 
-							OR sub_type SOUNDS LIKE '".$keywords."' OR sub_type LIKE '%".$keywords."%'
-							OR game SOUNDS LIKE '".$keywords."' 
-							ORDER BY CASE WHEN name = '".$keywords."' THEN 0
-							WHEN name LIKE '".$keywords."%' THEN 1
-							WHEN name LIKE '%".$keywords."%' THEN 2
-							WHEN name LIKE '%".$keywords."' THEN 3
+			foreach($words as $value){
+				$result = $mysql->query("SELECT * FROM contributions WHERE name SOUNDS LIKE '".$value."' OR name LIKE '%".$value."%'
+							OR type SOUNDS LIKE '".$value."'
+							OR sub_type SOUNDS LIKE '".$value."' OR sub_type LIKE '%".$value."%'
+							OR game SOUNDS LIKE '".$value."'
+							ORDER BY CASE WHEN name = '".$value."' THEN 0
+							WHEN name LIKE '".$value."%' THEN 1
+							WHEN name LIKE '%".$value."%' THEN 2
+							WHEN name LIKE '%".$value."' THEN 3
 							ELSE 4 END, name ASC");
 
-			while($row = $result->fetch_assoc()){
-				$crowarr[] = $row;			
-			}
+				while($row = $result->fetch_assoc()){
+					$crowarr[$row["id"]] = $row;
+					if(isset($dupecount[$row["id"]]))		// dupecount is gonna keep track of how many hits we get for each result
+						$dupecount[$row["id"]]++;
+					else
+						$dupecount[$row["id"]] = 1;		
+				}	
+			}	
 		}else if($_GET["csort"] == "submitdate"){
-			$result = $mysql->query("SELECT * FROM contributions WHERE name SOUNDS LIKE '".$keywords."' OR name LIKE '%".$keywords."%'
-							OR type SOUNDS LIKE '".$keywords."'
-							OR sub_type SOUNDS LIKE '".$keywords."' OR sub_type LIKE '%".$keywords."%'
-							OR game SOUNDS LIKE '".$keywords."' 
-							ORDER BY timestamp ASC");
+			foreach($words as $value){
+				$result = $mysql->query("SELECT * FROM contributions WHERE name SOUNDS LIKE '".$value."' OR name LIKE '%".$value."%'
+							OR type SOUNDS LIKE '".$value."'
+							OR sub_type SOUNDS LIKE '".$value."' OR sub_type LIKE '%".$value."%'
+							OR game SOUNDS LIKE '".$value."'
+							ORDER BY CASE WHEN name = '".$value."' THEN 0
+							WHEN name LIKE '".$value."%' THEN 1
+							WHEN name LIKE '%".$value."%' THEN 2
+							WHEN name LIKE '%".$value."' THEN 3
+							ELSE 4 END, timestamp ASC");
 
-			while($row = $result->fetch_assoc()){
-				$crowarr[] = $row;			
+				while($row = $result->fetch_assoc()){
+					$crowarr[$row["id"]] = $row;
+					if(isset($dupecount[$row["id"]]))		// dupecount is gonna keep track of how many hits we get for each result
+						$dupecount[$row["id"]]++;
+					else
+						$dupecount[$row["id"]] = 1;		
+				}
 			}
 		}
 
-		echo "<h2>".(count($rowarr)+count($crowarr))." results found!</h2>";
+
+
+
+
+		$resultcount = 0;
 
 		echo "<div id='utop'>";
 		if($rowarr){
+			// USER RESULTS HEADER
 			echo "<h2 class='zacsh2'>User Results</h2>";
 			echo "<form method=GET class='inlineform' action='search_results.php'>";
 			echo "<label for='usort' style='padding-left: .5em'>Sort by </label><select id='usort' name='usort' onchange='this.form.submit()'>";
@@ -140,19 +183,31 @@
 			echo "<a href='#' id='uhide' onclick='toggle_vis(\"ulist\",this);'>[hide]</a>";
 			echo "</div><hr>";
 			echo "<ul id='ulist'>";
-			foreach($rowarr as $key => $value){
-				echo "<li class='searchlistitem'>";
-				echo "<div class='searchresult'>";
-				//echo "<img src='".$value["picture"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["username"]."' />";
-				//echo "<a href='profile.php?user=".$value["username"]."'>".$value["username"]."</a>";
-				echo "<a href='profile.php?user=".$value["username"]."'>";
-				echo "<img src='".$value["picture"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["username"]."' />";
-				echo "<p style='float:right;'><b>".$value["username"]."</b><br>User Since:<br>".$value["joined"]."</p>";
-				echo "</a>";
-				echo "</div>";
-				echo "</li>";
-				echo "<br>";
-				echo "<br>";
+
+			// arsort() will sort our array in reverse order and maintain our index association.
+			if($_GET["usort"] == "joindate")
+				arsort($udupecount);	
+			//print_r($udupecount);
+			//print_r($rowarr);
+
+			// PRINT OUT USER RESULTS
+			foreach($udupecount as $key => $numdupes){
+				if(count($words) == 1 || $numdupes >= (count($words)-1)){
+					$value = $rowarr[$key];
+					echo "<li class='searchlistitem'>";
+					echo "<div class='searchresult'>";
+					//echo "<img src='".$value["picture"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["username"]."' />";
+					//echo "<a href='profile.php?user=".$value["username"]."'>".$value["username"]."</a>";
+					echo "<a href='profile.php?user=".$value["username"]."'>";
+					echo "<img src='".$value["picture"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["username"]."' />";
+					echo "<p style='float:right;'><b>".$value["username"]."</b><br>User Since:<br>".$value["joined"]."</p>";
+					echo "</a>";
+					echo "</div>";
+					echo "</li>";
+					echo "<br>";
+					echo "<br>";
+					$resultcount++;
+				}
 			}
 			echo "</ul>";
 		}
@@ -161,6 +216,7 @@
 
 		echo "<div id='ctop'>";
 		if($crowarr){
+			// CONTRIBUTION RESULTS HEADER
 			echo "<h2 class='zacsh2'>Contribution Results</h2>";
 			echo "<form method=GET class='inlineform' action='search_results.php'>";
 			echo "<label for='csort' style='padding-left: .5em'>Sort by </label><select id='csort' name='csort' onchange='this.form.submit()' selected='".$_GET["csort"]."'>";
@@ -185,24 +241,36 @@
 			echo "<a href='#' id='chide' onclick='toggle_vis(\"clist\",this);'>[hide]</a>";
 			echo "</div><hr>";
 			echo "<ul id='clist'>";
-			foreach($crowarr as $key => $value){
-				echo "<li class='searchlistitem'>";
-				echo "<div class='searchresult'>";
-				//echo "<img src='".$value["img"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["name"]."' />";
-				//echo "<a href='view_contribution.php?contid=".$value["id"]."'>".$value["name"]."</a>";
-				echo "<a href='view_contribution.php?contid=".$value["id"]."'>";
-				echo "<img src='".$value["img"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["name"]."' />";
-				echo "<p style='float:right'><b>".$value["name"]."</b><br>".$value["game"]."<br>By ".$value["username"]."</p>";
-				echo "</a>";
-				echo "</div>";
-				echo "</li>";
-				echo "<br>";
-				echo "<br>";
+
+			// arsort() will sort our array in reverse order and maintain our index association.
+			if($_GET["csort"] == "submitdate")
+				arsort($dupecount);	
+			//print_r($dupecount);
+			//print_r($crowarr);
+
+			// PRINT OUT CONTRIBUTION RESULTS
+			foreach($dupecount as $key => $numdupes){
+				if(count($words) == 1 || $numdupes >= (count($words)-1)){	// The more keywords we have, the more trash we're likely to get, so lets set
+					$value = $crowarr[$key];				// a minimum hit requirement in order to display to the page. 
+					echo "<li class='searchlistitem'>";			// This will be n-1, where n is the amount of keywords we have to search by.
+					echo "<div class='searchresult'>";
+					//echo "<img src='".$value["img"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["name"]."' />";
+					//echo "<a href='view_contribution.php?contid=".$value["id"]."'>".$value["name"]."</a>";
+					echo "<a href='view_contribution.php?contid=".$value["id"]."'>";
+					echo "<img src='".$value["img"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["name"]."' />";
+					echo "<p style='float:right'><b>".$value["name"]."</b><br>".$value["game"]."<br>By ".$value["username"]."</p>";
+					echo "</a>";
+					echo "</div>";
+					echo "</li>";
+					echo "<br>";
+					echo "<br>";
+					$resultcount++;
+				}
 			}
 		
 		}
 		echo "</ul>";
-
+		echo "<h2>".$resultcount." results found!</h2>";
 	
 	}catch(Exception $e){
 	

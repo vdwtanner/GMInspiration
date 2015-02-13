@@ -34,9 +34,11 @@
 			$result = $mysql->query("SELECT * from users where username='".$username."'");
 
 			$row = $result->fetch_array(MYSQL_BOTH);
+			$ddescription = htmlspecialchars_decode($row["description"]);
+
 			echo "<form method='POST' action='profile.php'>";
 			echo "Description<br>";
-			echo "<textarea name='descrEdit' rows=7 cols=75>".$row["description"]."</textarea><br>";
+			echo "<textarea name='descrEdit' rows=7 cols=75>".$ddescription."</textarea><br>";
 			echo "Profile Image Data URL<br>";
 			echo "<textarea name='imgurl' rows=2 cols=75>".$row["picture"]."</textarea><br>";	
 			echo "<input type='submit' name='settingEdit' value='Save Changes'>";		
