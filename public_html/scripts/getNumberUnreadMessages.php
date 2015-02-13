@@ -12,8 +12,8 @@
 		$result=$mysql->query("SELECT COUNT(*) FROM `private_messages` WHERE `recipient`='".$_SESSION["username"]."' AND `read`=0");
 		//echo "SELECT COUNT(*) FROM `private_messages` WHERE `recipient`='".$_SESSION["username"]."' AND `read`=0";
 		$row=$result->fetch_array(MYSQL_BOTH);
-		echo "Inbox [".$row[0]." message";
-		echo ($row[0]==1)?"]":"s]";
+		echo "Inbox";
+		echo ($row[0]>0)?"[".$row[0]." unread]":"";
 	}catch(Exception $e){
 		die("ERROR READING MESSAGES");
 	}

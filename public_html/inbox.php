@@ -12,18 +12,46 @@
 </head>
 <body>
 <script type="text/javascript" language="javascript">
-	function toggle_vis(list, hide){
+	function toggle_vis(list, toggle){//list=msg div id, toggle=show/hide button
 		var e = document.getElementById(list);
 		if(e.style.display != "none") {
 			e.style.display = "none";
 		}else{
 			e.style.display = "block";
 		}
-		if(hide.text != "[show]"){
-			hide.text = "[show]";
+		if(toggle.text != "[show]"){
+			toggle.text = "[show]";
 		}else{
-			hide.text = "[hide]";
+			toggle.text = "[hide]";
+			read($(toggle).parent().parent().attr("id"));
 		}
+	}
+	
+	function read(id){
+		$.ajax({
+			url: "scripts/readMsg.php",
+			type: "POST",
+			data: {
+				msg: id,
+			},
+			success: function(html){
+				console.log(html);
+			}
+		});
+	}
+	
+	function del(id){
+		$.ajax({
+			url: "scripts/deleteMsg.php",
+			type: "POST",
+			data: {
+				msg: id,
+			},
+			success: function(html){
+				console.log(html);
+				$("#"+id).remove();
+			}
+		});
 	}
 
 </script>
@@ -73,19 +101,19 @@
 			$count = 0;
 			if($rowarr){
 				foreach($rowarr as $key => $value){
-					echo "<div class='msgheader'>";
+					echo "<div class='msgheader' id='".$value["id"]."'>";//This is set to just the ID number of the message to allow easier manipulation of the DB
 					echo "<b>From:</b>&nbsp<a href='profile.php?user=".$value["sender"]."'>".$value["sender"]."</a>";
 					echo "<b style='padding-left: 10px'>Subject:</b>&nbsp".$value["subject"];
 					echo "<div class='listshowhide'>";
 					echo "<a href='#' onclick='toggle_vis(\"b".$count."\",this);' style='float: right;'>[show]</a>";
-					echo "<a href='inbox.php?delete=".$value["id"]."' style='float: right;'>[delete]&nbsp</a>";
+					echo "<a href='#' onclick='del(".$value["id"].")' style='float: right;'>[delete]&nbsp</a>";
 					echo "<p style='display:inline; color: grey'>".$value["timestamp"]."&nbsp</p>";
 					echo "</div><hr>";
 					echo "<div class='msgbody' id='b".$count."' style='display: none'>";
 					echo "<p>".$value["message"]."<p>";
 					echo "</div>";
-					echo "</div>";
 					echo "<br><br>";
+					echo "</div>";
 					$count++;
 				}
 			}else{
