@@ -215,7 +215,7 @@
 
 		}
 
-		echo "<a href='inbox.php' style='float: right;'><b id='inbox_notification'>Inbox [".count($countrowarr)." message".((count($countrowarr)==1)?"":"s")."]</b></a>";
+		echo "<a href='inbox.php' style='float: right;'><b id='inbox_notification'>Inbox</b></a>";
 	}
 	echo "<hr>";
 	echo "</div>";
