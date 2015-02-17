@@ -53,6 +53,25 @@
 			}
 		});
 	}
+	
+	function checkMessages(){
+		$.ajax({
+			url: "scripts/loadNewMessages.php",
+			type: "POST",
+			success: function(html){
+				$("#message_pane").prepend(html);
+				console.log("checked messages");
+			},
+			error: function(xhr, status, error){
+				console.log(error);
+			}
+		});
+		//window.setInterval(function(){checkMessages()}, 5000);//update every 5 seconds
+	}
+	
+	$(function(){
+		window.setInterval(function(){checkMessages()},5000);//update every 5 seconds
+	});
 
 </script>
 
@@ -90,35 +109,36 @@
 		try{
 
 			$mysql->query("START TRANSACTION");
-			$result = $mysql->query("SELECT * FROM private_messages WHERE recipient='".$_SESSION["username"]."'");
+			$result = $mysql->query("SELECT * FROM private_messages WHERE recipient='".$_SESSION["username"]."' ORDER BY timestamp DESC");
 			//$result = $mysql->query("SELECT * FROM private_messages WHERE recipient='vdwtanner'");
 			//$result = $mysql->query("SELECT * FROM private_messages");
 			//print_r($row);
 			while($row = $result->fetch_assoc()){
 				$rowarr[] = $row;		
 			}	
-
-			$count = 0;
+			echo "<div id='message_pane'>";
+			//$count = 0;
 			if($rowarr){
 				foreach($rowarr as $key => $value){
 					echo "<div class='msgheader' id='".$value["id"]."'>";//This is set to just the ID number of the message to allow easier manipulation of the DB
 					echo "<b>From:</b>&nbsp<a href='profile.php?user=".$value["sender"]."'>".$value["sender"]."</a>";
 					echo "<b style='padding-left: 10px'>Subject:</b>&nbsp".$value["subject"];
 					echo "<div class='listshowhide'>";
-					echo "<a href='#' onclick='toggle_vis(\"b".$count."\",this);' style='float: right;'>[show]</a>";
+					echo "<a href='#' onclick='toggle_vis(\"b".$value["id"]."\",this);' style='float: right;'>[show]</a>";
 					echo "<a href='#' onclick='del(".$value["id"].")' style='float: right;'>[delete]&nbsp</a>";
 					echo "<p style='display:inline; color: grey'>".$value["timestamp"]."&nbsp</p>";
 					echo "</div><hr>";
-					echo "<div class='msgbody' id='b".$count."' style='display: none'>";
+					echo "<div class='msgbody' id='b".$value["id"]."' style='display: none'>";//use ID instead of the original count so that we can load via AJAX
 					echo "<p>".$value["message"]."<p>";
 					echo "</div>";
 					echo "<br><br>";
 					echo "</div>";
-					$count++;
+					//$count++;
 				}
 			}else{
 				echo "<b>You have no messages!</b>";
 			}
+			echo "</div>";
 		}catch(Exception $e){
 
 		}
