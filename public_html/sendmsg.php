@@ -24,6 +24,8 @@
 <div id='container'>
 
 <?php
+
+
 	if($_SESSION["username"]){
 		$mysql = new mysqli("mysql14.000webhost.com","a9044814_crawler","d&d4days", "a9044814_dungeon");
 		if($mysql->connect_error){
@@ -33,6 +35,9 @@
 		try{
 			$emsgsub = htmlspecialchars($_POST["msgsubject"]);
 			$emsgbody= htmlspecialchars($_POST["msgbody"]);
+
+
+			
 			$mysql->query("START TRANSACTION");
 			$result = $mysql->query("INSERT INTO private_messages (sender, recipient, subject, message) VALUES ('".$_SESSION["username"]."','".$_GET["recipient"]."','".$emsgsub."','".$emsgbody."')");
 			echo "<b>Your message was successfully sent! Yay!";

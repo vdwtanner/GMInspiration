@@ -116,11 +116,21 @@
 			while($row = $result->fetch_assoc()){
 				$rowarr[] = $row;		
 			}	
+
+			$regx_URL = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
+
+
 			echo "<div id='message_pane'>";
 			//$count = 0;
 			if($rowarr){
 				foreach($rowarr as $key => $value){
-					echo "<div class='msgheader' id='".$value["id"]."'>";//This is set to just the ID number of the message to allow easier manipulation of the DB
+					$msg = $value["message"];
+					if(preg_match_all($regx_URL, $value["message"], $urlarr, PREG_SET_ORDER)){
+						foreach($urlarr as $num => $url){
+							$msg = str_replace($url[0], "<a href='".$url[0]."'>".$url[0]."</a>", $msg);
+						}
+					}
+					echo "<hr><div class='msgheader' id='".$value["id"]."'>";//This is set to just the ID number of the message to allow easier manipulation of the DB
 					echo "<b>From:</b>&nbsp<a href='profile.php?user=".$value["sender"]."'>".$value["sender"]."</a>";
 					echo "<b style='padding-left: 10px'>Subject:</b>&nbsp".$value["subject"];
 					echo "<div class='listshowhide'>";
@@ -129,7 +139,7 @@
 					echo "<p style='display:inline; color: grey'>".$value["timestamp"]."&nbsp</p>";
 					echo "</div><hr>";
 					echo "<div class='msgbody' id='b".$value["id"]."' style='display: none'>";//use ID instead of the original count so that we can load via AJAX
-					echo "<p>".$value["message"]."<p>";
+					echo "<p class='msgtext'>".$msg."<p>";
 					echo "</div>";
 					echo "<br><br>";
 					echo "</div>";
