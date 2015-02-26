@@ -6,9 +6,7 @@
 <head>
 </head>
 <body>
-	<?php
-		echo "Suck it ".$_SESSION["username"];
-	?>
+	<h4>Discontinued testing function. Use search function instead.</h4>
 	<form method="GET" action="view_contribution.php">
 		<label for="contid">Select an ID: </label><select id="contid" name="contid">
 			<?php
