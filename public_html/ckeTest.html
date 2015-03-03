@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1">
+        <title>A Simple Page with CKEditor</title>
+        <!-- Make sure the path to CKEditor is correct. -->
+        <script src="scripts/ckeditor/ckeditor.js"></script>
+		<link href="scripts/ckeditor/samples/sample.css" rel="stylesheet">
+		<link rel="stylesheet" href="css/example/global.css" media="all">
+		<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
+		<script>
+
+		// This code is generally not necessary, but it is here to demonstrate
+		// how to customize specific editor instances on the fly. This fits well
+		// this demo because we have editable elements (like headers) that
+		// require less features.
+
+		// The "instanceCreated" event is fired for every editor instance created.
+		CKEDITOR.on( 'instanceCreated', function( event ) {
+			var editor = event.editor,
+				element = editor.element;
+
+			// Customize editors for headers and tag list.
+			// These editors don't need features like smileys, templates, iframes etc.
+			if ( element.is( 'h1', 'h2', 'h3' ) || element.getAttribute( 'id' ) == 'taglist' ) {
+				// Customize the editor configurations on "configLoaded" event,
+				// which is fired after the configuration file loading and
+				// execution. This makes it possible to change the
+				// configurations before the editor initialization takes place.
+				editor.on( 'configLoaded', function() {
+
+					// Remove unnecessary plugins to make the editor simpler.
+					editor.config.removePlugins = 'colorbutton,find,flash,font,' +
+						'forms,iframe,image,newpage,removeformat,' +
+						'smiley,specialchar,stylescombo,templates';
+
+					// Rearrange the layout of the toolbar.
+					editor.config.toolbarGroups = [
+						{ name: 'editing',		groups: [ 'basicstyles', 'links' ] },
+						{ name: 'undo' },
+						{ name: 'clipboard',	groups: [ 'selection', 'clipboard' ] },
+						{ name: 'about' }
+					];
+				});
+			}
+		});
+
+	</script>
+	<style>
+		div.textarea {
+			background-color: #FFFFFF;
+			box-shadow: 1px 1px 3px #888888;
+			line-height: 1.5;
+			border-radius: 4px;
+		}
+	</style>
+    </head>
+    <body>
+	<div id="container" class="cf">
+        <form>
+            <textarea name="editor1" id="editor1" rows="10" cols="80">
+                This is my textarea to be replaced with CKEditor.
+            </textarea>
+            <script>
+                // Replace the <textarea id="editor1"> with a CKEditor
+                // instance, using default configuration.
+                CKEDITOR.replace( 'editor1' );
+            </script>
+        </form>
+		<div id="wrapper" width="200px" height="70px">
+			<div contenteditable="true" >
+				Click here to edit.
+			</div>
+			<h2 contenteditable="true">TEST</h2>
+		</div>
+		<table>
+			<tr><td>LABEL</td><td width="300px"><div class="textarea" contenteditable="true">TEXT</div></td></tr>
+			<tr><td>LABEL</td><td width="300px"><div class="textarea" contenteditable="true">TEXT</div></td></tr>
+			<tr><td>LABEL</td><td width="300px"><div class="textarea" contenteditable="true">TEXT</div></td></tr>
+			<tr><td>LABEL</td><td width="300px"><div class="textarea" contenteditable="true">TEXT</div></td></tr>
+		</table>
+		
+		<div id="headerLeft">
+			<h2 id="sampleTitle" contenteditable="true">
+				CKEditor<br> Goes Inline!
+			</h2>
+			<h3 contenteditable="true">
+				Lorem ipsum dolor sit amet dolor duis blandit vestibulum faucibus a, tortor.
+			</h3>
+		</div>
+	</div>
+    </body>
+</html>

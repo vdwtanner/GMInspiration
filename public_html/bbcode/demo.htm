@@ -1,0 +1,51 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>BBCode generator PHP HTML decoder script demo</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+body{margin:0; padding: 0; font-family: arial, serif;}
+p{margin:5px 0 0 0;font-size: 11px;}
+h1 { font-size: 16px; color: #824100;font-family: tahoma, Helvetica, sans-serif;}
+#top{margin:0;width:100%;height:78px;background:#ffffff url('bbcode/images/bg.gif') repeat-x;border:1px solid #ffffff;}
+#top td{padding:0;}
+#fw_addcomment{margin:20px 10px 0px 10px;width:680px;}
+#fw_addcomment td{padding:2px 0px; vertical-align:middle;font-size:11px;}
+.fw_button{width:80px; font-size:12px; font-family:arial; color:#000000; font-weight:600;border:1px solid #999999;background:#ffffff;}
+#feedback{font-weight:500;font-size:11px;margin: 20px 0;padding:0; clear:both;}
+#topmenu{text-align:right;padding-right:20px;vertical-align:bottom;}
+#topmenu a{color:#0000ff;font-size:11px;padding:3px 4px;}
+#topmenu a:hover{text-decoration:none;}
+.fw_button{height:20px; width:80px; font-size:12px; font-weight:600;color:#444444;}
+</style>
+<meta name="DESCRIPTION" content="This demo script will give you a realistic idea that how successfully this JavaScript editor can generate BBCode for you. A preview system is also included here">
+<meta name="KEYWORDS" content="BBCode,BBCode generator PHP,decoder script,BBCode text">
+</head>
+<body>
+<table id="top"><tr><td rowspan="2" style="vertical-align:top;">
+<img src="bbcode/images/caption.gif" style="border:none; margin:0 20px; padding:0;" /></td><td style="height:42px;">&nbsp;</td></tr>
+<tr><td id="topmenu"><a href="http://ramui.com/">Home</a>&nbsp;|&nbsp;<a href="http://ramui.com/forum/index.php?f=13">Support</a>&nbsp;|&nbsp;<a href="http://ramui.com/documentation/bbcode-generator-php-html-decoder-script.html">Documentation</a>&nbsp;|&nbsp;<a href="http://ramui.com/download/bbcode-generator-php-html-decoder-script-version-4-download.html">Download</a></td></tr></table>
+<div style="width:680px;margin:20px;">
+<h1>BBCode generator PHP HTML decoder script demo</h1>
+<p>This demo script will give you a realistic idea that how successfully this JavaScript editor can generate BBCode for you. A preview system is also included here.
+To generate this preview I use AJAX technology to submit BBCode text to the web server. The PHP script at the server end contains a series of functions which decode the BBCode text to its HTML equivalent.</p>
+<p><u>For preview purpose the BBCode text is limited to 300 characters.</u></p>
+<p>If you have any question or doubt about use this script please do not heisted to <a href="http://ramui.com/contact.html">contact me</a>.</p>
+</div>
+<form name="frmComment" style="margin:0 10px;" onsubmit="return false;">
+<table id="fw_addcomment">
+<tr><td id="division" style="padding: 5px 0 0 0;">
+<script type="text/javascript">
+var bbCodeEditorID = "editor";
+var maxCodeLength=1000;
+</script>
+<script type="text/javascript" src="bbcode/bbcode.js"></script>
+</td></tr>
+<tr><td style="padding: 0 0 5px 0;"><textarea id="editor" name="editor" style="width:600px;height:150px;margin:0;"></textarea></td></tr>
+<tr><td style="padding:5px 0 0 0;">
+<input type="reset" class="fw_button" value="Reset" name="B1" />&nbsp;&nbsp;<input type="submit" class="fw_button" value="Submit" \>
+&nbsp;&nbsp;<input id="fw_parseurls" style="width:15px; border:none; margin:0;" type="checkbox" name="parseurls" value="ON" checked> automatically parse URLs</td></tr>
+</table>
+<p style="color:#c0c0c0; margin:0px 0 5px 0px;padding:0;">
+___________________________</p>
+<span style="color:#808080; font-size:10px; margin-left:5px;"><a target="_blank" href="http://ramui.com/">BBCode generator PHP HTML decoder script</a> copyright &copy;&nbsp;ramui.com</span></form>
+</body></html>
