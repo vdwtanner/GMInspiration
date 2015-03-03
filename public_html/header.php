@@ -163,7 +163,7 @@
 					$("#inbox_notification").html(html);
 				}
 			});
-			window.setTimeout(function(){updateInboxNotification()},5000);//update every 5 seconds
+			window.setTimeout(function(){updateInboxNotification()},30000);//update every 30 seconds
 		}
 		
 		$(function(){

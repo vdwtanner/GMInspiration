@@ -110,11 +110,17 @@ Zac's search lists!
 }
 
 .msgheader{
+  padding-bottom: 5px;
   display: block;
 }
 
 .msgbody{
-  display: inline-block;
+  display: block;
+  padding-top: 10px;
+}
+
+.msgborder{
+  display: block;
   border: 1px solid #e0e0e0;
 }
 

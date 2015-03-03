@@ -130,22 +130,30 @@
 							$msg = str_replace($url[0], "<a href='".$url[0]."'>".$url[0]."</a>", $msg);
 						}
 					}
+
 					echo "<div class='msgheader' id='".$value["id"]."'><hr>";//This is set to just the ID number of the message to allow easier manipulation of the DB
+					if($value["sender"] == "DungeonCrawlers")
+						echo "<b>From:&nbsp<div style='text-shadow: 1px 1px 1px #FF0000; display: inline; color:'>".$value["sender"]."</div></b>";
+					else
 					echo "<b>From:</b>&nbsp<a href='profile.php?user=".$value["sender"]."'>".$value["sender"]."</a>";
 					echo "<b style='padding-left: 10px'>Subject:</b>&nbsp".$value["subject"];
 					echo "<div class='listshowhide'>";
 					echo "<a href='#' onclick='toggle_vis(\"b".$value["id"]."\",this);' style='float: right;'>[show]</a>";
-					echo "<a class='replylink' href='composemsg.php?recipient=".$value["sender"]."&redirect=i'>[reply]</a>";
+					if($value["sender"] != "DungeonCrawlers")
+						echo "<a class='replylink' href='composemsg.php?recipient=".$value["sender"]."&redirect=i'>[reply]</a>";
 					echo "<a href='#' onclick='del(".$value["id"].")' style='float: right;'>[delete]&nbsp</a>";
 					echo "<p style='display:inline; color: grey'>".$value["timestamp"]."&nbsp</p>";
-					echo "</div><hr>";
+					echo "</div>";
 					echo "<div class='msgbody' id='b".$value["id"]."' style='display: none'>";//use ID instead of the original count so that we can load via AJAX
+					echo "<div class='msgborder'>";
 					echo "<p class='msgtext'>".$msg."<p>";
 					echo "</div>";
-					echo "<br><br>";
+					echo "</div>";
+					//echo "<br><br>";
 					echo "</div>";
 					//$count++;
 				}
+				echo "<hr>";
 			}else{
 				echo "<b>You have no messages!</b>";
 			}

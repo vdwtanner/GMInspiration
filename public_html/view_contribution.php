@@ -56,15 +56,24 @@
 		}
 	</style>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+
+	<!--Begin jquery scripts-->
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<script src="http://cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.min.js"></script><!--Including some JQuery because yes-->
+	<!--End jquery scripts-->
+
+
+	<!--Begin our scripts-->
+	<script src="scripts/ajaxMsgFunctions.js"></script>
 	<script type="text/javascript" language="javascript">
 		function comment(){
 			var cid = $("#contribution_id").text();
 			var username = $("#user").text();
 			var com = $("#comment").val();
 			var form = $("#make_comment");
+			var contributer = $("#contributer").text();
+			var contribution_name = $("#contribution_name").text();
 			if(!com){
 				form.submit();
 			}else{
@@ -91,10 +100,16 @@
 							$("#comment").val("");
 							//comments.insertBefore(html, comments.firstChild);
 							//alert(1);
+							if(username != contributer)
+								sendMsg("DungeonCrawlers",
+									username+" commented on one of your contributions!",
+									username+"commented on your "+contribution_name+"\n\n\""+com+"\"\n",
+									contributer);
 						}catch(e){
 							//comments.appendChild(newdiv);
 							alert("error");
 						}
+						
 					},
 					error: function(xhr, status, error){
 						alert("Well. Looks like something went wrong. :/" +"\nstatus");
@@ -265,6 +280,8 @@
 		$("#comments_tab").prop("disabled", false);
 	}
 	</script>
+
+	<!--End our scripts-->
 </head>
 <body>
 <div id="container" class="cf">
@@ -280,9 +297,10 @@
 		$id=$_GET["contid"];
     }else{
 		$id=$_POST["id"];
-	}
-	echo "<p id='contribution_id' style='display: none;' >".$id."</p>";
-	echo "<p id='user' style='display: none;'>".$_SESSION["username"]."</p>";
+    }
+    echo "<p id='contribution_id' style='display: none;' >".$id."</p>";
+    echo "<p id='user' style='display: none;'>".$_SESSION["username"]."</p>";
+
     try{
         $mysql->query("START TRANSACTION");
 		$ratings=$mysql->query("SELECT COUNT(*), SUM(fun), SUM(balance) FROM ratings WHERE contribution_id=".$id);
@@ -295,6 +313,8 @@
 		}
         $result = $mysql->query("SELECT * from contributions where id='".$id."'");
         $row = $result->fetch_array(MYSQL_BOTH);
+	echo "<p id='contributer' style='display: none;'>".$row["username"]."</p>";
+	echo "<p id='contribution_name' style='display: none;'>".$row["name"]."</p>";
         $fields = json_decode($row["json"]);    //create associative array from json
 		//echo print_r($row);
 		if($row["username"]==$_SESSION["username"]){
