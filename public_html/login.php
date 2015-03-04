@@ -12,10 +12,10 @@
 	$msg;
 	try{
 		$mysql->query("START TRANSACTION");
-		$result = $mysql->query("SELECT * FROM `users` WHERE username='".$usr."' OR email='".$usr."'");
+		$result = $mysql->query("SELECT * FROM `users` WHERE (username='".$usr."' OR email='".$usr."')");
 		if($result->num_rows){
 			$result->free();
-			$result = $mysql->query("SELECT * FROM `users` WHERE pass='".$pass."'");
+			$result = $mysql->query("SELECT * FROM `users` WHERE pass='".$pass."' AND (username='".$usr."' OR email='".$usr."')");
 			if($result->num_rows){
 				$row=$result->fetch_array(MYSQLI_BOTH);
 				$result->free();
