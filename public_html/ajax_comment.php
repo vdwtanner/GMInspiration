@@ -10,11 +10,25 @@
 	}
 	try{
 		$mysql->query("START TRANSACTION");
-		$mysql->query("INSERT INTO contribution_comments (contribution_id, username, comment) VALUES (".$cid.", '".$user."', '".$mysql->real_escape_string($comment)."')");
-		//echo "WE GOOD";
-		$result=$mysql->query("SELECT picture FROM users WHERE username='".$user."'");
-		$row=$result->fetch_array(MYSQL_BOTH);
-		$img=$row["picture"];
+
+		//$mysql->query("INSERT INTO contribution_comments (contribution_id, username, comment) VALUES (".$cid.", '".$user."', '".$mysql->real_escape_string($comment)."')");
+		$stmt = $mysql->prepare("INSERT INTO contribution_comments (contribution_id, username, comment) VALUES (?,?,?)");
+		$stmt->bind_param("iss", $cid, $user, $comment);
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		}
+		$stmt->close();
+
+		//$result=$mysql->query("SELECT picture FROM users WHERE username='".$user."'");
+		$stmt = $mysql->prepare("SELECT picture FROM users WHERE username=?");
+		$stmt->bind_param("s", $user);
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		}
+		$result = $stmt->bind_result($img);
+		$stmt->fetch();		
+		$stmt->close();
+
 		$mysql->commit();
 	}catch(Exception $e){
 		$mysql->rollback();

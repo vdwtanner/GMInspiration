@@ -303,44 +303,62 @@
 
     try{
         $mysql->query("START TRANSACTION");
-		$ratings=$mysql->query("SELECT COUNT(*), SUM(fun), SUM(balance) FROM ratings WHERE contribution_id=".$id);
-		$row=$ratings->fetch_array(MYSQL_BOTH);
-		//print_r($row);
-		$num_ratings=$row[0];
-		if($row[0]>0){
-			$fun=$row[1]/$row[0];
-			$balance=$row[2]/$row[0];
+		//$ratings=$mysql->query("SELECT COUNT(*), SUM(fun), SUM(balance) FROM ratings WHERE contribution_id=".$id);
+		$stmt = $mysql->prepare("SELECT COUNT(*), SUM(fun), SUM(balance) FROM ratings WHERE contribution_id=?");
+		$stmt->bind_param("i", $id);
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 		}
-        $result = $mysql->query("SELECT * from contributions where id='".$id."'");
-        $row = $result->fetch_array(MYSQL_BOTH);
-	echo "<p id='contributer' style='display: none;'>".$row["username"]."</p>";
-	echo "<p id='contribution_name' style='display: none;'>".$row["name"]."</p>";
-        $fields = json_decode($row["json"]);    //create associative array from json
-		//echo print_r($row);
-		if($row["username"]==$_SESSION["username"]){
-			echo "<a id='update_button' class='button' onclick='update()'>Update</a></br>";
-		}	
-		echo "<div id='contribution'><div class='profile_img'><img id='img' src='".$row["img"]."' alt='An image depicting ".$row["name"]."' width='175' height='175' /></div>";
-		echo "<div class='name_user_game' ><h2><span id='name'>".$row["name"]."</span> - <span id='type'>".$row["type"].(($row["sub_type"])? " </span>(<span id='subtype' title='Sub Type'>".$row["sub_type"]."</span>)":"")."</h2>";
-		echo "<h3>submitted by <a href=profile.php?user=".$row["username"].">".$row["username"]."</a></h3><h3 id='game'>".$row["game"]."</h3></div>";
-		if($num_ratings>0){
-			echo "<table class='rating_table'><tr><td><b>Fun</b></td><td><span class='stars'>".$fun."</span></td></tr><tr><td><b>Balance</b></td><td><span class='stars'>".$balance."</span></td></tr></table>";
-		}else{
-			echo "<b>Not yet rated</b>";
+		$row0 = 0; $row1 = 0; $row2 = 0;
+		$stmt->bind_result($row0, $row1, $row2);
+		$stmt->fetch();
+		$stmt->close();
+
+		$num_ratings=$row0;
+		if($row0>0){
+			$fun=$row1/$row0;
+			$balance=$row2/$row0;
 		}
-		echo "<div style='display: block; clear: both;'><h4 style='margin-bottom: .1em; padding-bottom: 0em'>Description</h4>";
-		echo "<p id='desc' style='margin-top: .1em'>".$row["desc"]."</p>";
-		$num=1;
-		foreach($fields as $key => $value){
-			echo "<h4 id='label ".$num."' name='label ".$num."' style='margin-bottom: .1em; padding-bottom: 0em'>".$key."</h4>";
-			echo "<p id='text ".$num."' name='text ".$num."' style='margin-top: .1em'>".$value."</p>";
-			$num++;
-		}
-		echo "</div></div>";
+        //$result = $mysql->query("SELECT * from contributions where id='".$id."'");
+	$stmt = $mysql->prepare("SELECT username, name, `type`, sub_type, game, `desc`, img, json FROM contributions WHERE id=?");
+	$stmt->bind_param("i", $id);
+	if(!$stmt->execute()){
+		echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+	}
+	$username=null; $name=null; $json=null; $img=null; $type=null; $sub_type=null; $game=null; $desc=null;	
+	$stmt->bind_result($username, $name, $type, $sub_type, $game, $desc, $img, $json);
+	$stmt->fetch();
+	$stmt->close();
+
+	echo "<p id='contributer' style='display: none;'>".$username."</p>";
+	echo "<p id='contribution_name' style='display: none;'>".$name."</p>";
+        $fields = json_decode($json);    //create associative array from json
+	//echo print_r($row);
+	if($username==$_SESSION["username"]){
+		echo "<a id='update_button' class='button' onclick='update()'>Update</a></br>";
+	}	
+	echo "<div id='contribution'><div class='profile_img'><img id='img' src='".$img."' alt='An image depicting ".$name."' width='175' height='175' /></div>";
+	echo "<div class='name_user_game' ><h2><span id='name'>".$name."</span> - <span id='type'>".$type.(($sub_type)? " </span>(<span id='subtype' title='Sub Type'>".$sub_type."</span>)":"")."</h2>";
+	echo "<h3>submitted by <a href=profile.php?user=".$username.">".$username."</a></h3><h3 id='game'>".$game."</h3></div>";
+	if($num_ratings>0){
+		echo "<table class='rating_table'><tr><td><b>Fun</b></td><td><span class='stars'>".$fun."</span></td></tr><tr><td><b>Balance</b></td><td><span class='stars'>".$balance."</span></td></tr></table>";
+	}else{
+		echo "<b>Not yet rated</b>";
+	}
+	echo "<div style='display: block; clear: both;'><h4 style='margin-bottom: .1em; padding-bottom: 0em'>Description</h4>";
+	echo "<p id='desc' style='margin-top: .1em'>".$desc."</p>";
+	$num=1;
+	foreach($fields as $key => $value){
+		echo "<h4 id='label ".$num."' name='label ".$num."' style='margin-bottom: .1em; padding-bottom: 0em'>".$key."</h4>";
+		echo "<p id='text ".$num."' name='text ".$num."' style='margin-top: .1em'>".$value."</p>";
+		$num++;
+	}
+	echo "</div></div>";
         echo "<h6>Contribution ID: <span  id='contid'>".$id."</span></h6>";
     }catch(Exception $e)
     {
-		echo "We appear to have rolled a natural 1... *sigh* Copy the following error message and submit it to us <a href=''>here</a>:</br>".$e;
+	$mysql->rollback();
+	echo "We appear to have rolled a natural 1... *sigh* Copy the following error message and submit it to us <a href=''>here</a>:</br>".$e;
     }
 	
 ?>
@@ -355,28 +373,44 @@
 			}else{
 				echo "You must <a href='login.html'>login</a> before you can comment.";
 			}
-			$result->free();
-			$result=$mysql->query("SELECT * from contribution_comments WHERE contribution_id =".$id." ORDER BY timestamp DESC");
-			while($row=$result->fetch_array(MYSQL_BOTH)){
-				$result2 = $mysql->query("SELECT picture from users WHERE username='".$row["username"]."'");
-				$img=$result2->fetch_array(MYSQL_BOTH);
-				echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img["picture"]."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4></a>";
-				echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
-				echo "<p style=' margin: 0em;'>".$row["comment"]."</p></div>";
+			//$result=$mysql->query("SELECT * from contribution_comments WHERE contribution_id =".$id." ORDER BY timestamp DESC");
+			$stmt = $mysql->prepare("SELECT username, comment, timestamp FROM contribution_comments WHERE contribution_id=? ORDER BY timestamp DESC");
+			$stmt->bind_param("i", $id);
+			if(!$stmt->execute()){
+				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 			}
+			$username = null; $comment = null; $timestamp = null;
+			$stmt->bind_result($username, $comment, $timestamp);
+			$stmt->fetch();
+
+			while($stmt->fetch()){
+				//$result2 = $mysql->query("SELECT picture from users WHERE username='".$row["username"]."'");
+				$stmt2 = $mysql->prepare("SELECT picture FROM users WHERE username=?");
+				$stmt2->bind_param("s", $username);
+				if(!$stmt2->execute()){
+					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+				}
+				$picture=null;
+				$stmt2->bind_result($picture);
+				$stmt2->fetch();
+				$stmt2->close();
+				echo "<div class='comment'><a href='profile.php?user=".$username."'><img src='".$picture."' alt='".$username."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$username."</h4></a>";
+				echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($timestamp))."</h5></div></br>";
+				echo "<p style=' margin: 0em;'>".$comment."</p></div>";
+			}
+			$stmt->close();
 		?>
 	</div>
 	<div id="ratings" style="display:none;">
 		<?php
 			if($_SESSION["username"]){
-				$rating_check=$mysql->query("SELECT * FROM ratings WHERE contribution_id=".$id." AND username='".$_SESSION["username"]."'");
+				$rating_check=$mysql->query("SELECT * FROM ratings WHERE contribution_id=".$id." AND username='".$_SESSION["username"]."'");	// START HERE
 				if(count($rating_check->fetch_array(MYSQL_BOTH))>0){
 					echo "<b>You have already rated this contribution</b>";
 				}else{
 					echo "<a class='button' onclick='rate()'>Rate!</a></br>";
 				}
 			}
-			$result->free();
 			$result=$mysql->query("SELECT * FROM ratings WHERE contribution_id =".$id." ORDER BY timestamp DESC");
 			while($row=$result->fetch_array(MYSQL_BOTH)){
 				$result2 = $mysql->query("SELECT picture from users WHERE username='".$row["username"]."'");

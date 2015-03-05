@@ -58,18 +58,31 @@
 		if ($mysql->connect_error) {
 			die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 		}
-		$json = $mysql->real_escape_string(json_encode($array));
-		//print($json);
+		$json = json_encode($array);
 		try{
 			$mysql->query("START TRANSACTION");
 			if($img){
-				$mysql->query("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, img, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$img."','".$json."')");
+				//$mysql->query("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, img, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$img."','".$json."')");
+				$stmt = $mysql->prepare("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, img, json) VALUES (?,?,?,?,?,?,?,?)");
+				$stmt->bind_param("ssssssss", $_SESSION["username"], $name, $type, $sub_type, $game, $desc, $img, $json);
+				if(!$stmt->execute()){
+					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+				}
+				$stmt->close();
 			}else{
-				$mysql->query("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$json."')");
+				//$mysql->query("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$json."')");
+				print_r($json);
+				$stmt = $mysql->prepare("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, json) VALUES (?,?,?,?,?,?,?)");
+				$stmt->bind_param("sssssss", $_SESSION["username"], $name, $type, $sub_type, $game, $desc, $json);
+				if(!$stmt->execute()){
+					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+				}
+				$stmt->close();
 			}
 			echo $_SESSION["username"].", Your contribution was successfully added.";
 			$mysql->commit();
 		}catch(Exception $e){
+			$mysql->rollback();
 			echo "An error occurred while saving your contribution.</br>".$e;
 		}
 		$mysql->close();

@@ -15,10 +15,6 @@
 
 <?php
 	if($_SESSION["username"]){
-		$mysql = new mysqli("mysql14.000webhost.com","a9044814_crawler","d&d4days", "a9044814_dungeon");
-		if($mysql->connect_error){
-			die('Connect Error ('.$mysqli->connect_errno.')'.$mysqli->connect_error);
-		}
 
 		try{
 			echo "<form method='POST' action='sendmsg.php?recipient=".$_GET["recipient"]."&redirect=".$_GET["redirect"]."'>";

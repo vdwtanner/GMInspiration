@@ -31,21 +31,29 @@
 
 		try{
 			$mysql->query("START TRANSACTION");
-			$result = $mysql->query("SELECT * from users where username='".$username."'");
-
-			$row = $result->fetch_array(MYSQL_BOTH);
-			$ddescription = htmlspecialchars_decode($row["description"]);
+			//$result = $mysql->query("SELECT * from users where username='".$username."'");
+			$stmt = $mysql->prepare("SELECT description, picture FROM users WHERE username=?");
+			$stmt->bind_param("s", $username);
+			if(!$stmt->execute()){
+				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			}
+			$description = null; $picture = null;
+			$stmt->bind_result($description, $picture);
+			$stmt->fetch();
+			$stmt->close();
 
 			echo "<form method='POST' action='profile.php'>";
 			echo "Description<br>";
-			echo "<textarea name='descrEdit' rows=7 cols=75>".$ddescription."</textarea><br>";
+			echo "<textarea name='descrEdit' rows=7 cols=75>".$description."</textarea><br>";
 			echo "Profile Image Data URL<br>";
-			echo "<textarea name='imgurl' rows=2 cols=75>".$row["picture"]."</textarea><br>";	
+			echo "<textarea name='imgurl' rows=2 cols=75>".$picture."</textarea><br>";	
 			echo "<input type='submit' name='settingEdit' value='Save Changes'>";		
 			echo "</form>";
+			$mysql->commit();
 		}catch(Exception $e){
-					
+			$mysql->rollback();
 		}
+		$mysql->close();
 
 	}
 ?>

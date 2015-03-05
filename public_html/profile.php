@@ -24,11 +24,20 @@
 		try{
 			$edescrEdit = htmlspecialchars($_POST["descrEdit"]);
 			$mysql->query("START TRANSACTION");
-			$result = $mysql->query("UPDATE users SET description='".$edescrEdit."' where username='".$username."'");
-			$result = $mysql->query("UPDATE users SET picture='".$_POST["imgurl"]."' where username='".$username."'");
-		}catch(Exception $e){
+			//$result = $mysql->query("UPDATE users SET description='".$edescrEdit."' where username='".$username."'");
+			$stmt = $mysql->prepare("UPDATE users SET description=?, picture=? WHERE username=?");
+			$stmt->bind_param("sss", $edescrEdit, $_POST["imgurl"], $username);
+			if(!$stmt->execute()){
+				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			}
+			$stmt->close();
+			//$result = $mysql->query("UPDATE users SET picture='".$_POST["imgurl"]."' where username='".$username."'");
 
+			$mysql->commit();
+		}catch(Exception $e){
+			$mysql->rollback();
 		}
+		$mysql->close();
 
 	}
 	$display = true;
@@ -58,15 +67,23 @@
 
 		try{
 			$mysql->query("START TRANSACTION");
-			$result = $mysql->query("SELECT * from users where username='".$username."'");
+			//$result = $mysql->query("SELECT * from users where username='".$username."'");
+			$stmt = $mysql->prepare("SELECT picture, joined, description from users where username=?");
+			$stmt->bind_param("s", $username);
+			if(!$stmt->execute()){
+				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			}
+			$picture = null; $joined = null; $description = null;
+			$stmt->bind_result($picture, $joined, $description);
+			$stmt->fetch();
+			$stmt->close();
 
-			$row = $result->fetch_array(MYSQL_BOTH);
 
 			//IMG and PROFILE NAME
-			echo "<img src='".$row["picture"]."' style='float:left' height='100' width='100' alt='An image depicting ".$row["username"]."' />";
+			echo "<img src='".$picture."' style='float:left' height='100' width='100' alt='An image depicting ".$row["username"]."' />";
 			echo "<div id='namedate'>";
-			echo "<h2 style=''>".$row["username"]."</h2>";
-			echo "<h4> User since ".$row["joined"];
+			echo "<h2 style=''>".$username."</h2>";
+			echo "<h4> User since ".$joined;
 			echo "<div id='pm'>";
 			if($username == $_SESSION["username"])
 				echo "<a href='profilesettings.php'>edit your profile settings</a>";
@@ -78,26 +95,30 @@
 			//PLAYER DESCRIPTION
 			echo "<div class='boxele'>";
 			echo "<div style='padding-left: 2em; padding-top: 1em'";
-			if($row["description"])
-				echo "<p>".$row["description"]."</p>";
+			if($description)
+				echo "<p>".$description."</p>";
 			else
 				echo "<p>There doesn't seem to be anything here. :(</p>";
 			echo "</div>";
 			echo "</div>";
 		
 			//PLAYER CONTRIBUTIONS
-			$cresult = $mysql->query("SELECT * from contributions where username='".$username."'");	
-		
-			while($crow = $cresult->fetch_assoc()){
-				$crowarr[] = $crow;			
-			}		
+			//$cresult = $mysql->query("SELECT * from contributions where username='".$username."'");
+			$stmt = $mysql->prepare("SELECT id, name FROM contributions WHERE username=?");
+			$stmt->bind_param("s", $username);
+			if(!$stmt->execute()){
+				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			}	
+			$id=null; $name=null;
+			$stmt->bind_result($id, $name);
+			$stmt->fetch();
 		
 			echo "<div class='boxele'>";
 			echo "<div style='padding-left: 2em'>";
 			echo "<h5>Contributions</h5>";
-			if($crowarr){
-				foreach($crowarr as $key => $value){
-					echo "<a href='view_contribution.php?contid=".$value["id"]."'><p>".$value["name"]."</p></a>";
+			if($id){
+				while($stmt->fetch()){
+					echo "<a href='view_contribution.php?contid=".$id."'><p>".$name."</p></a>";
 					echo "<br>";
 				}
 			}else{
@@ -105,12 +126,12 @@
 			}
 			echo "</div>";
 			echo "</div>";
-		
-
+			$stmt->close();	
+			$mysql->commit();
 		}catch(Exception $e){
-
+			$mysql->rollback();
 		}
-
+		$mysql->close();
 	}
 
 ?>

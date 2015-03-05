@@ -100,7 +100,7 @@
 				}
 				try{
 					$mysql->query("START TRANSACTION");
-					$result=$mysql->query("SELECT DISTINCT(game) FROM contributions ORDER BY game ASC");
+					$result=$mysql->query("SELECT DISTINCT(game) FROM contributions ORDER BY game ASC");	// This SHOULD be secure.
 					while($row=$result->fetch_array(MYSQLI_BOTH)){
 						echo "<option value='".$row["game"]."'>".$row["game"]."</option>";
 					}

@@ -190,22 +190,6 @@
 	}
 	
 	if($_SESSION["username"]){
-		$mysql = new mysqli("mysql14.000webhost.com","a9044814_crawler","d&d4days", "a9044814_dungeon");
-		if($mysql->connect_error){
-			die('Connect Error ('.$mysqli->connect_errno.')'.$mysqli->connect_error);
-		}
-		try{
-			$mysql->query("START TRANSACTION");
-			$result = $mysql->query("SELECT * FROM private_messages WHERE recipient='".$_SESSION["username"]."'");
-
-			while($row = $result->fetch_assoc()){
-				$countrowarr[] = $row;			
-			}	
-			
-		}catch(Exception $e){
-
-		}
-
 		echo "<a href='inbox.php' style='float: right;' ><b id='inbox_notification'>Inbox</b></a>";
 	}
 	
