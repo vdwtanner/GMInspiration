@@ -1,5 +1,6 @@
 <?php
     session_start();
+	require dirname(__FILE__)."/scripts/parser.php";
 ?>
 <DOCTYPE html>
 <html>
@@ -9,6 +10,7 @@
 	<link rel="stylesheet" href="css/example/layout.css" media="all">
 	<?php include "header.php";?>
 	<style>
+	
 		a {
 			cursor: pointer;
 		}
@@ -58,6 +60,16 @@
 		p {
 			margin-top: .1em;
 		}
+		
+		div.textarea {
+			background-color: #FFFFFF;
+			box-shadow: 1px 1px 3px #888888;
+			line-height: 1.5;
+			height: 50px;
+			border-radius: 4px;
+			padding: 0px;
+			margin: 0px;
+		}
 	</style>
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -69,10 +81,10 @@
 		function comment(){
 			var cid = $("#contribution_id").text();
 			var username = $("#user").text();
-			var com = $("#comment").val();
+			var com = $("#comment").html();
 			var form = $("#make_comment");
-			if(!com){
-				form.submit();
+			if(!com.length>25){
+				alert("Please enter a comment more than 25 characters long");
 			}else{
 				$.ajax({
 					url: "ajax_comment.php",
@@ -119,7 +131,7 @@
 		}*/
 		
 		function update(){
-			var id=$("#contid").text();
+			var id=$("#contribution_id").text();
 			var name=$("#name").text();
 			var game=$("#game").text();
 			var type=$("#type").text();
@@ -138,6 +150,7 @@
 				json+='"'+labels[x]+'":"'+texts[x]+'"';
 			}
 			json+='}';
+			console.log("id=" + id);
 			console.log(name);
 			console.log(game);
 			console.log(type);
@@ -147,57 +160,46 @@
 			console.log(labels);
 			console.log(texts);
 			console.log(json);
-			/*$.ajax({
-				url: "update_contribution.php",
-				data: {
-					
-				},
-			});
-			/*$.ajax({
-				url: "contribute.php",
+			$.ajax({
+				url: "update_contribution2.php",
+				type: "POST",
+				data: ({
+					id: id,
+					name: name,
+					game: game,
+					type: type,
+					subtype: subtype,
+					desc: desc,
+					img: img,
+					json: json,
+				}),
 				success: function(html){
-					var p = document.createElement("p");
-					p.innerHTML="<b>Select a contribution type. For some reason that does not load right now.</b>"
-					$("#update_button").replaceWith(p);
-					var h2 = document.createElement("h2");
-					h2.innerHTML="Update Contribution"
-					$("#page_title").replaceWith(h2);
-					$("#contribution").html(html);
-					$("#name").val(name);
-					$("#game").val(game);
-					$("#type").filter(function() {
-						//may want to use $.trim in here
-						return $(this).text() == type; 
-					}).prop('selected', true);
-					$("#type").val(type);
-					$("#Sub_type").val(subtype);
-					$("#desc").val(desc);
-					$("#img").val(img);
-					$("#contribute").attr("action", "update_contribution.php");
-					$("#contribute").append("<input id='id' name='id' style='display: none;' value='"+$("#contid").text()+"' />");
-					$("#submit_contribution").text("Update");
-					$("#lore").remove();
-					$("#how").remove();
-					$("#effect").remove();
-					$("#attack").remove();
-					var extras=0;
-					labels.forEach(function(label){
-						$("#add_button").click();
-						var div = document.getElementById("extra");
-						var newdiv = document.createElement("div");
-						extras++;
-						newdiv.id=extras;
-						newdiv.innerHTML = "<input id='label_"+extras+"' name='label_"+extras+"' type='text' style='vertical-align: top' placeholder='Enter label here' /><textarea id='text_"+extras+"' name='text_"+extras+"' placeholder='Enter extra info here' rows='5' cols='50'></textarea><a class='button' onclick='removeField(this.parentNode)'>Delete</a></br>";
-						div.appendChild(newdiv);
-						$("#label_"+extras).val(labels[extras-1]);
-						$("#text_"+extras).val(texts[extras-1]);
+					var div=document.createElement("div");
+					$(div).html(html);
+					$(div).dialog({
+						height: 250,
+						width: 400,
+						modal: true,
+						position: {my: "center top", at: "center top", of: window},
+						buttons: {
+							"Awwww yeeeah, nat 20!": function(){$(this).dialog("close");}
+						}
 					});
-					
 				},
-				error: function(xhr, status, error){
-					alert(error);
+				error: function(xhr, status, html){
+					var div=document.createElement("div");
+					$(div).html(html);
+					$(div).dialog({
+						height: 250,
+						width: 350,
+						modal: true,
+						position: {my: "center top", at: "center top", of: window},
+						buttons: {
+							"Crap... looks like a crit fail...": function(){$(this).dialog("close");}
+						}
+					});
 				}
-			});*/
+			});
 		}
 		
 		function submitRating(form){
@@ -286,6 +288,19 @@
 		$("#ratings_tab").prop("disabled", true);
 		$("#comments_tab").prop("disabled", false);
 	}
+	
+	var num = $("#num_extras");
+	function addField(){
+		var label=document.createElement("label");
+		
+		var div=document.createElement("div");
+		$(div).html('<h4 id="label '+num+'" name="label '+num+'" style="margin-bottom: .1em; padding-bottom: 0em" contenteditable="true">New Title</h4>' +
+		'<div id="text '+num+'" name="text '+num+'" style="margin-top: .1em" contenteditable="true">Enter yee some words of wonder</div>');
+		$("#body").append(div);
+		CKEDITOR.inline("label "+num);
+		CKEDITOR.inline("text "+num);
+		num++;
+	}
 	</script>
 </head>
 <body>
@@ -305,6 +320,7 @@
 	echo "<p id='contribution_id' style='display: none;' >".$id."</p>";
 	echo "<p id='user' style='display: none;'>".$_SESSION["username"]."</p>";
 	$isCreator=false;
+	
     try{
         $mysql->query("START TRANSACTION");
 		$ratings=$mysql->query("SELECT COUNT(*), SUM(fun), SUM(balance) FROM ratings WHERE contribution_id=".$id);
@@ -317,44 +333,59 @@
 		}
         $result = $mysql->query("SELECT * from contributions where id='".$id."'");
         $row = $result->fetch_array(MYSQL_BOTH);
-        $fields = json_decode($row["json"]);    //create associative array from json
+        $fields = json_decode(stripslashes($row["json"]));    //create associative array from json
 		//echo print_r($row);
 		if($row["username"]==$_SESSION["username"]){
 			echo "<a id='update_button' class='button' onclick='update()'>Save Changes</a></br>";
 			$isCreator=true;
 		}	
 		echo "<div id='contribution'><div class='profile_img'><img id='img' src='".$row["img"]."' alt='An image depicting ".$row["name"]."' width='175' height='175' /></div>";
-		echo "<div class='name_user_game' ><h2><span id='name' ".($isCreator?"contenteditable='true'":"").">".$row["name"]."</span> - <span id='type' ".($isCreator?"contenteditable='true'":"").">".$row["type"].(($row["sub_type"])? " </span>(<span id='subtype' title='Sub Type' ".($isCreator?"contenteditable='true'":"").">".$row["sub_type"]."</span>)":"")."</h2>";
-		echo "<h3>submitted by <a href=profile.php?user=".$row["username"].">".$row["username"]."</a></h3><h3 id='game'>".$row["game"]."</h3></div>";
+		echo "<div class='name_user_game' ><h2><span id='name' ".($isCreator?"contenteditable='true'":"").">".$row["name"]."</span> - <span id='type' ".($isCreator?"contenteditable='true'":"").">".stripslashes($row["type"]).(stripslashes(($row["sub_type"]))? " </span>(<span id='subtype' title='Sub Type' ".($isCreator?"contenteditable='true'":"").">".$row["sub_type"]."</span>)":"")."</h2>";
+		echo "<h3>submitted by <a href=profile.php?user=".$row["username"].">".$row["username"]."</a></h3><h3 id='game'>".stripslashes($row["game"])."</h3></div>";
 		if($num_ratings>0){
 			echo "<table class='rating_table'><tr><td><b>Fun</b></td><td><span class='stars'>".$fun."</span></td></tr><tr><td><b>Balance</b></td><td><span class='stars'>".$balance."</span></td></tr></table>";
 		}else{
 			echo "<b>Not yet rated</b>";
 		}
-		echo "<div style='display: block; clear: both;'><h4 style='margin-bottom: .1em; padding-bottom: 0em'>Description</h4>";
-		echo "<div id='desc' style='margin-top: .1em' ".($isCreator?"contenteditable='true'":"").">".$row["desc"]."</div>";
+		echo "<div id='body' style='display: block; clear: both;'><h4 style='margin-bottom: .1em; padding-bottom: 0em'>Description</h4>";
+		echo "<div id='desc' style='margin-top: .1em' ".($isCreator?"contenteditable='true'":"").">".stripslashes($row["desc"])."</div>";
 		$num=1;
 		foreach($fields as $key => $value){
-			echo "<h4 id='label ".$num."' name='label ".$num."' style='margin-bottom: .1em; padding-bottom: 0em' ".($isCreator?"contenteditable='true'":"").">".$key."</h4>";
-			echo "<div id='text ".$num."' name='text ".$num."' style='margin-top: .1em' ".($isCreator?"contenteditable='true'":"").">".$value."</div>";
+			echo "<h4 id='label ".$num."' name='label ".$num."' style='margin-bottom: .1em; padding-bottom: 0em' ".($isCreator?"contenteditable='true'":"").">".stripslashes($key)."</h4>";
+			echo "<div id='text ".$num."' name='text ".$num."' style='margin-top: .1em' ".($isCreator?"contenteditable='true'":"").">".stripslashes($value)."</div>";
 			$num++;
 		}
 		echo "</div></div>";
         echo "<h6>Contribution ID: <span  id='contid'>".$id."</span></h6>";
+		echo "<span id='num_extras' style='display: none'>".$num."</span>";
     }catch(Exception $e)
     {
 		echo "We appear to have rolled a natural 1... *sigh* Copy the following error message and submit it to us <a href=''>here</a>:</br>".$e;
     }
 	
+	if($isCreator){
+		echo "<button onclick='addField()'>Add Field</button></br>";
+	}
 ?>
+	
 	<span><button id="comments_tab" onclick="showComments()" disabled="true">Comments</button><button id="ratings_tab" onclick="showRatings()">Ratings</button></span>
+	</br></br>
 	<div id='comments'>
 		<?php
 			if($_SESSION["username"]){
-				echo "<form id='make_comment'>
-					<textarea id='comment' rows='5' cols='50' placeholder='Enter comment here.' required ></textarea>
-					</form>
-					<a class='button' onclick='comment();' id='submit_comment'>Submit</a>";
+				/*echo "<form id='make_comment'>
+					<textarea id='comment' contenteditable='true' rows='5' cols='50' placeholder='Enter comment here.' required ></textarea>
+					</form><script>CKEDITOR.replace( 'comment' );</script>*/
+					
+				echo "<div id='comment' contenteditable='true'>Enter comment here</div>
+					<script>
+						var editor=CKEDITOR.replace( 'comment' );
+						editor.on('change', function(event){
+							console.log('Total bytes: '+event.editor.getData().length);
+							$('#comment').html(event.editor.getData());
+						});
+					</script></br>
+					<a class='button' onclick='comment();' id='submit_comment'>Submit</a><hr />";
 			}else{
 				echo "You must <a href='login.html'>login</a> before you can comment.";
 			}
@@ -365,7 +396,7 @@
 				$img=$result2->fetch_array(MYSQL_BOTH);
 				echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img["picture"]."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4></a>";
 				echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
-				echo "<p style=' margin: 0em;'>".$row["comment"]."</p></div>";
+				echo "<p style=' margin: 0em;'>".stripslashes($row["comment"])."</p></div>";
 			}
 		?>
 	</div>
@@ -378,6 +409,7 @@
 				}else{
 					echo "<a class='button' onclick='rate()'>Rate!</a></br>";
 				}
+				echo "<hr />";
 			}
 			$result->free();
 			$result=$mysql->query("SELECT * FROM ratings WHERE contribution_id =".$id." ORDER BY timestamp DESC");
@@ -388,7 +420,7 @@
 				echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
 				echo "<table class='rating_table'><tr><td><b>Fun</b></td><td><span class='stars'>".$fun."</span></td></tr>
 					<tr><td><b>Balance</b></td><td><span class='stars'>".$balance."</span></td></tr></table>";
-				echo "<p style=' margin: 0em;'>".$row["comment"]."</p></div>";
+				echo "<p style=' margin: 0em;'>".stripslashes($row["comment"])."</p></div>";
 			}
 		?>
 	</div>
