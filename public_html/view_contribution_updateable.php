@@ -119,16 +119,25 @@
 		}*/
 		
 		function update(){
+			var id=$("#contid").text();
 			var name=$("#name").text();
 			var game=$("#game").text();
 			var type=$("#type").text();
 			var subtype=$("#subtype").text();
-			var desc=$("#desc").text();
+			var desc=$("#desc").html();
 			var img=$("#img").attr("src");
 			var labels=[];
-			$("[name*='label ']").each(function() {labels.push($(this).text())});
+			$("[name*='label ']").each(function() {labels.push($(this).html())});
 			var texts=[];
-			$("[name*='text ']").each(function() {texts.push($(this).text())});
+			$("[name*='text ']").each(function() {texts.push($(this).html())});
+			var json='{';
+			for(var x=0; x<labels.length;x++){
+				if(x>0){
+					json+=',';
+				}
+				json+='"'+labels[x]+'":"'+texts[x]+'"';
+			}
+			json+='}';
 			console.log(name);
 			console.log(game);
 			console.log(type);
@@ -137,7 +146,14 @@
 			console.log(img);
 			console.log(labels);
 			console.log(texts);
-			$.ajax({
+			console.log(json);
+			/*$.ajax({
+				url: "update_contribution.php",
+				data: {
+					
+				},
+			});
+			/*$.ajax({
 				url: "contribute.php",
 				success: function(html){
 					var p = document.createElement("p");
@@ -181,7 +197,7 @@
 				error: function(xhr, status, error){
 					alert(error);
 				}
-			});
+			});*/
 		}
 		
 		function submitRating(form){
