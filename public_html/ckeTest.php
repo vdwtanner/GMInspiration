@@ -1,3 +1,6 @@
+<?php 
+	session_start();
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,8 +14,8 @@
 			/* Style the CKEditor element to look like a textfield */
 			.cke_textarea_inline
 			{
-				padding: 10px;
-				height: 200px;
+				padding: 3px;
+				height: 50px;
 				overflow: auto;
 				border: 1px solid gray;
 				-webkit-appearance: textfield;
@@ -51,6 +54,8 @@
 			padding: 0px;
 			margin: 0px;
 		}
+		
+		
 
 		</style>
 		<script type="text/javascript" language="javascript">
@@ -89,7 +94,9 @@
 			extras++;
 			tr.id=extras;
 			tr.innerHTML = "<td><input id='label "+extras+"' name='label "+extras+"' type='text' placeholder='Enter label here' /></td><td><div id='text "+extras+"' name='text "+extras+"' contenteditable='true' class='textarea'>Enter Extra info here</div></td><td><a class='button' onclick='removeField(this.parentNode.parentNode)'>Delete</a></td></br>";
+			//tr.innerHTML='<tr><td><label for="desc" >Description:</label></td><td width="300px"><div id="desc'+extras+'" name="desc" class="textarea" contenteditable="true" placeholder="do not die"></div></td></tr>';
 			table.appendChild(tr);
+			CKEDITOR.inline("text "+extras);
 		}
 		
 		function removeField(element){
@@ -104,8 +111,12 @@
 	</script>
     </head>
     <body>
-		<form id="contribute" method="POST" action="save_contribution.php">
-		<?php echo $e;?>
+		<?php
+			if(!$_SESSION["username"]){
+				die("You must be logged in in order to access this part of the site.");
+			}
+		?>
+		<form id="contribute" method="GET">
 		<table id="fields">
 			<tr><td>Name</td><td><input id="name" name="name" type="text" pattern=".{1,100}" title="1-100 characters required" maxlength=100" placeholder="Enter kick-ass name here" required/></td></tr>
 			<tr><td>Intended Version</td><td><select id="game" name="game" required oninput="editionCheck(this)">

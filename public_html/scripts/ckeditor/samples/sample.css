@@ -122,16 +122,11 @@ fieldset
 	padding: 10px;
 }
 
-body, input, textarea
+/*body, input, textarea
 {
 	color: #333333;
 	font-family: Arial, Helvetica, sans-serif;
-}
-
-body
-{
-	font-size: 75%;
-}
+}*/
 
 a.samples
 {
@@ -214,11 +209,11 @@ pre.samples
 	overflow: hidden;
 }
 
-label
+/*label
 {
 	display: block;
 	margin-bottom: 6px;
-}
+}*/
 
 /**
  *	CKEditor editables are automatically set with the "cke_editable" class
