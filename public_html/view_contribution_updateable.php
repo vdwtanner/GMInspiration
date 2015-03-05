@@ -385,7 +385,7 @@
 							$('#comment').html(event.editor.getData());
 						});
 					</script></br>
-					<a class='button' onclick='comment();' id='submit_comment'>Submit</a><hr />";
+					<a class='button' onclick='comment();' id='submit_comment'>Submit</a>";
 			}else{
 				echo "You must <a href='login.html'>login</a> before you can comment.";
 			}
@@ -409,7 +409,6 @@
 				}else{
 					echo "<a class='button' onclick='rate()'>Rate!</a></br>";
 				}
-				echo "<hr />";
 			}
 			$result->free();
 			$result=$mysql->query("SELECT * FROM ratings WHERE contribution_id =".$id." ORDER BY timestamp DESC");
