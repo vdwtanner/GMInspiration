@@ -76,6 +76,7 @@
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<script src="http://cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.min.js"></script><!--Including some JQuery because yes-->
 	<script src="scripts/ckeditor/ckeditor.js"></script>
+	<script src="scripts/js/utils.js"></script>
 	<link href="scripts/ckeditor/samples/sample.css" rel="stylesheet">
 	<script type="text/javascript" language="javascript">
 		function comment(){
@@ -120,15 +121,6 @@
 				})
 			}
 		}
-		
-		/*function submitUpdate(){
-			var id=$("#contid").text();
-			var game=$("#name").val();
-			var type=$("#type").val();
-			var subtype=$("#desc").val();
-			var img=$("#").attr("src");
-			
-		}*/
 		
 		function update(){
 			var id=$("#contribution_id").text();
@@ -339,7 +331,7 @@
 			echo "<a id='update_button' class='button' onclick='update()'>Save Changes</a></br>";
 			$isCreator=true;
 		}	
-		echo "<div id='contribution'><div class='profile_img'><img id='img' src='".$row["img"]."' alt='An image depicting ".$row["name"]."' width='175' height='175' /></div>";
+		echo "<div id='contribution'><div class='profile_img'><img id='img' src='".$row["img"]."' alt='An image depicting ".$row["name"]."' width='175' height='175' ".($isCreator? "onclick='editImgSrc(this)'":"")."/></div>";
 		echo "<div class='name_user_game' ><h2><span id='name' ".($isCreator?"contenteditable='true'":"").">".$row["name"]."</span> - <span id='type' ".($isCreator?"contenteditable='true'":"").">".stripslashes($row["type"]).(stripslashes(($row["sub_type"]))? " </span>(<span id='subtype' title='Sub Type' ".($isCreator?"contenteditable='true'":"").">".$row["sub_type"]."</span>)":"")."</h2>";
 		echo "<h3>submitted by <a href=profile.php?user=".$row["username"].">".$row["username"]."</a></h3><h3 id='game'>".stripslashes($row["game"])."</h3></div>";
 		if($num_ratings>0){
