@@ -19,12 +19,13 @@
 		echo "</br>";
 		//print_r($_POST);
 		//echo "</br>";
-		$name=$_POST["name"];
-		$game=$_POST["game"];
-		$type=$_POST["type"];
-		$subtype=$_POST["Sub_type"];
-		$desc=$_POST["desc"];
-		$img=$_POST["img"];
+		$name=stripslashes($_POST["name"]);
+		print_r($name);
+		$game=stripslashes($_POST["game"]);
+		$type=stripslashes($_POST["type"]);
+		$subtype=stripslashes($_POST["Sub_type"]);
+		$desc=stripslashes($_POST["desc"]);
+		$img=stripslashes($_POST["img"]);
 		if($game=="other"){
 			$game=$_POST["other"];
 		}
@@ -33,7 +34,7 @@
 		$array=array();
 		foreach($_POST as $key => $item){
 			$key=str_replace('_', ' ', $key);
-			$array[$key] = $item;
+			$array[$key] = stripslashes($item);
 			if(preg_match("[label .+]",$key))
 				$extra++;
 		}
@@ -71,7 +72,6 @@
 				$stmt->close();
 			}else{
 				//$mysql->query("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$json."')");
-				print_r($json);
 				$stmt = $mysql->prepare("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, json) VALUES (?,?,?,?,?,?,?)");
 				$stmt->bind_param("sssssss", $_SESSION["username"], $name, $type, $sub_type, $game, $desc, $json);
 				if(!$stmt->execute()){
@@ -80,6 +80,8 @@
 				$stmt->close();
 			}
 			echo $_SESSION["username"].", Your contribution was successfully added.";
+	
+
 			$mysql->commit();
 		}catch(Exception $e){
 			$mysql->rollback();
