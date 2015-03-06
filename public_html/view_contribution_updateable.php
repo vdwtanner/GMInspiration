@@ -84,6 +84,8 @@
 			var username = $("#user").text();
 			var com = $("#comment").html();
 			var form = $("#make_comment");
+			var rich = $("#isRichText").is(":checked");
+			console.log(rich);
 			if(!com.length>25){
 				alert("Please enter a comment more than 25 characters long");
 			}else{
@@ -94,6 +96,7 @@
 						c_id: cid,
 						user: username,
 						comment: com,
+						rich: rich,
 					}),
 					//Expect to receive HTML back
 					success: function(html){
@@ -293,6 +296,16 @@
 		CKEDITOR.inline("text "+num);
 		num++;
 	}
+	
+	function switchCommentType(cbox){
+		if(cbox.checked){
+			$("#comment").replaceWith("<div id='comment' onclick='replaceWithEditor(this)'>Enter comment here</div>");
+			replaceWithEditor(document.getElementById("comment"));
+		}else{
+			$("#comment").replaceWith("<textarea id='comment' rows='5' cols='40' placeholder='Enter comment here'></textarea>");
+			destroyEditor();
+		}
+	}
 	</script>
 </head>
 <body>
@@ -368,18 +381,11 @@
 				/*echo "<form id='make_comment'>
 					<textarea id='comment' contenteditable='true' rows='5' cols='50' placeholder='Enter comment here.' required ></textarea>
 					</form><script>CKEDITOR.replace( 'comment' );</script>*/
-					
-				echo "<div id='comment' contenteditable='true'>Enter comment here</div>
-					<script>
-						var editor=CKEDITOR.replace( 'comment' );
-						editor.on('change', function(event){
-							console.log('Total bytes: '+event.editor.getData().length);
-							$('#comment').html(event.editor.getData());
-						});
-					</script></br>
+				echo "<label for='isRichText'>Use rich text</label><input id='isRichText' type='checkbox' onChange='switchCommentType(this)'/></br>";
+				echo "<textarea id='comment' rows='5' cols='40' placeholder='Enter comment here'></textarea></br>
 					<a class='button' onclick='comment();' id='submit_comment'>Submit</a>";
 			}else{
-				echo "You must <a href='login.html'>login</a> before you can comment.";
+				echo "You must login before you can comment.";
 			}
 			$result->free();
 			$result=$mysql->query("SELECT * from contribution_comments WHERE contribution_id =".$id." ORDER BY timestamp DESC");
