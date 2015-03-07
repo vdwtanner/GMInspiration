@@ -18,16 +18,19 @@ function editImgSrc(img){
 //replace a div with an editor and then update the contents of said element
 var editor;
 var replaced_div;
-editor.on('change', function(event){//listener
-	console.log('Total bytes: '+event.editor.getData().length);
-	$(replaced_div).html(event.editor.getData());
-});
 function replaceWithEditor(div){//constructor
 	replaced_div=div;
 	editor=CKEDITOR.replace( div );
+	editor.on('change', function(event){//listener
+		console.log('Total bytes: '+event.editor.getData().length);
+		$(replaced_div).html(event.editor.getData());
+	});
 }
 function destroyEditor(){
 	if(editor){
 		editor.destroy();
 	}
+}
+function resetEditor(){
+	editor.setData("");
 }
