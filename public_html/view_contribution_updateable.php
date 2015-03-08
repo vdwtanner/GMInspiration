@@ -132,19 +132,12 @@
 			var texts=[];
 			$("[name*='text ']").each(function() {texts.push($(this).html())});
 			var json=new Array();
-			for(var x=0; x<labels.length;x++){
-				/*if(x>0){
-					json+=',';
-				}
-				json+='"'+labels[x]+'":"'+texts[x]+'"';*/
-				alert(labels[x]);
+			for(var x=0; x < labels.length;x++){
+				//store elements as objects within the JSON.
 				var element = new Object();
 				element.label=labels[x];
-				alert(element.label);
 				element.text=texts[x];
-				alert(element.text)
 				json[x]=element;
-				
 			}
 			json=JSON.stringify(json);
 			console.log("id=" + id);
