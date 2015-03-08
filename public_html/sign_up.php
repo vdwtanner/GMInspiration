@@ -29,20 +29,43 @@
 	if ($mysql->connect_error) {
         die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 	}
-	$usr = $mysql->real_escape_string($_POST["username"]);
-	$email = $mysql->real_escape_string($_POST["email"]);
-	$pass = $mysql->real_escape_string(md5($_POST["pass"]));
+	$usr = stripslashes($_POST["username"]);
+	$email = stripslashes($_POST["email"]);
+	$pass = md5(stripslashes($_POST["pass"]));
 	$hash = md5( rand(0,1000) ); // Generate random 32 character hash and assign it to a local variable.
 	try{
 		$mysql->query("START TRANSACTION");
-		$result = $mysql->query("SELECT * FROM `users` WHERE username='".$usr."'");
-		if(!$result->num_rows){
-			$result->free();
-			$result = $mysql->query("SELECT * FROM `users` WHERE email='".$email."'");
-			if(!$result->num_rows){
-				$result->free();
-				$mysql->query("INSERT into users (username,pass,email,hash, picture) VALUES ('".$usr."','".$pass."','".$email."','".$hash."', 'img/man_wearing_hat.svg')");
-				sendVerifyMsg($_POST["email"],$_POST["username"],$_POST["pass"],$hash);
+		//$result = $mysql->query("SELECT * FROM `users` WHERE username='".$usr."'");
+		$stmt = $mysql->prepare("SELECT email FROM users WHERE username=?");
+		$stmt->bind_param("s", $usr);
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		}
+		$e = null;
+		$stmt->bind_result($e);
+		$stmt->fetch();
+		$stmt->close();
+		if(!$e){
+			//$result = $mysql->query("SELECT * FROM `users` WHERE email='".$email."'");
+			$stmt = $mysql->prepare("SELECT username FROM users WHERE email=?");
+			$stmt->bind_param("s", $email);
+			if(!$stmt->execute()){
+				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			}
+			$u = null;
+			$stmt->bind_result($u);
+			$stmt->fetch();			
+			$stmt->close();
+			if(!$u){
+				//$mysql->query("INSERT into users (username,pass,email,hash, picture) VALUES ('".$usr."','".$pass."','".$email."','".$hash."', 'img/man_wearing_hat.svg')");
+				$stmt = $mysql->prepare("INSERT into users (username, pass, email, hash, picture) VALUES (?,?,?,?,?)");
+				$img = "img/man_wearing_hat.svg";			
+				$stmt->bind_param("sisis", $usr, $pass, $email, $hash, $img);
+				if(!$stmt->execute()){
+					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+				}
+				$stmt->close();
+				sendVerifyMsg($usr, $email, $pass, $hash);
 				echo "<h1>Successful sign up!</h1>";
 				$mysql->commit();
 			}else{

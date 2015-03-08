@@ -27,7 +27,7 @@
 		$desc=stripslashes($_POST["desc"]);
 		$img=stripslashes($_POST["img"]);
 		if($game=="other"){
-			$game=$_POST["other"];
+			$game=stripslashes($_POST["other"]);
 		}
 		$loc = 0;
 		$extra=0;

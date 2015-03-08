@@ -33,16 +33,28 @@
 		}
 
 		try{
-			$emsgsub = htmlspecialchars($_POST["msgsubject"]);
-			$emsgbody= htmlspecialchars($_POST["msgbody"]);
+			$msgsub = stripslashes($_POST["msgsubject"]);
+			$msgbody= stripslashes($_POST["msgbody"]);
 
 
 			
 			$mysql->query("START TRANSACTION");
-			$result = $mysql->query("INSERT INTO private_messages (sender, recipient, subject, message) VALUES ('".$_SESSION["username"]."','".$_GET["recipient"]."','".$emsgsub."','".$emsgbody."')");
+			//$result = $mysql->query("INSERT INTO private_messages (sender, recipient, subject, message) VALUES ('".$_SESSION["username"]."','".$_GET["recipient"]."','".$emsgsub."','".$emsgbody."')");
+			
+			$stmt = $mysql->prepare("INSERT INTO private_messages (sender, recipient, subject, message) VALUES (?,?,?,?)");
+			$stmt->bind_param("ssss", $_SESSION["username"], $_GET["recipient"], $msgsub, $msgbody);
+			if(!$stmt->execute()){
+				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			}
+			$stmt->close();
+
+
+			
 			echo "<b>Your message was successfully sent! Yay!";
 			
+			$mysql->commit();
 		}catch(Exception $e){
+			$mysql->rollback();
 			echo "<b>An error occurred while trying to send your message! Please try again.</b>";
 		}
 

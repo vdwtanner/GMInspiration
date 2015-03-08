@@ -12,13 +12,19 @@
 	if ($mysql->connect_error) {
 		die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 	}
-	$comment=$mysql->real_escape_string(htmlspecialchars($_POST["comment"]));
+	$comment=stripslashes($_POST["comment"]);
 	//$balance= $_POST["bal"];
 	//echo $balance ." ". $balance/2 ." </br>";
 	echo $balance;
 	try{
 		$mysql->query("START TRANSACTION");
-		$mysql->query("INSERT INTO ratings (contribution_id, username, fun, balance, comment) VALUES (".$_POST["id"].", '".$_SESSION["username"]."', ".$_POST["fun"].", ".$_POST["bal"].", '".$comment."')");
+		//$mysql->query("INSERT INTO ratings (contribution_id, username, fun, balance, comment) VALUES (".$_POST["id"].", '".$_SESSION["username"]."', ".$_POST["fun"].", ".$_POST["bal"].", '".$comment."')");
+		$stmt = $mysql->prepare("INSERT INTO ratings (contribution_id, username, fun, balance, comment) VALUES (?,?,?,?,?)");
+		$stmt->bind_param("isiis", $_POST["id"], $_SESSION["username"], $_POST["fun"], $_POST["bal"], $comment);
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		}
+		$stmt->close();
 		//echo "INSERT INTO ratings (contribution_id, username, fun, balance, comment) VALUES (".$_POST["id"].", '".$_SESSION["username"]."', ".$_POST["fun"].", ".$balance.", '".$comment."')";
 		$mysql->commit();
 	}catch(Exception $e){
