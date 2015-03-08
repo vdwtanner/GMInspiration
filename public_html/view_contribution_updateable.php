@@ -131,14 +131,22 @@
 			$("[name*='label ']").each(function() {labels.push($(this).html())});
 			var texts=[];
 			$("[name*='text ']").each(function() {texts.push($(this).html())});
-			var json='{';
+			var json=new Array();
 			for(var x=0; x<labels.length;x++){
-				if(x>0){
+				/*if(x>0){
 					json+=',';
 				}
-				json+='"'+labels[x]+'":"'+texts[x]+'"';
+				json+='"'+labels[x]+'":"'+texts[x]+'"';*/
+				alert(labels[x]);
+				var element = new Object();
+				element.label=labels[x];
+				alert(element.label);
+				element.text=texts[x];
+				alert(element.text)
+				json[x]=element;
+				
 			}
-			json+='}';
+			json=JSON.stringify(json);
 			console.log("id=" + id);
 			console.log(name);
 			console.log(game);
@@ -148,7 +156,7 @@
 			console.log(img);
 			console.log(labels);
 			console.log(texts);
-			console.log(json);
+			console.log("JSON: "+json);
 			$.ajax({
 				url: "update_contribution2.php",
 				type: "POST",
@@ -338,8 +346,7 @@
 		}
         $result = $mysql->query("SELECT * from contributions where id='".$id."'");
         $row = $result->fetch_array(MYSQL_BOTH);
-        $fields = json_decode(stripslashes($row["json"]));    //create associative array from json
-		//echo print_r($row);
+        $fields = json_decode(($row["json"]));    //create associative array from json
 		if($row["username"]==$_SESSION["username"]){
 			echo "<a id='update_button' class='button' onclick='update()'>Save Changes</a></br>";
 			$isCreator=true;
@@ -356,8 +363,8 @@
 		echo "<div id='desc' style='margin-top: .1em' ".($isCreator?"contenteditable='true'":"").">".stripslashes($row["desc"])."</div>";
 		$num=1;
 		foreach($fields as $key => $value){
-			echo "<h4 id='label ".$num."' name='label ".$num."' style='margin-bottom: .1em; padding-bottom: 0em' ".($isCreator?"contenteditable='true'":"").">".stripslashes($key)."</h4>";
-			echo "<div id='text ".$num."' name='text ".$num."' style='margin-top: .1em' ".($isCreator?"contenteditable='true'":"").">".stripslashes($value)."</div>";
+			echo "<h4 id='label ".$num."' name='label ".$num."' style='margin-bottom: .1em; padding-bottom: 0em' ".($isCreator?"contenteditable='true'":"").">".stripslashes($value->label)."</h4>";
+			echo "<div id='text ".$num."' name='text ".$num."' style='margin-top: .1em' ".($isCreator?"contenteditable='true'":"").">".stripslashes($value->text)."</div>";
 			$num++;
 		}
 		echo "</div></div>";
