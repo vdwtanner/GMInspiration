@@ -25,7 +25,6 @@
 			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 		}
 		$stmt->close();
-		//echo "INSERT INTO ratings (contribution_id, username, fun, balance, comment) VALUES (".$_POST["id"].", '".$_SESSION["username"]."', ".$_POST["fun"].", ".$balance.", '".$comment."')";
 		$mysql->commit();
 	}catch(Exception $e){
 		$mysql->rollback();
