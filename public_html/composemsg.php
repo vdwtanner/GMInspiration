@@ -17,12 +17,18 @@
 	if($_SESSION["username"]){
 
 		try{
-			echo "<form method='POST' action='sendmsg.php?recipient=".$_GET["recipient"]."&redirect=".$_GET["redirect"]."'>";
-			echo "TO: ".$_GET["recipient"]."<br>";
+
+			echo "<form method='POST' action='sendmsg.php'>";
+			if($_GET["recipient"]){
+				echo "TO: ".$_GET["recipient"]."<br>";
+				echo "<input type='hidden' name='msgrecipient' value='".$_GET["recipient"]."'>";
+			}else{
+				echo "<input type='text' name='msgrecipient' placeholder='Recipient' size='76' maxlength='255'></input><br>";
+			}
 			echo "<input type='text' name='msgsubject' placeholder='Message Subject' size='76' maxlength='255'></input><br>";
 			echo "<textarea name='msgbody' rows=7 cols=75 placeholder='Enter your message here' style='resize:none' maxlength='6000'></textarea><br>";	
 			echo "<input type='submit' value='Send'>";
-			echo "<input type='hidden' name='msgrecipient' value='".$_GET["recipient"]."'>";		
+		
 			echo "</form>";
 
 		}catch(Exception $e){

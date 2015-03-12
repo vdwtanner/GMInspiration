@@ -54,10 +54,26 @@
 		});
 	}
 	
-	function checkMessages(){
+	function checkMessages(msgListType){
+		var funct = "renderMsgList";
+		if(msgListType == "INBOX" || msgListType == "SENT"){
+			document.getElementById("message_pane").innerHTML = "";
+		}
+		if(msgListType == "INBOX"){
+			document.getElementById("inboxButton").disabled = true;
+			document.getElementById("sentButton").disabled = false;
+		}
+		if(msgListType == "SENT"){
+			document.getElementById("inboxButton").disabled = false;
+			document.getElementById("sentButton").disabled = true;
+		}
 		$.ajax({
-			url: "scripts/loadNewMessages.php",
+			url: "scripts/renderMsgList.php",
 			type: "POST",
+			data: {
+				action: funct,
+				type: msgListType
+			},
 			success: function(html){
 				$("#message_pane").prepend(html);
 				console.log("checked messages");
@@ -70,7 +86,7 @@
 	}
 	
 	$(function(){
-		window.setInterval(function(){checkMessages()},30000);//update every  seconds
+		window.setInterval(function(){checkMessages("INBOX_UNREAD")},30000);//update every 30 seconds
 	});
 
 </script>
@@ -82,15 +98,20 @@
 <?php
 	include "scripts/renderMsgList.php";	
 
-
 	if($_SESSION["username"]){
+		echo "<form action='composemsg.php?redirect=i' style='display: inline; float:right; margin:0px'><button id='composeButton' type='submit'>Compose</button></form>";
+		echo "<button id='inboxButton' type='button' onClick='checkMessages(\"INBOX\")' disabled>Inbox</button>";
+		echo "<button id='sentButton' type='button' onClick='checkMessages(\"SENT\")'>Sent</button>";
 
-		if($_GET["delete"])
-			deleteMsg($_GET["delete"]);
-
-		renderMsgList("INBOX", $_SESSION["username"]);	// This is done externally so the checkmessages function doesnt have to create a redundant file
-	
 	}
+
+	echo "<div id='message_pane'>";
+		if($_SESSION["username"]){
+			renderMsgList("INBOX");		
+		}else{
+			echo "Please log in to see this page!";
+		}
+	echo "</div>";
 
 ?>
 

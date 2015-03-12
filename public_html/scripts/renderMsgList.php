@@ -1,5 +1,5 @@
 <?php	
-	// call session_start(); in surrounding code
+	session_start();
 
 	function renderMsgList($type){
 	// Type has two values:
@@ -13,7 +13,6 @@
 		}
 
 		try{
-
 			$mysql->query("START TRANSACTION");
 			if($type == "INBOX"){
 				//$result = $mysql->query("SELECT * FROM private_messages WHERE recipient='".$_SESSION["username"]."' ORDER BY timestamp DESC");
@@ -22,14 +21,15 @@
 
 			}else if($type == "INBOX_UNREAD"){
 				//$result = $mysql->query("SELECT * FROM private_messages WHERE recipient='".$_SESSION["username"]."' AND timestamp > now() - INTERVAL 5 SECOND ORDER BY timestamp DESC");
-				$stmt = $mysql->prepare("SELECT message, id, sender, recipient, subject, timestamp FROM private_messages WHERE recipient=? AND timetamp > now() - INTERVAL 5 SECOND ORDER BY timestamp DESC");
+				$stmt = $mysql->prepare("SELECT message, id, sender, recipient, subject, timestamp FROM private_messages WHERE recipient=? AND timestamp > now() - INTERVAL 30 SECOND ORDER BY timestamp DESC");
 				$stmt->bind_param("s", $_SESSION["username"]);
+
 			}else if($type == "SENT"){
 				//$result = $mysql->query("SELECT * FROM private_messages WHERE sender='".$_SESSION["username"]."' ORDER BY timestamp DESC");
 				$stmt = $mysql->prepare("SELECT message, id, sender, recipient, subject, timestamp FROM private_messages WHERE sender=? ORDER BY timestamp DESC");
 				$stmt->bind_param("s", $_SESSION["username"]);
 			}
-
+			//echo mysqli_errno($mysql).": ".mysqli_error($mysql);
 
 			if(!$stmt->execute()){
 				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
@@ -46,14 +46,16 @@
 				$rowarr[] = $row;
 			}
 			$stmt->close();
-
-			$regx_URL = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
-
+			$mysql->commit();
 		}catch(Exception $e){
-			
+			$mysql->rollback();
+			echo "An error has occured";
 		}
 
-		echo "<div id='message_pane'>";
+
+
+		$regx_URL = "/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/";
+
 		//$count = 0;
 		if($rowarr){
 			foreach($rowarr as $key => $value){
@@ -93,9 +95,9 @@
 			if($type != "INBOX_UNREAD")
 				echo "<hr>";
 		}else{
-			echo "<b>You have no messages!</b>";
+			if($type != "INBOX_UNREAD")
+				echo "<b>You have no messages!</b>";
 		}
-		echo "</div>";
 
 	}
 	
