@@ -7,7 +7,13 @@
 		}
 		try{
 			$mysql->query("START TRANSACTION");
-			$mysql->query("UPDATE private_messages SET `read`='1' WHERE `id`=".$id."");
+			//$mysql->query("UPDATE private_messages SET `read`='1' WHERE `id`=".$id."");
+			$stmt = $mysql->prepare("UPDATE private_messages SET `read`='1' WHERE `id`=?");
+			$stmt->bind_param("i", $id);
+			if(!$stmt->execute()){
+				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			}
+			$stmt->close();
 			$mysql->commit();
 			echo "UPDATE private_messages SET `read`='1' WHERE `id`=".$id;
 			echo "Yay, did the things. Message with ID=".$id." was marked as read.";

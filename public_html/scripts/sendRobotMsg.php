@@ -37,16 +37,25 @@
 	}
 
 	try{
-		$emsgsub = htmlspecialchars($_POST["msgsubject"]);
-		$emsgbody= htmlspecialchars($_POST["msgbody"]);
+		$smsgsender	= stripslashes($_POST["msgsender"]);
+		$smsgrecipient	= stripslashes($_POST["msgrecipient"]);
+		$smsgsub 	= stripslashes($_POST["msgsubject"]);
+		$smsgbody	= stripslashes($_POST["msgbody"]);
 
 
 		
 		$mysql->query("START TRANSACTION");
-		$result = $mysql->query("INSERT INTO private_messages (sender, recipient, subject, message) VALUES ('".$_POST["msgsender"]."','".$_POST["msgrecipient"]."','".$emsgsub."','".$emsgbody."')");
+		//$result = $mysql->query("INSERT INTO private_messages (sender, recipient, subject, message) VALUES ('".$_POST["msgsender"]."','".$_POST["msgrecipient"]."','".$emsgsub."','".$emsgbody."')");
+		$stmt = $mysql->prepare("INSERT INTO private_messages (sender, recipient, subject, message) VALUES (?,?,?,?)");
+		$stmt->bind_param("ssss", $smsgsender, $smsgrecipient, $smsgsub, $smsgbody);
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		}
+		$stmt->close();
 		echo "\"".$emsgsub."\" was successfully sent! Yay!";
-		
+		$mysql->commit();		
 	}catch(Exception $e){
+		$mysql->rollback();
 		echo "An error occurred while trying to send a message.";
 	}
 

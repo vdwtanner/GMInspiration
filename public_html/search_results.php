@@ -366,7 +366,7 @@
 				echo "<div class='searchresult'>";
 				//echo "<img src='".$value["img"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["name"]."' />";
 				//echo "<a href='view_contribution.php?contid=".$value["id"]."'>".$value["name"]."</a>";
-				echo "<a href='view_contribution.php?contid=".$value["id"]."'>";
+				echo "<a href='view_contribution_updateable.php?contid=".$value["id"]."'>";
 				echo "<img src='".$value["img"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["name"]."' />";
 				echo "<p style='float:right'><b>".$value["name"]."</b><br>".$value["game"]."<br>By ".$value["username"]."</p>";
 				echo "</a>";

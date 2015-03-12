@@ -9,11 +9,19 @@
 	}
 	try{
 		$mysql->query("START TRANSACTION");
-		$result=$mysql->query("SELECT COUNT(*) FROM `private_messages` WHERE `recipient`='".$_SESSION["username"]."' AND `read`=0");
+		//$result=$mysql->query("SELECT COUNT(*) FROM `private_messages` WHERE `recipient`='".$_SESSION["username"]."' AND `read`=0");
+		$stmt = $mysql->prepare("SELECT COUNT(*) FROM `private_messages` WHERE `recipient`=? AND `read`=0");
+		$stmt->bind_param("s", $_SESSION["username"]);
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		}
+		$msgCount=0;
+		$stmt->bind_result($msgCount);
+		$stmt->fetch();
+		$stmt->close();
 		//echo "SELECT COUNT(*) FROM `private_messages` WHERE `recipient`='".$_SESSION["username"]."' AND `read`=0";
-		$row=$result->fetch_array(MYSQL_BOTH);
 		echo "Inbox";
-		echo ($row[0]>0)?"[".$row[0]." unread]":"";
+		echo ($msgCount>0)?"[".$msgCount." unread]":"";
 	}catch(Exception $e){
 		die("ERROR READING MESSAGES");
 	}

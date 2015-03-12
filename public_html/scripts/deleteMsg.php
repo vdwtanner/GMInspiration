@@ -7,7 +7,13 @@
 		}
 		try{
 			$mysql->query("START TRANSACTION");
-			$result = $mysql->query("DELETE FROM private_messages WHERE id='".$id."'");
+			//$result = $mysql->query("DELETE FROM private_messages WHERE id='".$id."'");
+			$stmt = $mysql->prepare("DELETE FROM private_messages WHERE id=?");
+			$stmt->bind_param("i", $id);
+			if(!$stmt->execute()){
+				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			}
+			$stmt->close();
 			echo "Message with ID=".$id." was successfully deleted.";
 			$mysql->commit();
 		}catch(Exception $e){
