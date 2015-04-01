@@ -1,4 +1,5 @@
 <?php
+	include "header.php";
 	session_start();
 ?>
 <DOCTYPE html>
@@ -8,7 +9,6 @@
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 	<link rel="stylesheet" href="css/example/profile.css" media="all">
-	<?php include "header.php";?>
 </head>
 <body>
 <div id='container'>

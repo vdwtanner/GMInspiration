@@ -121,7 +121,7 @@
 			<tr><td>Name</td><td><input id="name" name="name" type="text" pattern=".{1,100}" title="1-100 characters required" maxlength=100" placeholder="Enter kick-ass name here" required/></td></tr>
 			<tr><td>Intended Version</td><td><select id="game" name="game" required oninput="editionCheck(this)">
 				<?php 
-					$mysql = new mysqli("mysql14.000webhost.com","a9044814_crawler","d&d4days", "a9044814_dungeon");
+					$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
 					if ($mysql->connect_error) {
 						die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 					}

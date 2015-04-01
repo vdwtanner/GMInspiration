@@ -1,11 +1,10 @@
-
+<?php include "header.php";?>
 <DOCTYPE html>
 <html>
 <head>
 	<title>Dungeon Crawlers</title>
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
-	<?php include "header.php";?>
 </head>
 <body>
 <div id="container" class="cf">

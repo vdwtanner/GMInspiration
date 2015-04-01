@@ -1,4 +1,3 @@
-
 <?php
 /******************************************************************
 	Call this function when the webserver needs to send a
@@ -31,7 +30,7 @@
 
 ******************************************************************/
 
-	$mysql = new mysqli("mysql14.000webhost.com","a9044814_crawler","d&d4days", "a9044814_dungeon");
+	$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
 	if($mysql->connect_error){
 		die('Connect Error ('.$mysqli->connect_errno.')'.$mysqli->connect_error);
 	}
