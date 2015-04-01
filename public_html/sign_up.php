@@ -65,7 +65,7 @@
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}
-				echo mysqli_errno($mysql) . ": " . mysqli_error($mysql). "\n";
+				//echo mysqli_errno($mysql) . ": " . mysqli_error($mysql). "\n";
 				$stmt->close();
 				sendVerifyMsg($usr, $email, $pass, $hash);
 				echo "<h1>Successful sign up!</h1>";
