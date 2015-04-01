@@ -55,7 +55,7 @@
 	}
 	$mysql->close();
 	if($msg!="<h4>Successful login!</h4>"){
-		header("HTTP/1.1 412 ".$msg);
+		//header("HTTP/1.1 412 ".$msg);
 		die($msg);
 	}else{
 		echo $msg;

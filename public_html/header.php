@@ -196,7 +196,7 @@
 
 	echo "<div style='clear: both;'>";
 	
-	echo "<a id='homelink' href='index.html'>Dungeon Crawlers</a>";
+	echo "<a id='homelink' href='index.html'>The Game Master's Inspiration</a>";
 	
 	echo "</div>";
 	

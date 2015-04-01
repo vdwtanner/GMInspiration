@@ -29,9 +29,10 @@
 	if ($mysql->connect_error) {
         die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 	}
-	$usr = stripslashes($_POST["username"]);
-	$email = stripslashes($_POST["email"]);
-	$pass = md5(stripslashes($_POST["pass"]));
+	$usr = $_POST["username"];
+	$email = $_POST["email"];
+	$pass = md5($_POST["pass"]);
+//	$pass = crypt($_POST["pass"], "$2a$09$anexamplestringforsalt$");
 	$hash = md5( rand(0,1000) ); // Generate random 32 character hash and assign it to a local variable.
 	try{
 		$mysql->query("START TRANSACTION");
@@ -60,10 +61,11 @@
 				//$mysql->query("INSERT into users (username,pass,email,hash, picture) VALUES ('".$usr."','".$pass."','".$email."','".$hash."', 'img/man_wearing_hat.svg')");
 				$stmt = $mysql->prepare("INSERT into users (username, pass, email, hash, picture) VALUES (?,?,?,?,?)");
 				$img = "img/man_wearing_hat.svg";			
-				$stmt->bind_param("sisis", $usr, $pass, $email, $hash, $img);
+				$stmt->bind_param("sssss", $usr, $pass, $email, $hash, $img);
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}
+				echo mysqli_errno($mysql) . ": " . mysqli_error($mysql). "\n";
 				$stmt->close();
 				sendVerifyMsg($usr, $email, $pass, $hash);
 				echo "<h1>Successful sign up!</h1>";
