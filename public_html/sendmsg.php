@@ -6,12 +6,13 @@
 <html>
 <head>
 <?php
-	if($_GET["redirect"] == "p")	
-		echo "<meta http-equiv='refresh' content='2; url=profile.php?user=".$_GET["recipient"]."'/>";
-	elseif($_GET["redirect"] == "i")
-		echo "<meta http-equiv='refresh' content='2; url='inbox.php'/>";
-	else
-		echo "<meta http-equiv='refresh' content='2; url='home.php'/>";
+	if($_GET["redirect"] == "p"){	
+		echo "<meta http-equiv='refresh' content='2; url=profile.php?user=".$_POST["msgrecipient"]."'/>";
+	}elseif($_GET["redirect"] == "i"){
+		echo "<meta http-equiv='refresh' content='2; url=inbox.php'/>";
+	}else{
+		echo "<meta http-equiv='refresh' content='2; url=home.php'/>";
+	}
 	
 ?>
 	
@@ -33,8 +34,9 @@
 		}
 
 		try{
-			$msgsub = stripslashes($_POST["msgsubject"]);
-			$msgbody= stripslashes($_POST["msgbody"]);
+			$msgrecip = $_POST["msgrecipient"];
+			$msgsub = $_POST["msgsubject"];
+			$msgbody= $_POST["msgbody"];
 
 
 			
@@ -42,7 +44,7 @@
 			//$result = $mysql->query("INSERT INTO private_messages (sender, recipient, subject, message) VALUES ('".$_SESSION["username"]."','".$_GET["recipient"]."','".$emsgsub."','".$emsgbody."')");
 			
 			$stmt = $mysql->prepare("INSERT INTO private_messages (sender, recipient, subject, message) VALUES (?,?,?,?)");
-			$stmt->bind_param("ssss", $_SESSION["username"], $_GET["recipient"], $msgsub, $msgbody);
+			$stmt->bind_param("ssss", $_SESSION["username"], $msgrecip, $msgsub, $msgbody);
 			if(!$stmt->execute()){
 				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 			}

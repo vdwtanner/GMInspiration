@@ -18,7 +18,7 @@
 
 		try{
 
-			echo "<form method='POST' action='sendmsg.php'>";
+			echo "<form method='POST' action='sendmsg.php?redirect=".$_GET["redirect"]."'>";
 			if($_GET["recipient"]){
 				echo "TO: ".$_GET["recipient"]."<br>";
 				echo "<input type='hidden' name='msgrecipient' value='".$_GET["recipient"]."'>";

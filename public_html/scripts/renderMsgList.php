@@ -66,7 +66,7 @@
 					}
 				}
 
-				echo "<div class='msgheader' id='".$value["id"]."'><hr>";//This is set to just the ID number of the message to allow easier manipulation of the DB
+				echo "<div class='msgheader' id='".$value["id"]."'>";//This is set to just the ID number of the message to allow easier manipulation of the DB
 				if($value["sender"] == "DungeonCrawlers")
 					echo "<b>From:&nbsp<div style='text-shadow: 1px 1px 1px #FF0000; display: inline; color:'>".$value["sender"]."</div></b>";
 				else{
@@ -89,11 +89,12 @@
 				echo "</div>";
 				echo "</div>";
 				//echo "<br><br>";
+				if($type != "INBOX_UNREAD")
+					echo "<hr>";
 				echo "</div>";
 				//$count++;
 			}
-			if($type != "INBOX_UNREAD")
-				echo "<hr>";
+
 		}else{
 			if($type != "INBOX_UNREAD")
 				echo "<b>You have no messages!</b>";

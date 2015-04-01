@@ -99,9 +99,10 @@
 	include "scripts/renderMsgList.php";	
 
 	if($_SESSION["username"]){
-		echo "<form action='composemsg.php?redirect=i' style='display: inline; float:right; margin:0px'><button id='composeButton' type='submit'>Compose</button></form>";
+		echo "<form method='GET' action='composemsg.php' style='display: inline; float:right; margin:0px'><button id='composeButton' type='submit'>Compose</button><input name='redirect' type='hidden' value='i'></form>";
 		echo "<button id='inboxButton' type='button' onClick='checkMessages(\"INBOX\")' disabled>Inbox</button>";
 		echo "<button id='sentButton' type='button' onClick='checkMessages(\"SENT\")'>Sent</button>";
+		echo "<hr>";
 
 	}
 
