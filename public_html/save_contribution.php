@@ -20,7 +20,7 @@
 		//print_r($_POST);
 		//echo "</br>";
 		$name=stripslashes($_POST["name"]);
-		print_r($name);
+		print_r($_POST);
 		$name=htmlspecialchars($_POST["name"], ENT_QUOTES);
 		$game=htmlspecialchars($_POST["game"]);
 		$type=htmlspecialchars($_POST["type"]);
@@ -36,17 +36,17 @@
 		try{
 			$mysql->query("START TRANSACTION");
 			if($img){
-				//$mysql->query("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, img, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$img."','".$json."')");
+				//$mysql->query("INSERT INTO contributions (username, name, `type`, subtype, game, `desc`, img, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$img."','".$json."')");
 				$stmt = $mysql->prepare("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, img, json) VALUES (?,?,?,?,?,?,?,?)");
-				$stmt->bind_param("ssssssss", $_SESSION["username"], $name, $type, $sub_type, $game, $desc, $img, $json);
+				$stmt->bind_param("ssssssss", $_SESSION["username"], $name, $type, $subtype, $game, $desc, $img, $json);
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}
 				$stmt->close();
 			}else{
-				//$mysql->query("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$json."')");
+				//$mysql->query("INSERT INTO contributions (username, name, `type`, subype, game, `desc`, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$json."')");
 				$stmt = $mysql->prepare("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, json) VALUES (?,?,?,?,?,?,?)");
-				$stmt->bind_param("sssssss", $_SESSION["username"], $name, $type, $sub_type, $game, $desc, $json);
+				$stmt->bind_param("sssssss", $_SESSION["username"], $name, $type, $subtype, $game, $desc, $json);
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}

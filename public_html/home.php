@@ -85,7 +85,7 @@
 					echo "<div style='float:left;'>";
 					echo "<img border='0' alt='".$name."' src='".$row["img"]."' width='200' height='200' style='inline-block'>";
 					echo "<div style='float:right; display:inline-block'>";
-					echo "<h2>".$row["name"]." - ".$row["type"]." (".$row["sub_type"].")</h2>";
+					echo "<h2>".$row["name"]." - ".$row["type"]." ".(!empty($row["sub_type"])?("(".$row["sub_type"].")"):"")."</h2>";
 					echo "<h3>For ".$row["game"]."</h3>";
 					echo "<h3>By ".$row["username"]."</h3>";
 					echo "</div>";

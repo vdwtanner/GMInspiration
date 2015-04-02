@@ -118,7 +118,7 @@
 			echo "<h5>Contributions</h5>";
 			if($id){
 				while($stmt->fetch()){
-					echo "<a href='view_contribution.php?contid=".$id."'><p>".$name."</p></a>";
+					echo "<a href='view_contribution_updateable.php?contid=".$id."'><p>".$name."</p></a>";
 					echo "<br>";
 				}
 			}else{
