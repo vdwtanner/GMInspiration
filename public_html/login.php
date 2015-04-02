@@ -7,8 +7,8 @@
 	if ($mysql->connect_error) {
         die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 	}
-	$usr = $mysql->real_escape_string($_POST["username"]);
-	$pass = $mysql->real_escape_string(md5($_POST["pass"]));
+	$usr = $_POST["username"];
+	$pass = md5($_POST["pass"]);
 	$msg;
 	try{
 		$mysql->query("START TRANSACTION");

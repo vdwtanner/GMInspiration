@@ -185,7 +185,7 @@
 
 		echo "<b>Welcome, <a href='profile.php?user=".$_SESSION["username"]."'>".$_SESSION["username"]."</a> &nbsp; <a onclick='logoff()'>logout</a></b>";
 	}else{
-		echo "<b><a onclick='(login())'>Login</a> &nbsp; <a href='sign_up.html'>Sign up</a></b>";
+		echo "<b><a onclick='(login())'>Login</a> &nbsp; <a href='sign_up.php'>Sign up</a></b>";
 	}
 	
 	if($_SESSION["username"]){
