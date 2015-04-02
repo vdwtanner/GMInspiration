@@ -194,3 +194,17 @@ Zac's search lists!
   border: 1px solid;
 }
 
+.error{
+  color: ee0000;
+  font-style: bold;
+}
+
+label.error {
+  font-style: italic;
+  font-weight: bold;
+}
+
+h2 label.error{
+  font-style: italic;
+  font-size: .65em;
+}
