@@ -15,6 +15,7 @@
 	<script src="http://cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.min.js"></script>
 	<script src="scripts/ckeditor/ckeditor.js"></script>
 	<script src="scripts/js/utils.js"></script>
+	<script src="scripts/js/jquery-validation/dist/jquery.validate.min.js"></script>
 	<link href="scripts/ckeditor/samples/sample.css" rel="stylesheet">
 	<style>
 		a {
@@ -68,9 +69,13 @@
 	<script type="text/javascript" language="javascript">
 		function editionCheck(version){
 			if(version.value=="other"){
-				document.getElementById("other").style.display="inline-block";
+				//document.getElementById("other").style.display="inline-block";
+				$("#other").show(300, false);
+				$("#other_option").val($("#other").val());
 			}else{
-				document.getElementById("other").style.display="none";
+				//document.getElementById("other").style.display="none";
+				$("#other").hide(300, false);
+				$("#other_option").val("other");
 			}
 		}
 		
@@ -96,6 +101,15 @@
 		
 		function submit(){
 			alert("still working on that...");
+			var name=$("#name").val();
+			var type=$("#type").val();
+			var subtype=$("#subtype").val();
+			var game=$("#game").val();
+			alert(name);
+			console.log(name);
+			console.log(type);
+			console.log(subtype);
+			console.log(game);
 		}
 		
 		/*var extras=0;
@@ -137,6 +151,8 @@
 			e.border='2px solid blue';
 		}
 		
+		
+		
 	</script>
 </head>
 <body>
@@ -147,10 +163,10 @@
 			die("You must be logged in in order to access this part of the site.");
 		}
 	?>
-	<div id="contribution">
+	<div id="contribution"><form id="cont-form">
 		<div class="profile_img"><img id="img" onclick="editImgSrc(this)" width="175" height="175" /></div>
 		<div class="name_user_game">
-			<h2><input type="text" id="name" placeholder="Contribution Name" /> - <select id="type" name="type" required title="Select a type">
+			<h2><input type="text" id="name" placeholder="Contribution Name" minlength="3" required/> - <select id="type" name="type" required title="Select a type">
 				<option value="Weapon">Weapon</option>
 				<option value="Spell">Spell</option>
 				<option value="Consumable">Consumable</option>
@@ -158,7 +174,7 @@
 				<option value="Feat">Feat</option>
 				<option value="Artifact">Artifact</option>
 				<option value="Tool">Tool</option>
-			</select> (<input id="subtype" type="text" placeholder="Subtype(s)" />)</h2>
+			</select> (<input id="subtype" type="text" minlength="3" placeholder="Subtype(s)" />)</h2>
 			<h3>submitted by <span style="color: blue;"><u><?php echo $_SESSION["username"]; ?></u></span></h3>
 			<select id="game" name="game" required oninput="editionCheck(this)">
 				<?php 
@@ -179,12 +195,12 @@
 					$mysql->close();
 				?>
 				<option value="other" id="other_option">Other</option>
-			</select><input id="other" name="other" type="text" maxlength="75" style="display: none" placeholder="Enter Game name: version" maxlength="75" title="Example: &quot;Dungeons and Dragons: 5th edition&quot;" onblur="other_option.value=this.value"/></br>
+			</select><input id="other" name="other" type="text" minlength="10" maxlength="75" style="display: none" placeholder="Enter Game name: version" title="Example: &quot;Dungeons and Dragons: 5th edition&quot;" onblur="other_option.value=this.value"/></br>
 		</div>
 		<b>Not yet rated</b>
 		<div id="body" style="display: block; clear: both;">
 			<h4 style="margin-bottom: .1em; padding-bottom: 0em">Description</h4>
-			<div id="desc" class="textarea" style="margin-top: .1em;" contenteditable="true">Click here to edit the description</div>
+			<div id="desc" class="textarea" style="margin-top: .1em;" contenteditable="true" minlength="25" required>Click here to edit the description</div>
 			<div>
 				<div class="fade">
 					<span><h4 style="margin-bottom: .1em; padding-bottom: 0em" contenteditable="true">Lore</h4></span>
@@ -214,7 +230,19 @@
 				<a class="button" onclick="removeField(this.parentNode)" onmouseover="$(this).parent().children(':first-child').fadeTo(400, .2)" onmouseout="$(this).parent().children(':first-child').fadeTo(400, 1)">Delete</a>
 			</div>
 		</div>
-	</div>
+	</form></div>
+	<script type="text/javascript" language="javascript">
+		$("#cont-form").validate({
+			debug:true,
+			ignore: ":hidden",
+			ignoreTitle: true,
+			rules: {
+				other: {
+					minlength: 0,
+				}
+			}
+		});
+	</script>
 	</br>
 		<button id="add_field" style="border-radius: 10px;" onclick="addField()">Add Field</button>
 		<div id="submit_button"><button id="submit_contribution" style="border-radius: 10px;" onclick="submit()">Submit</button></div>
