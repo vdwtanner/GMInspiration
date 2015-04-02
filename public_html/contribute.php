@@ -101,15 +101,15 @@
 				return;
 			}
 			if($("#game option:selected").text()=="Other"){
-				if(length($("#other").val())==0){
+				if($("#other").val().length==0){
 					alert("Please enter the game and version on the line provided.");
 					return;
 				}
-				if(length($("#other").val())>75){
+				if($("#other").val().length>75){
 					alert("Max length for game name and version is 75 characters.");
 					return;
 				}
-				if(length($("#other").val())<10){
+				if($("#other").val().length<10){
 					alert("Game name and version should be at least 10 characters");
 					return;
 				}
