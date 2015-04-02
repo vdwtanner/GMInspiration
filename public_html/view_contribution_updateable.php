@@ -37,7 +37,7 @@
 			border-radius: 10px;
 		}
 		div.comment {
-			background-color: #EDF556;
+			background-color: rgba(150,100,56,.5);
 			border: 2px;
 			border-color: #F59032;
 			padding: 1em;
@@ -418,22 +418,24 @@
 				$rowarr[] = $row;
 			}
 			$stmt->close();
-
-			foreach($rowarr as $key => $row){
-				//$result2 = $mysql->query("SELECT picture from users WHERE username='".$row["username"]."'");
-				$stmt = $mysql->prepare("SELECT picture FROM users WHERE username=?");
-				$stmt->bind_param("s", $row["username"]);
-				if(!$stmt->execute()){
-					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			if(!empty($rowarr)){
+				foreach($rowarr as $key => $row){
+					//$result2 = $mysql->query("SELECT picture from users WHERE username='".$row["username"]."'");
+					$stmt = $mysql->prepare("SELECT picture FROM users WHERE username=?");
+					$stmt->bind_param("s", $row["username"]);
+					if(!$stmt->execute()){
+						echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+					}
+					$img=null;
+					$stmt->bind_result($img);
+					$stmt->fetch();
+					$stmt->close();
+					echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4></a>";
+					echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
+					echo "<p style=' margin: 0em;'>".stripslashes($row["comment"])."</p></div>";
 				}
-				$img=null;
-				$stmt->bind_result($img);
-				$stmt->fetch();
-				$stmt->close();
-				echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4></a>";
-				echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
-				echo "<p style=' margin: 0em;'>".stripslashes($row["comment"])."</p></div>";
 			}
+			
 		?>
 	</div>
 	<div id="ratings" style="display:none;">
@@ -472,22 +474,24 @@
 				$rowarr[] = $row;
 			}
 			$stmt->close();
-			foreach($rowarr as $key => $row){
-				//$result2 = $mysql->query("SELECT picture from users WHERE username='".$row["username"]."'");
-				$stmt = $mysql->prepare("SELECT picture FROM users WHERE username=?");
-				$stmt->bind_param("s", $row["username"]);
-				if(!$stmt->execute()){
-					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			if(!empty($rowarr)){
+				foreach($rowarr as $key => $row){
+					//$result2 = $mysql->query("SELECT picture from users WHERE username='".$row["username"]."'");
+					$stmt = $mysql->prepare("SELECT picture FROM users WHERE username=?");
+					$stmt->bind_param("s", $row["username"]);
+					if(!$stmt->execute()){
+						echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+					}
+					$img=null;
+					$stmt->bind_result($img);
+					$stmt->fetch();
+					$stmt->close();
+					echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4></a>";
+					echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
+					echo "<table class='rating_table'><tr><td><b>Fun</b></td><td><span class='stars'>".$row["fun"]."</span></td></tr>
+						<tr><td><b>Balance</b></td><td><span class='stars'>".$row["balance"]."</span></td></tr></table>";
+					echo "<p style=' margin: 0em;'>".stripslashes($row["comment"])."</p></div>";
 				}
-				$img=null;
-				$stmt->bind_result($img);
-				$stmt->fetch();
-				$stmt->close();
-				echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4></a>";
-				echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
-				echo "<table class='rating_table'><tr><td><b>Fun</b></td><td><span class='stars'>".$row["fun"]."</span></td></tr>
-					<tr><td><b>Balance</b></td><td><span class='stars'>".$row["balance"]."</span></td></tr></table>";
-				echo "<p style=' margin: 0em;'>".stripslashes($row["comment"])."</p></div>";
 			}
 		?>
 	</div>

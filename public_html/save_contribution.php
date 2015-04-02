@@ -21,45 +21,18 @@
 		//echo "</br>";
 		$name=stripslashes($_POST["name"]);
 		print_r($name);
-		$game=stripslashes($_POST["game"]);
-		$type=stripslashes($_POST["type"]);
-		$subtype=stripslashes($_POST["Sub_type"]);
-		$desc=stripslashes($_POST["desc"]);
-		$img=stripslashes($_POST["img"]);
-		if($game=="other"){
-			$game=stripslashes($_POST["other"]);
-		}
-		$loc = 0;
-		$extra=0;
-		$array=array();
-		foreach($_POST as $key => $item){
-			$key=str_replace('_', ' ', $key);
-			$array[$key] = stripslashes($item);
-			if(preg_match("[label .+]",$key))
-				$extra++;
-		}
-		//remove main elements from array so that they can be stored separately in database
-		unset($array["name"]);
-		unset($array["game"]);
-		unset($array["type"]);
-		unset($array["Sub type"]);
-		unset($array["desc"]);
-		unset($array["other"]);
-		unset($array["img"]);
-		for	($x=1; $x<=$extra; $x++){
-			$key=$array["label ".$x];
-			$value=$array["text ".$x];
-			unset($array["label ".$x]);
-			unset($array["text ".$x]);
-			$array[$key]=$value;
-		}
-		//print_r($array);
-		echo "</br>";
+		$name=htmlspecialchars($_POST["name"], ENT_QUOTES);
+		$game=htmlspecialchars($_POST["game"]);
+		$type=htmlspecialchars($_POST["type"]);
+		$subtype=htmlspecialchars($_POST["subtype"]);
+		$desc=($_POST["desc"]);
+		$img=$_POST["img"];
+		$json=($_POST["json"]);
+
 		$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
 		if ($mysql->connect_error) {
 			die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 		}
-		$json = json_encode($array);
 		try{
 			$mysql->query("START TRANSACTION");
 			if($img){

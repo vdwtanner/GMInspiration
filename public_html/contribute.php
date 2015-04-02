@@ -90,37 +90,102 @@
 		function submitForm(form){
 			//('<input type="submit">').hide().appendTo(form).click().remove();
 			var newdiv = document.createElement("div");
-			newdiv.innerHTML = "<input id='hidden_sub' type='submit' style='display: none'>";
-			form.appendChild(newdiv);
-			document.getElementById("hidden_sub").click();
-			form.remove(newDiv);
-			if(form.checkValidity()){
-				form.submit();
-			}
+			
 		}
 		
 		function submit(){
-			alert("still working on that...");
+			//Do validation things first to save time
+			$("#cont-form").validate();
+			if(!$("#cont-form").valid()){
+				alert("Please fix the errors noted in red");
+				return;
+			}
+			if($("#game option:selected").text()=="Other"){
+				if(length($("#other").val())==0){
+					alert("Please enter the game and version on the line provided.");
+					return;
+				}
+				if(length($("#other").val())>75){
+					alert("Max length for game name and version is 75 characters.");
+					return;
+				}
+				if(length($("#other").val())<10){
+					alert("Game name and version should be at least 10 characters");
+					return;
+				}
+			}
+			//Valid, so now we can submit to server
+			//Get values
 			var name=$("#name").val();
 			var type=$("#type").val();
 			var subtype=$("#subtype").val();
 			var game=$("#game").val();
-			alert(name);
+			var desc=$("#desc").html();
+			var img=$("#img").attr("src");
+			var labels=[];
+			$("[name*='label ']").each(function() {labels.push($(this).html())});
+			var texts=[];
+			$("[name*='text ']").each(function() {texts.push($(this).html())});
+			var json=new Array();
+			for(var x=0; x < labels.length;x++){
+				//store elements as objects within the JSON.
+				var element = new Object();
+				element.label=labels[x];
+				element.text=texts[x];
+				json[x]=element;
+			}
+			json=JSON.stringify(json);
+			//log to console for debugging
 			console.log(name);
+			console.log(game);
 			console.log(type);
 			console.log(subtype);
-			console.log(game);
+			console.log(desc);
+			console.log(img);
+			console.log(labels);
+			console.log(texts);
+			console.log("JSON: "+json);
+			//Submit to server
+			$.ajax({
+				url: "save_contribution.php",
+				type: "POST",
+				data: {
+					name: name,
+					game: game,
+					type: type,
+					subtype: subtype,
+					desc: desc,
+					img: img,
+					json: json
+				},
+				success: function(html){
+					var div=document.createElement("div");
+					$(div).html(html);
+					$(div).dialog({
+						height: 250,
+						width: 400,
+						modal: true,
+						position: {my: "center top", at: "center top", of: window},
+						buttons: {
+							"Awwww yeeeah, nat 20!": function(){$(this).dialog("close");}
+						}
+					});
+				},
+				error: function(xhr, status, html){
+					var div=document.createElement("div");
+					$(div).html(html);
+					$(div).dialog({
+						height: 250,
+						width: 350,
+						modal: true,
+						position: {my: "center top", at: "center top", of: window},
+						buttons: {
+							"Crap... looks like a crit fail...": function(){$(this).dialog("close");}
+						}
+					});
+				}
+			});
 		}
-		
-		/*var extras=0;
-		function addField(){
-			var div = document.getElementById("extra");
-			var newdiv = document.createElement("div");
-			extras++;
-			newdiv.id=extras;
-			newdiv.innerHTML = "<input id='label "+extras+"' name='label "+extras+"' type='text' style='vertical-align: top' placeholder='Enter label here' /><textarea id='text "+extras+"' name='text "+extras+"' placeholder='Enter extra info here' rows='5' cols='50'></textarea><a class='button' onclick='removeField(this.parentNode)'>Delete</a></br>";
-			div.appendChild(newdiv);
-		}*/
 		
 		function removeField(element){
 			//alert("removing: " + element.id);
@@ -132,7 +197,7 @@
 			//form.remove(element);
 		}
 		
-		var num = 0;
+		var num = 4;
 		function addField(){
 			var label=document.createElement("label");
 			var div=document.createElement("div");
@@ -166,7 +231,8 @@
 	<div id="contribution"><form id="cont-form">
 		<div class="profile_img"><img id="img" onclick="editImgSrc(this)" width="175" height="175" /></div>
 		<div class="name_user_game">
-			<h2><input type="text" id="name" placeholder="Contribution Name" minlength="3" required/> - <select id="type" name="type" required title="Select a type">
+			<h2><input type="text" id="name" name="name" placeholder="Contribution Name" minlength="3" required/> - <select id="type" name="type" required title="Select a type">
+				<option value="" disabled selected>Choose Type</option>
 				<option value="Weapon">Weapon</option>
 				<option value="Spell">Spell</option>
 				<option value="Consumable">Consumable</option>
@@ -174,7 +240,7 @@
 				<option value="Feat">Feat</option>
 				<option value="Artifact">Artifact</option>
 				<option value="Tool">Tool</option>
-			</select> (<input id="subtype" type="text" minlength="3" placeholder="Subtype(s)" />)</h2>
+			</select> (<input id="subtype" name="subtype" type="text" minlength="3" placeholder="Subtype(s)" />)</h2>
 			<h3>submitted by <span style="color: blue;"><u><?php echo $_SESSION["username"]; ?></u></span></h3>
 			<select id="game" name="game" required oninput="editionCheck(this)">
 				<?php 
@@ -203,29 +269,30 @@
 			<div id="desc" class="textarea" style="margin-top: .1em;" contenteditable="true" minlength="25" required>Click here to edit the description</div>
 			<div>
 				<div class="fade">
-					<span><h4 style="margin-bottom: .1em; padding-bottom: 0em" contenteditable="true">Lore</h4></span>
-					<div class="textarea" id="Lore" name="Lore" contenteditable="true">Enter a some mind blowing lore here</div>
+					<span><h4 id="label 0" name="label 0" style="margin-bottom: .1em; padding-bottom: 0em" contenteditable="true">Lore</h4></span>
+					<div class="textarea" id="text 0" name="text 0" contenteditable="true">Enter a some mind blowing lore here</div>
 				</div>
 				<a class="button" onclick="removeField(this.parentNode)" onmouseover="$(this).parent().children(':first-child').fadeTo(400, .2)" onmouseout="$(this).parent().children(':first-child').fadeTo(400, 1)">Delete</a>
 			</div>
 			<div>
 				<div class="fade">
-					<h4 style="margin-bottom: .1em; padding-bottom: 0em" contenteditable="true">How to Use</h4>
-					<div class="textarea" id="How to use" name="How to use" contenteditable="true">Tell us how to use this</div>
+					<h4 id="label 1" name="label 1" style="margin-bottom: .1em; padding-bottom: 0em" contenteditable="true">How to Use</h4>
+					<div class="textarea" id="text 1" name="text 1" contenteditable="true">Tell us how to use this</div>
 				</div>
 				<a class="button" onclick="removeField(this.parentNode)" onmouseover="$(this).parent().children(':first-child').fadeTo(400, .2)" onmouseout="$(this).parent().children(':first-child').fadeTo(400, 1)">Delete</a>
 			</div>
 			<div>
 				<div class="fade">
-					<h4 style="margin-bottom: .1em; padding-bottom: 0em" contenteditable="true">Effect</h4>
-					<div class="textarea" id="Effect" name="Effect" contenteditable="true">What effect(s) does this have?</div>
+					<h4 id="label 2" name="label 2" style="margin-bottom: .1em; padding-bottom: 0em" contenteditable="true">Effect</h4>
+					<div class="textarea" id="text 2" name="text 2" contenteditable="true">What effect(s) does this have?</div>
 				</div>
 				<a class="button" onclick="removeField(this.parentNode)" onmouseover="$(this).parent().children(':first-child').fadeTo(400, .2)" onmouseout="$(this).parent().children(':first-child').fadeTo(400, 1)">Delete</a>
 			</div>
 			<div>
 				<div class="fade">
-					<h4 style="margin-bottom: .1em; padding-bottom: 0em" contenteditable="true">Effect</h4>
-					<input id="Attack" name="Attack" type="text" maxlength="60" placeholder="How much damage does this do?" size="26" title="Examples: 3d6, 5, (half your level)+strength modifier, etc"/>
+					<h4 id="label 3" name="label 3" style="margin-bottom: .1em; padding-bottom: 0em" contenteditable="true">Attack</h4>
+					<div class="textarea" id="text 3" name="text 3" contenteditable="true">How much damage does this do?</div>
+					<!--<input id="Attack" name="Attack" type="text" maxlength="60" placeholder="How much damage does this do?" size="26" title="Examples: 3d6, 5, (half your level)+strength modifier, etc"/> -->
 				</div>
 				<a class="button" onclick="removeField(this.parentNode)" onmouseover="$(this).parent().children(':first-child').fadeTo(400, .2)" onmouseout="$(this).parent().children(':first-child').fadeTo(400, 1)">Delete</a>
 			</div>
@@ -245,10 +312,8 @@
 	</script>
 	</br>
 		<button id="add_field" style="border-radius: 10px;" onclick="addField()">Add Field</button>
-		<div id="submit_button"><button id="submit_contribution" style="border-radius: 10px;" onclick="submit()">Submit</button></div>
+		<div id="submit_button" style="display: inline-block;"><button id="submit_contribution" style="border-radius: 10px;" onclick="submit()">Submit</button></div>
 	</br>
-	
-	<a href="index.html"><button style="border-radius: 10px;">Home</button></a>
 </div>
 </body>
 </html>
