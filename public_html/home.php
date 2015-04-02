@@ -8,18 +8,17 @@
 </head>
 <body>
 <div id="container" class="cf">
-	<h3 style="text-align:center">The Dungeon Crawlers site is officially hosted! YAY!</h3>
-	<p>Now we just need to do the things:P</p>
-	<label for="Tanner updates">Tanner's updates to the group:</label>
+	<h3 style="text-align:center">The Dungeon Crawlers site has a new name</h3>
+	<p>We just recently got a new server</p>
+	<label for="Tanner updates">Updates to the group:</label>
 	<ul id="Tanner updates">
-		List of things Tanner did 1/23 before sleeps:
-		<li>set up server</li>
-		<li>set up database</li>
-		<li>set up user table</li>
-		<li>created this crappy page you are reading</li>
-		<li>created sign up page</li>
-		<li>created login page</li>
-		<li>did not sleep :P :P :P :P :P :P :P :P :P :P :P :P :P :P :P :P</li>
+		List of things left to work on
+		<li>finish format and css</li>
+		<li>get homepage modules set up</li>
+		<li>add lots of content to site</li>
+		<li>have users test site</li>
+		<li>fix all the bugs</li>
+		<li>touch up</li>
 	</ul>
 
 </div>

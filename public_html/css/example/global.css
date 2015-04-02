@@ -22,6 +22,26 @@ body {
   border-color: gray;
 }
 
+a:link {
+    text-decoration: none;
+	color: #000000;
+}
+
+a:visited {
+    text-decoration: none;
+	color: #000000;
+}
+
+a:hover {
+    text-decoration: underline;
+	color: #2929A3;
+}
+
+a:active {
+    text-decoration: underline;
+	color: #2929A3;
+	}
+
 div{
 	
 
@@ -96,6 +116,7 @@ Zac's lovely header css. Dont hurt me dalton. :(
   }
   float: left; 
   max-width: 60em;
+  color: #000000;
   }
 #headcontainer {	/*In case we want the header to be different size than the page content... Idk how to web design.*/
   padding: 1.618em;
