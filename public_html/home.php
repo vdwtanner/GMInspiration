@@ -43,8 +43,12 @@
 </head>
 <body>
 <div id="container" class="cf">
+	<!--<a href="contribute.php"><button style="border-radius: 10px;">Contribute!</button></a>-->
 
-	<div id="slideshow">
+	<div class="slideshowtitle">
+		<p style='margin: 0em; padding: 0em'>Top Contributions</p>
+	</div>
+	<div class="slideshow">
 	<?php
 		$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
 		if($mysql->connect_error){
@@ -98,6 +102,7 @@
 			$mysql->rollback();
 		}
 	?>
+
 	</div>
 </div>
 </body>

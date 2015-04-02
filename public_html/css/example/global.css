@@ -181,8 +181,14 @@ Zac's search lists!
   padding-right: 8px;
 }
 
-#slideshow{
+.slideshow{
   background-color: # !important; 
+  background: linear-gradient(gray, white); /* Standard syntax */
+  display: block;
+  border: 1px solid;
+}
+
+.slideshowtitle{
   background: linear-gradient(gray, white); /* Standard syntax */
   display: block;
   border: 1px solid;
