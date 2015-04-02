@@ -7,11 +7,22 @@ This file contains the unique styles needed for example.html which do not appear
 
 html { 
   background: rgb(244, 244, 244);
+  background-color: #2E2E2E;
   }
 body {
     -webkit-text-size-adjust:100%;
     -moz-text-size-adjust:100%;
     -ms-text-size-adjust:100%;
+	background-image: url("parchmentresize.jpg");
+	background-repeat: repeat;
+	background-position: center;
+	margin: 0 auto; 
+	max-width: 60em;
+}
+
+div{
+	
+
 }
 
 /* 5. GLOBAL LAYOUT & GLOBAL CUSTOM TYPOGRAPHY
@@ -80,6 +91,10 @@ Zac's lovely header css. Dont hurt me dalton. :(
   padding: 1.618em;
   margin: 0 auto; 
   max-width: 60em;
+  background: -webkit-linear-gradient(gray, white); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(gray, white); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(gray, white); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(gray, white); /* Standard syntax */
 }
 
 /*

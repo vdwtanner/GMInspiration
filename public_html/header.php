@@ -202,8 +202,10 @@
 	
 	echo "<div style='clear: both;'>";
 	echo "<hr>";
+	echo "<b><a href='home.php'>Home</a>&nbsp;";
 	if($_SESSION["username"]){
-	echo "<b>Welcome, <a href='profile.php?user=".$_SESSION["username"]."'>Profile</a>";
+	echo "<b><a href='profile.php?user=".$_SESSION["username"]."'>Profile</a>&nbsp;";
+	echo "<b><a href='contribute.php'>Contribute</a>&nbsp;";
 	}
 	echo "<form method='GET' action='search_results.php' style='display: inline;'>";
 	echo "<input type='text' name='keywords' style='width: 20em' placeholder='Enter keywords here' title='Search for users, contributions, types, subtypes, and game versions'>";
