@@ -9,10 +9,6 @@
 <body>
 <div id="container" class="cf">
 	<h3 style="text-align:center">The Dungeon Crawlers site is officially hosted! YAY!</h3>
-	<aside><div style="text-align: center">
-	<a href="contribute.php"><button style="border-radius: 10px;">Contribute!</button></a>
-	<a href="select_contribution_id.php"><button style="border-radius: 10px;">Test view a contribution</button></a>
-	</aside>
 	<p>Now we just need to do the things:P</p>
 	<label for="Tanner updates">Tanner's updates to the group:</label>
 	<ul id="Tanner updates">

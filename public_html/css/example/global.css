@@ -18,6 +18,8 @@ body {
 	background-position: center;
 	margin: 0 auto; 
 	max-width: 60em;
+	border-style: ridge;
+  border-color: gray;
 }
 
 div{
@@ -31,9 +33,17 @@ h1 {
   text-align: center;
   font-size: 2.618em;
   line-height: 1.2em;
+  font-family: Papyrus, fantasy;
   }
-  
-h3 { text-transform:uppercase; letter-spacing:0.12em; }
+ 
+h2{
+
+font-family: Papyrus, fantasy;
+
+}
+
+ 
+h3 { text-transform:uppercase; letter-spacing:0.12em; font-family: Papyrus, fantasy; }
 h3, h4, h5, h6 { font-weight: bold; }
 
 p.intro { font-size: 1.309em; margin-bottom: 1em; }
@@ -95,6 +105,8 @@ Zac's lovely header css. Dont hurt me dalton. :(
   background: -o-linear-gradient(gray, white); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(gray, white); /* For Firefox 3.6 to 15 */
   background: linear-gradient(gray, white); /* Standard syntax */
+  border-style: none none ridge none;
+  border-color: gray;
 }
 
 /*
