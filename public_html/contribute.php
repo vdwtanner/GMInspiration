@@ -96,6 +96,15 @@
 		
 		function submit(){
 			alert("still working on that...");
+			var name=$("#name").val();
+			var type=$("#type").val();
+			var subtype=$("#subtype").val();
+			var game=$("#game").val();
+			alert(name);
+			console.log(name);
+			console.log(type);
+			console.log(subtype);
+			console.log(game);
 		}
 		
 		/*var extras=0;
