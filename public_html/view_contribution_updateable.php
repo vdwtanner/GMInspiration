@@ -152,7 +152,7 @@
 			console.log(texts);
 			console.log("JSON: "+json);
 			$.ajax({
-				url: "update_contribution2.php",
+				url: "update_contribution.php",
 				type: "POST",
 				data: ({
 					id: id,
