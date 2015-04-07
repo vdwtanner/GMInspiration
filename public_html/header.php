@@ -1,8 +1,11 @@
 <?php
 	session_start();
+	mb_internal_encoding("UTF-8");
 ?>
 <html>
 <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>

@@ -1,9 +1,18 @@
 <?php
 	session_start();
 ?>
+<!------------------------------------------------------------------------------------------------------
+ FILTER THE DATA WE GET FROM CONTRIBUTION.PHP IN HERE. IT IS NOT SAFE TO FILTER IN CONTRIBUTION.PHP,
+	SINCE THE USER CAN JUST EDIT THE AJAX CALL TO INCLUDE UNFILTERED DATA. 
+
+	NOTE: WE'RE FILTERING, NOT VALIDATING. VALIDATION IS BAD BECAUSE IT LETS THE POTENTIAL
+		HACKER KNOW IF HIS INJECTION HAS WORKED OR NOT. THATS TOO MUCH INFO.
+------------------------------------------------------------------------------------------------------->
+
 <DOCTYPE html>
 <html>
 <head>
+
 	<title>Contribute</title>
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
@@ -11,23 +20,24 @@
 <body>
 	<h2>Dungeon Crawlers - Contribute</h2>
 	<?php
+		require_once dirname(__FILE__).'/HTMLPurifier/library/HTMLPurifier.auto.php';
+		$purifier = new HTMLPurifier();
+
 		echo "Hi, ".$_SESSION["username"];
 		if(!$_SESSION["username"]){
 			die("You must be logged in in order to access this part of the site.");
 		}
 		//echo "Welcome to the contribution screen, ".$_SESSION["username"];
 		echo "</br>";
-		//print_r($_POST);
-		//echo "</br>";
-		$name=stripslashes($_POST["name"]);
-		print_r($_POST);
-		$name=htmlspecialchars($_POST["name"], ENT_QUOTES);
-		$game=htmlspecialchars($_POST["game"]);
-		$type=htmlspecialchars($_POST["type"]);
-		$subtype=htmlspecialchars($_POST["subtype"]);
-		$desc=($_POST["desc"]);
-		$img=$_POST["img"];
-		$json=($_POST["json"]);
+
+		$name=$purifier->purify($_POST["name"]);	
+		$game=$purifier->purify($_POST["game"]);	
+		$type=$purifier->purify($_POST["type"]);	
+		$subtype=$purifier->purify($_POST["subtype"]);	
+		$desc=$purifier->purify($_POST["desc"]);	
+		$img=$purifier->purify($_POST["img"]);
+		$json=$purifier->purify($_POST["json"]);	
+
 
 		$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
 		if ($mysql->connect_error) {
@@ -53,7 +63,7 @@
 				$stmt->close();
 			}
 			echo $_SESSION["username"].", Your contribution was successfully added.";
-	
+
 
 			$mysql->commit();
 		}catch(Exception $e){

@@ -435,6 +435,8 @@
 					echo "<p style=' margin: 0em;'>".stripslashes($row["comment"])."</p></div>";
 				}
 			}
+			unset($row);
+			unset($rowarr);
 			
 		?>
 	</div>
@@ -493,6 +495,9 @@
 					echo "<p style=' margin: 0em;'>".stripslashes($row["comment"])."</p></div>";
 				}
 			}
+
+			unset($row);
+			unset($rowarr);
 		?>
 	</div>
 </div>
