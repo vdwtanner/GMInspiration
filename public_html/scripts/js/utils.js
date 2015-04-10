@@ -7,7 +7,7 @@ function editImgSrc(img){
 		position: {my: "center top", at: "center top", of: window},
 		buttons: ({
 			"Accept": function(){
-				img.src=$("#src").val();
+				img.src=document.getElementById("src").value;
 				$(this).dialog("close");
 			},
 			"Cancel": function(){$(this).dialog("close")}

@@ -122,6 +122,7 @@
 		
 		function update(){
 			var id=$("#contribution_id").text();
+			var privacy=$("#privacy").val();
 			var name=$("#name").text();
 			var game=$("#game").text();
 			var type=$("#type").text();
@@ -142,6 +143,7 @@
 			}
 			json=JSON.stringify(json);
 			console.log("id=" + id);
+			console.log("Privacy: " + privacy);
 			console.log(name);
 			console.log(game);
 			console.log(type);
@@ -156,6 +158,7 @@
 				type: "POST",
 				data: ({
 					id: id,
+					privacy: privacy,
 					name: name,
 					game: game,
 					type: type,
@@ -346,20 +349,31 @@
 			$avgBalance=$b/$c;
 		}
         //$result = $mysql->query("SELECT * from contributions where id='".$id."'");
-	$stmt = $mysql->prepare("SELECT username, img, name, `type`, sub_type, game, `desc`, json FROM contributions WHERE id=?");
+	$stmt = $mysql->prepare("SELECT username, img, name, `type`, sub_type, game, `desc`, json, privacy FROM contributions WHERE id=?");
 	$stmt->bind_param("i", $id);
 	if(!$stmt->execute()){
 		echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 	}
-	$user=null; $img=null; $name=null; $type=null; $s_type=null; $game=null; $desc=null; $json=null;
-	$stmt->bind_result($user, $img, $name, $type, $s_type, $game, $desc, $json);
+	$user=null; $img=null; $name=null; $type=null; $s_type=null; $game=null; $desc=null; $json=null; $privacy=null;
+	$stmt->bind_result($user, $img, $name, $type, $s_type, $game, $desc, $json, $privacy);
 	$stmt->fetch();
 	$stmt->close();
+	if($privacy==1 && $user!=$_SESSION["username"]){
+		//echo "<h3>The contributor has currently set the privacy to \"private,\" so you cannot view it at this time.";
+		exit("The contributor has currently set the privacy to \"private,\" so you cannot view it at this time.");
+	}
         $fields = json_decode(($json));    //create associative array from json
 		if($user==$_SESSION["username"]){
 			echo "<a id='update_button' class='button' onclick='update()'>Save Changes</a></br>";
+			echo '<div id="privacy_settings">
+					<select id="privacy" title="Select a privacy option" required>
+						<option'.(($privacy==0)?" selected='selected'":"").' value="0">Public</option>
+						<option'.(($privacy==1)?" selected='selected'":"").' value="1">Private</option>
+						<option disabled value="2">Protected</option>
+					</select></div>';
 			$isCreator=true;
-		}	
+		}
+		
 		echo "<div id='contribution'><div class='profile_img'><img id='img' src='".$img."' alt='An image depicting ".$name."' width='175' height='175' ".($isCreator? "onclick='editImgSrc(this)'":"")."/></div>";
 		echo "<div class='name_user_game' ><h2><span id='name' ".($isCreator?"contenteditable='true'":"").">".$name."</span> - <span id='type' ".($isCreator?"contenteditable='true'":"").">".stripslashes($type).(stripslashes(($s_type))? " </span>(<span id='subtype' title='Sub Type' ".($isCreator?"contenteditable='true'":"").">".$s_type."</span>)":"")."</h2>";
 		echo "<h3>submitted by <a href=profile.php?user=".$user.">".$user."</a></h3><h3 id='game'>".stripslashes($game)."</h3></div>";

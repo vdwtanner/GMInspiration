@@ -24,6 +24,7 @@
                 echo "</br>";
                 $parser = new parser;
                 $id=$_POST["id"];
+				$privacy=$_POST["privacy"];
                 $name=htmlspecialchars($_POST["name"], ENT_QUOTES);
                 $game=htmlspecialchars($_POST["game"]);
                 $type=htmlspecialchars($_POST["type"]);
@@ -48,17 +49,17 @@
                         $mysql->query("START TRANSACTION");
                         if($img){
                                 //$stmt=$mysql->prepare("UPDATE contributions SET name=?");
-                                $stmt=$mysql->prepare("UPDATE contributions SET name=?, `type`=?, sub_type=?, game=?, `desc`=?, json=?, img=? WHERE id=?");
+                                $stmt=$mysql->prepare("UPDATE contributions SET name=?, `type`=?, sub_type=?, game=?, `desc`=?, json=?, img=?, privacy=? WHERE id=?");
                                 //$stmt->bind_param("s", $name);
-                                $stmt->bind_param("sssssssd", $name, $type, $subtype, $game, $desc, $json, $img, $id);
+                                $stmt->bind_param("sssssssii", $name, $type, $subtype, $game, $desc, $json, $img, $privacy, $id);
                                 if(!$stmt->execute()){
                                         header("HTTP/1.1 500 Failed to execute update command1.</br> (".$stmt->errno.") ".$stmt->error);
                                 }
                                 
                                 //$mysql->query("UPDATE contributions SET name='".$name."', `type`='".$type."', sub_type='".$subtype."', game='".$game."', `desc`='".$desc."', json='".$json."', img='".$img."' WHERE id=".$id."");
                         }else{
-                                $stmt=$mysql->prepare("UPDATE contributions SET name=?, `type`=?, sub_type=?, game=?, `desc`=?, json=? WHERE id=?");
-                                $stmt->bind_param("ssssssd", $name, $type, $sub_type, $game, $desc, $json, $id);
+                                $stmt=$mysql->prepare("UPDATE contributions SET name=?, `type`=?, sub_type=?, game=?, `desc`=?, json=?, privacy=? WHERE id=?");
+                                $stmt->bind_param("ssssssii", $name, $type, $sub_type, $game, $desc, $json, $privacy, $id);
                                 if(!$stmt->execute()){
                                         header("HTTP/1.1 500 Failed to execute update command2.</br> (".$stmt->errno.") ".$stmt->error);
                                 }

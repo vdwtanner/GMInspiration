@@ -117,6 +117,7 @@
 			}
 			//Valid, so now we can submit to server
 			//Get values
+			var privacy=$("#privacy").val();
 			var name=$("#name").val();
 			var type=$("#type").val();
 			var subtype=$("#subtype").val();
@@ -137,6 +138,7 @@
 			}
 			json=JSON.stringify(json);
 			//log to console for debugging
+			console.log("Privacy: "+privacy);
 			console.log(name);
 			console.log(game);
 			console.log(type);
@@ -151,6 +153,7 @@
 				url: "save_contribution.php",
 				type: "POST",
 				data: {
+					privacy: privacy,
 					name: name,
 					game: game,
 					type: type,
@@ -223,13 +226,19 @@
 </head>
 <body>
 <div id="container" class="cf">
-	<h2 id="page_title">Dungeon Crawlers - Contribute</h2>
 	<?php
 		if(!$_SESSION["username"]){
 			die("You must be logged in in order to access this part of the site.");
 		}
 	?>
 	<div id="contribution"><form id="cont-form">
+		<div id="privacy_settings">
+			<select id="privacy" title="Select a privacy option" required>
+				<option value="0">Public</option>
+				<option value="1">Private</option>
+				<option disabled value="2">Protected</option>
+			</select>
+		</div>
 		<div class="profile_img"><img id="img" onclick="editImgSrc(this)" width="175" height="175" /></div>
 		<div class="name_user_game">
 			<h2><input type="text" id="name" name="name" placeholder="Contribution Name" minlength="3" required/> - <select id="type" name="type" required title="Select a type">
