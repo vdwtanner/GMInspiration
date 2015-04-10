@@ -18,7 +18,6 @@
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 </head>
 <body>
-	<h2>Dungeon Crawlers - Contribute</h2>
 	<?php
 		require_once dirname(__FILE__).'/HTMLPurifier/library/HTMLPurifier.auto.php';
 		$purifier = new HTMLPurifier();
@@ -62,7 +61,7 @@
 				}
 				$stmt->close();
 			}
-			echo $_SESSION["username"].", Your contribution was successfully added.";
+			echo "Your contribution was successfully added.";
 
 
 			$mysql->commit();

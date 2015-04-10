@@ -311,6 +311,55 @@
 			destroyEditor();
 		}
 	}
+	
+	function deleteContribution(){
+		var id=$("#contribution_id").text();
+		var div = document.createElement("div");
+		$(div).html("<b>This cannot be undone.</b>");
+		$(div).dialog({
+			height: 175,
+			width: 400,
+			title: "Are you sure?",
+			dialogClass: "ui-state-error",
+			modal: true,
+			position: { my: "left top", at: "left bottom", of: $("#delete_button") },
+			buttons: ({
+				"Yes": function(){
+					$.ajax({
+						url: "scripts/deleteContribution.php",
+						type: "POST",
+						data: {
+							id: id
+						},
+						success: function(html){
+							$(div).html(html);
+							$(div).dialog("option", "buttons", [{
+								text: "Close",
+								click: function(){
+									$(this).dialog("close");
+									window.location.href="home.php";
+								}
+							}]);
+							//setTimeout(function(){location.reload()},1200);
+						},
+						error: function(xhr, status, html){
+							$(div).html(html);
+							$(this).dialog("option", "buttons", [{
+								text: "Close",
+								click: function(){
+									$(this).dialog("close");
+								}
+							}]);
+						}
+					});
+				},
+				"No": function(){
+					$(this).dialog("close");
+				}
+			})
+		});
+		//$(div).dialog("option","title", "<img src='http://png-3.findicons.com/files/icons/1951/iconza/32/warning.png' />Are you sure?");
+	}
 	</script>
 </head>
 <body>
@@ -364,7 +413,7 @@
 	}
         $fields = json_decode(($json));    //create associative array from json
 		if($user==$_SESSION["username"]){
-			echo "<a id='update_button' class='button' onclick='update()'>Save Changes</a></br>";
+			echo "<a id='update_button' class='button' onclick='update()'>Save Changes</a> <a id='delete_button' class='button' onclick='deleteContribution()'>Delete Contribution</a></br>";
 			echo '<div id="privacy_settings">
 					<select id="privacy" title="Select a privacy option" required>
 						<option'.(($privacy==0)?" selected='selected'":"").' value="0">Public</option>
