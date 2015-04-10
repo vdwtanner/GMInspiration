@@ -18,7 +18,6 @@
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 </head>
 <body>
-	<h2>Dungeon Crawlers - Contribute</h2>
 	<?php
 		require_once dirname(__FILE__).'/HTMLPurifier/library/HTMLPurifier.auto.php';
 		$purifier = new HTMLPurifier();
@@ -29,7 +28,7 @@
 		}
 		//echo "Welcome to the contribution screen, ".$_SESSION["username"];
 		echo "</br>";
-
+		$privacy=$purifier->purify($_POST["privacy"]);
 		$name=$purifier->purify($_POST["name"]);	
 		$game=$purifier->purify($_POST["game"]);	
 		$type=$purifier->purify($_POST["type"]);	
@@ -47,22 +46,22 @@
 			$mysql->query("START TRANSACTION");
 			if($img){
 				//$mysql->query("INSERT INTO contributions (username, name, `type`, subtype, game, `desc`, img, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$img."','".$json."')");
-				$stmt = $mysql->prepare("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, img, json) VALUES (?,?,?,?,?,?,?,?)");
-				$stmt->bind_param("ssssssss", $_SESSION["username"], $name, $type, $subtype, $game, $desc, $img, $json);
+				$stmt = $mysql->prepare("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, img, json, privacy) VALUES (?,?,?,?,?,?,?,?,?)");
+				$stmt->bind_param("ssssssssi", $_SESSION["username"], $name, $type, $subtype, $game, $desc, $img, $json, $privacy);
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}
 				$stmt->close();
 			}else{
 				//$mysql->query("INSERT INTO contributions (username, name, `type`, subype, game, `desc`, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$json."')");
-				$stmt = $mysql->prepare("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, json) VALUES (?,?,?,?,?,?,?)");
-				$stmt->bind_param("sssssss", $_SESSION["username"], $name, $type, $subtype, $game, $desc, $json);
+				$stmt = $mysql->prepare("INSERT INTO contributions (username, name, `type`, sub_type, game, `desc`, json, privacy) VALUES (?,?,?,?,?,?,?,?)");
+				$stmt->bind_param("sssssssi", $_SESSION["username"], $name, $type, $subtype, $game, $desc, $json, $privacy);
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}
 				$stmt->close();
 			}
-			echo $_SESSION["username"].", Your contribution was successfully added.";
+			echo "Your contribution was successfully added.";
 
 
 			$mysql->commit();
