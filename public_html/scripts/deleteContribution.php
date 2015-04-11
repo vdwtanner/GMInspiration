@@ -45,7 +45,7 @@
 		$count+=$mysql->affected_rows;
 		$stmt->close();
 		if(count==1){
-			echo $count." entry deleted."
+			echo $count." entry deleted.";
 		}else{
 			echo $count." entries deleted.";
 		}
