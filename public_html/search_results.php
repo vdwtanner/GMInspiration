@@ -142,7 +142,7 @@
 				$stmt = $mysql->prepare("SELECT id, img, name, game, username FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
 							OR type SOUNDS LIKE ? OR type LIKE ?
 							OR sub_type SOUNDS LIKE ? OR sub_type LIKE ?
-							OR game SOUNDS LIKE ?) AND (privacy = 0 OR username = ?)
+							OR game SOUNDS LIKE ? OR game LIKE ?) AND (privacy = 0 OR username = ?)
 							ORDER BY CASE WHEN name = ? THEN 0
 							WHEN name LIKE ? THEN 1
 							WHEN name LIKE ? THEN 2
@@ -150,7 +150,7 @@
 							ELSE 4 END, name ASC");
 			
 				$pvaluep = "%".$value."%"; $valuep = $value."%"; $pvalue = "%".$value;
-				$stmt->bind_param("ssssssssssss", $value, $pvaluep, $value, $pvaluep, $value, $pvaluep, $value, $_SESSION["username"], $value, $valuep, $pvaluep, $pvalue);
+				$stmt->bind_param("sssssssssssss", $value, $pvaluep, $value, $pvaluep, $value, $pvaluep, $value, $pvaluep, $_SESSION["username"], $value, $valuep, $pvaluep, $pvalue);
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}	
@@ -184,10 +184,10 @@
 							WHEN name LIKE '%".$value."' THEN 3
 							ELSE 4 END, name ASC");*/
 
-				$stmt = $mysql->prepare("SELECT id, img, name, game, username FROM contributions WHERE name SOUNDS LIKE ? OR name LIKE ?
+				$stmt = $mysql->prepare("SELECT id, img, name, game, username FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
 							OR type SOUNDS LIKE ? OR type LIKE ?
 							OR sub_type SOUNDS LIKE ? OR sub_type LIKE ?
-							OR game SOUNDS LIKE ?
+							OR game SOUNDS LIKE ? OR game LIKE ?) AND (privacy = 0 OR username = ?)
 							ORDER BY CASE WHEN name = ? THEN 0
 							WHEN name LIKE ? THEN 1
 							WHEN name LIKE ? THEN 2
@@ -195,7 +195,7 @@
 							ELSE 4 END, name ASC");
 			
 				$pvaluep = "%".$value."%"; $valuep = $value."%"; $pvalue = "%".$value;
-				$stmt->bind_param("sssssssssss", $value, $pvaluep, $value, $pvaluep, $value, $pvaluep, $value, $value, $valuep, $pvaluep, $pvalue);
+				$stmt->bind_param("sssssssssssss", $value, $pvaluep, $value, $pvaluep, $value, $pvaluep, $value, $pvaluep, $_SESSION["username"], $value, $valuep, $pvaluep, $pvalue);
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}	
@@ -228,10 +228,10 @@
 							WHEN name LIKE '%".$value."' THEN 3
 							ELSE 4 END, timestamp ASC");*/
 
-				$stmt = $mysql->prepare("SELECT id, img, name, game, username FROM contributions WHERE name SOUNDS LIKE ? OR name LIKE ?
+				$stmt = $mysql->prepare("SELECT id, img, name, game, username FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
 							OR type SOUNDS LIKE ? OR type LIKE ?
 							OR sub_type SOUNDS LIKE ? OR sub_type LIKE ?
-							OR game SOUNDS LIKE ?
+							OR game SOUNDS LIKE ? OR game LIKE ?) AND (privacy = 0 OR username = ?)
 							ORDER BY CASE WHEN name = ? THEN 0
 							WHEN name LIKE ? THEN 1
 							WHEN name LIKE ? THEN 2
@@ -239,7 +239,7 @@
 							ELSE 4 END, timestamp ASC");
 			
 				$pvaluep = "%".$value."%"; $valuep = $value."%"; $pvalue = "%".$value;
-				$stmt->bind_param("sssssssssss", $value, $pvaluep, $value, $pvaluep, $value, $pvaluep, $value, $value, $valuep, $pvaluep, $pvalue);
+				$stmt->bind_param("sssssssssssss", $value, $pvaluep, $value, $pvaluep, $value, $pvaluep, $value, $pvaluep, $_SESSION["username"], $value, $valuep, $pvaluep, $pvalue);
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}	

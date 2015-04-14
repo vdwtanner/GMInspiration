@@ -288,12 +288,12 @@ div.textarea {
   background: rgba(0,0,0,0.7);
   display: inline-block;
   width: 100%;
-  height: 40%;
+  height: 80px;
 
-  transition: height ease-in-out 500ms;
-  -o-transition: height ease-in-out 500ms;
-  -moz-transition: height ease-in-out 500ms;
-  -webkit-transition: height ease-in-out 500ms;
+  transition: height ease-in-out 250ms, top ease-in-out 250ms;
+  -o-transition: height ease-in-out 250ms, top ease-in-out 250ms;
+  -moz-transition: height ease-in-out 250ms, top ease-in-out 250ms;
+  -webkit-transition: height ease-in-out 250ms, top ease-in-out 250ms;
 
 
 }
@@ -301,11 +301,6 @@ div.textarea {
 a.col-1-3:hover .blockTextBackground{
   top: 0px;
   height: 200;
-
-  transition: top ease-in-out 500ms;
-  -o-transition: top ease-in-out 500ms;
-  -moz-transition: top ease-in-out 500ms;
-  -webkit-transition: top ease-in-out 500ms;
 }
 
 h2.blockText{

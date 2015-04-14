@@ -12,7 +12,7 @@
 	if ($mysql->connect_error) {
 		die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 	}
-	$comment=stripslashes($_POST["comment"]);
+	$comment=$_POST["comment"];
 	//$balance= $_POST["bal"];
 	//echo $balance ." ". $balance/2 ." </br>";
 	echo $balance;
@@ -25,6 +25,29 @@
 			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 		}
 		$stmt->close();
+
+		$stmt = $mysql->prepare("SELECT COUNT(*), SUM(fun), SUM(balance) FROM ratings WHERE contribution_id=?");
+		$stmt->bind_param("i", $_POST["id"]);
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		}
+		$c=null; $s=null; $b=null;
+		$stmt->bind_result($c, $s, $b);
+		$stmt->fetch();
+		$stmt->close();
+		$num_ratings=$c;
+		if($c>0){
+			$avgFun=$s/$c;
+			$avgBalance=$b/$c;
+		}
+
+		$stmt = $mysql->prepare("UPDATE contributions SET avg_fun=?, avg_balance=? WHERE id=?");
+		$stmt->bind_param("iii", $avgFun, $avgBalance, $_POST["id"]);
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		}
+		$stmt->close();
+
 		$mysql->commit();
 	}catch(Exception $e){
 		$mysql->rollback();
