@@ -1,10 +1,10 @@
-<?php
+<?php		
+	require_once dirname(__FILE__).'/HTMLPurifier/library/HTMLPurifier.auto.php';
+	$purifier = new HTMLPurifier();
+
 	$user = $_POST["user"];
 	$cid = $_POST["c_id"];
-	$comment = ($_POST["comment"]);
-	if($_POST["rich"]=="false"){
-		$comment=htmlspecialchars($comment);
-	}
+	$comment = $purifier->purify($_POST["comment"]);
 	$img;
 	//echo print_r($_POST);
 	$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
