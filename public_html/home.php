@@ -128,8 +128,12 @@
 					else
 						echo "<img class='gridImage' border='0' alt='".$name."' src='".$row["img"]."'>";
 					echo "<div class='blockTextBackground'>";
-					echo "<h2 class='blockText'>".$row["name"]." - ".$row["type"]." ".(!empty($row["sub_type"])?("(".$row["sub_type"].")"):"")."</h2>";
-					echo "<table class='rating_table'><tr><td><b>Fun</b></td><td><span class='stars'>".$row["avg_fun"]."</span></td></tr><tr><td><b>Balance</b></td><td><span class='stars'>".$row["avg_balance"]."</span></td></tr></table>";
+					//echo "<h2 class='blockText ellipsis'>".$row["name"]." - ".$row["type"]." ".(!empty($row["sub_type"])?("(".$row["sub_type"].")"):"")."</h2>";
+					echo "<h2 class='blockText ellipsis'>".$row["name"]."<br>".$row["type"]." ".(!empty($row["sub_type"])?("(".$row["sub_type"].")"):"")."</h2>";
+					if($row["avg_fun"] < 0 || $row["avg_balance"] < 0)
+						echo "<b class='ratingText'>Not yet rated</b>";
+					else
+						echo "<table class='rating_table'><tr><td><b class='ratingText'>Fun</b></td><td><span class='stars'>".$row["avg_fun"]."</span></td></tr><tr><td><b class='ratingText'>Balance</b></td><td><span class='stars'>".$row["avg_balance"]."</span></td></tr></table>";
 					echo "<h2 class='blockDescription'>By ".$row["username"]."<br>For ".$row["game"]."</h2>";
 					echo "</div>";
 			//echo "<script type='text/javascript'> setInterval('slideForwards(".$count.")', 10000); </script>";			

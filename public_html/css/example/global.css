@@ -280,6 +280,13 @@ div.textarea {
 
 }
 
+.ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
 .blockTextBackground{
   position: absolute;
   top: 120px;
@@ -314,6 +321,12 @@ h2.blockText{
 h2.blockDescription{
   color: white;
   font-size: 20;
+  margin-left: 20px;
+}
+
+b.ratingText{
+  color: white;
+  font-size: 16;
   margin-left: 20px;
 }
 
