@@ -74,8 +74,51 @@
 		});
 	}
 
-	function deleteCollection(){
-		alert("Delete Collection");
+	function deleteCollection(id){
+		var div = document.createElement("div");
+		$(div).html("<b>This cannot be undone.</b>");
+		$(div).dialog({
+			height: 175,
+			width: 400,
+			title: "Are you sure?",
+			dialogClass: "ui-state-error",
+			modal: true,
+			position: {my: "center top", at: "center top", of: window },
+			buttons: ({
+				"Yes": function(){
+					$.ajax({
+						url: "scripts/deleteCollection.php",
+						type: "POST",
+						data: {
+							id: id
+						},
+						success: function(html){
+							$(div).html(html);
+							$(div).dialog("option", "buttons", [{
+								text: "Close",
+								click: function(){
+									$(this).dialog("close");
+									window.location.href="collections.php";
+								}
+							}]);
+							//setTimeout(function(){location.reload()},1200);
+						},
+						error: function(xhr, status, html){
+							$(div).html(html);
+							$(this).dialog("option", "buttons", [{
+								text: "Close",
+								click: function(){
+									$(this).dialog("close");
+								}
+							}]);
+						}
+					});
+				},
+				"No": function(){
+					$(this).dialog("close");
+				}
+			})
+		});
 	}
 
 	function shareCollection(){
@@ -113,14 +156,15 @@
 
 
 	try{
-		$stmt = $mysql->prepare("SELECT name, img, size, sharedusers_json, game FROM collections WHERE username=?");
+		$stmt = $mysql->prepare("SELECT id, name, img, size, sharedusers_json, game FROM collections WHERE username=?");
 		$stmt->bind_param("s", $_SESSION["username"]);
 		if(!$stmt->execute()){
 			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 		}
-		$n = null; $img = null; $s = null; $suj = null; $g = null;
-		$stmt->bind_result($n, $img, $s, $suj, $g);
+		$id = null; $n = null; $img = null; $s = null; $suj = null; $g = null;
+		$stmt->bind_result($id, $n, $img, $s, $suj, $g);
 		while($stmt->fetch()){
+			$row["id"] = $id;
 			$row["name"] = $n;
 			$row["img"] = $img;
 			$row["size"] = $s;
@@ -145,7 +189,7 @@
 				// Item Title and Sidebar decoration
 				echo "<span class='collectionItemTitle'>";
 				echo "<span style='float:right;'>";
-				echo "<a class='collectionItemEditDelete' href='edit_collection.php'>view</a><a class='collectionItemEditDelete' onclick='shareCollection()'>share</a><a class='collectionItemEditDelete' onClick='deleteCollection()'>delete</a>";
+				echo "<a class='collectionItemEditDelete' href='edit_collection.php'>view</a><a class='collectionItemEditDelete' onclick='shareCollection()'>share</a><a class='collectionItemEditDelete' onClick='deleteCollection(".$row["id"].")'>delete</a>";
 				echo "</span>";
 				echo "</span>";
 				echo "<span class='collectionItemSideBar'></span>";
@@ -178,6 +222,13 @@
 	}catch(Exception $e){
 		$mysql->rollback();
 	}
+		echo "<br><br>";
+		echo "<div class='collectionHeader'>";
+		echo "<h2 style='display:inline; margin-right:10px;'>Collections Shared With Me</h2>";
+		echo "</div>";
+		echo "<hr>";
+
+
 
 	}else{
 		echo "You must be logged in to see this page";
