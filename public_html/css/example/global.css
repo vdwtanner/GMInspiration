@@ -157,6 +157,8 @@ Zac's search lists!
   display: inline;
 }
 
+
+
 /************************
 	Inbox CSS
 ************************/
@@ -183,6 +185,8 @@ Zac's search lists!
   float: right;
   padding-right: 8px;
 }
+
+/** End Inbox CSS **/
 
 /*********************************
 	UpdateContribution CSS
@@ -226,7 +230,7 @@ div.namedate {
 }
 span.stars, span.stars span {
 	display: inline-block;
-	background: url(img/dice64x64.png) 0 -16px repeat-x;
+	background: url(../../img/dice64x64.png) 0 -16px repeat-x;
 	background-size: 16px 32px;
 	width: 80px;
 	height: 16px;
@@ -249,6 +253,7 @@ div.textarea {
 	margin: 0px;
 }
 
+/** End UpdateContribution CSS **/
 
 /***********************
 	Homepage CSS
@@ -369,6 +374,84 @@ b.ratingText{
 
 /** End Grid System **/
 
+/** End Homepage CSS **/
+
+/********************************
+	Collections CSS
+*********************************/
+
+.collectionList{
+  border: 2px solid black;
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.collectionListItem{
+  width: 100%;
+  height: 100px;
+  display: block;
+}
+
+
+.collectionItemTitle{
+  width: 100%;
+  height: 20%;
+  display: block;
+  /*background: black;*/
+  background: -webkit-linear-gradient(black, gray); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(black, gray); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(black, gray); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(black, gray); /* Standard syntax */
+}
+
+.collectionItemSidebar{
+  height: 80%;
+  width: 2%;
+  display: inline-block;
+  /*background: black;*/
+  /*background: -webkit-linear-gradient(gray, white); /* For Safari 5.1 to 6.0 */
+  /*background: -o-linear-gradient(gray, white); /* For Opera 11.1 to 12.0 */
+  /*background: -moz-linear-gradient(gray, white); /* For Firefox 3.6 to 15 */
+  /*background: linear-gradient(gray, white); /* Standard syntax */
+  background: gray;
+}
+
+a.collectionItemEditDelete{
+  color: white;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.collectionItemContent{
+  width: 98%;
+  height: 80%;
+  background: #dddddd;
+  display: inline-block;
+}
+
+img.collectionPicture{
+  height: 100%;
+  width: 80px;
+}
+
+.collectionText{
+  vertical-align: top;
+  margin-top: 5px;
+  margin-left: 5px;
+  display: inline-block;
+}
+
+.collectionNumItems{
+  vertical-align: top;
+  margin-top: 5px;
+  margin-right: 5px;
+  display: inline-block;
+  float: right;
+}
+
+
+/** End Collections CSS **/
 
 
 .error{

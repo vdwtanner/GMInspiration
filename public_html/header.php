@@ -209,8 +209,9 @@
 	if($_SESSION["username"]){
 	echo "<b><a href='profile.php?user=".$_SESSION["username"]."'>Profile</a>&nbsp;</b>";
 	echo "<b><a href='contribute.php'>Contribute</a>&nbsp;</b>";
+	echo "<b><a href='collections.php'>Collections</a>&nbsp;</b>";
 	}
-	echo "<form method='GET' action='search_results.php' style='display: inline;'>";
+	echo "<form method='GET' style='display: inline; float: right; margin: 0px;' action='search_results.php'>";
 	echo "<input type='text' name='keywords' style='width: 20em' placeholder='Enter keywords here' title='Search for users, contributions, types, subtypes, and game versions'>";
 	echo "<input type='hidden' name='usort' value='relevance'>";
 	echo "<input type='hidden' name='csort' value='relevance'>";
