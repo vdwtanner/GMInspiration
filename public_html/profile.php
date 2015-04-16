@@ -104,13 +104,13 @@
 		
 			//PLAYER CONTRIBUTIONS
 			//$cresult = $mysql->query("SELECT * from contributions where username='".$username."'");
-			$stmt = $mysql->prepare("SELECT id, name FROM contributions WHERE username=?");
+			$stmt = $mysql->prepare("SELECT id, name, privacy FROM contributions WHERE username=?");
 			$stmt->bind_param("s", $username);
 			if(!$stmt->execute()){
 				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 			}	
-			$id=null; $name=null;
-			$stmt->bind_result($id, $name);
+			$id=null; $name=null; $privacy=null;
+			$stmt->bind_result($id, $name, $privacy);
 			$stmt->fetch();
 		
 			echo "<div class='boxele'>";
@@ -118,8 +118,12 @@
 			echo "<h5>Contributions</h5>";
 			if($id){
 				while($stmt->fetch()){
-					echo "<a href='view_contribution_updateable.php?contid=".$id."'><p>".$name."</p></a>";
-					echo "<br>";
+					if($_SESSION["username"]!=$username && $privacy!=0){
+						echo "You don't have permission to see this contribution.";
+					}else{
+						echo "<a href='view_contribution_updateable.php?contid=".$id."'>".$name."</a>";
+					}
+					echo "<br><br>";
 				}
 			}else{
 				echo $username." has yet to submit any contributions!";
