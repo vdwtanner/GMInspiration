@@ -80,7 +80,7 @@
 		<p style='margin: 0em; padding: 0em'>Top Contributions</p>
 	</div>-->
 	<!--<div class="hotContributions">-->
-	<ul>
+	<ul id="quick_search" class="quick_search">
 		<li id="classes"><a href="http://gminspiration.com/tanner/search_results.php?keywords=class&usort=relevance&csort=relevance&searchSubmit=Search">classes</a></li>
 		<li id="feats"><a href="http://gminspiration.com/tanner/search_results.php?keywords=feat&usort=relevance&csort=relevance&searchSubmit=Search">feats</a></li>
 		<li id="items"><a href="http://gminspiration.com/tanner/search_results.php?keywords=item&usort=relevance&csort=relevance&searchSubmit=Search">items</a></li>
@@ -144,8 +144,7 @@
 					else
 						echo "<table class='rating_table'><tr><td><b class='ratingText'>Fun</b></td><td><span class='stars'>".$row["avg_fun"]."</span></td></tr><tr><td><b class='ratingText'>Balance</b></td><td><span class='stars'>".$row["avg_balance"]."</span></td></tr></table>";
 					echo "<h2 class='blockDescription'>By ".$row["username"]."<br>For ".$row["game"]."</h2>";
-					echo "</div>";
-			//echo "<script type='text/javascript'> setInterval('slideForwards(".$count.")', 10000); </script>";			
+					echo "</div>";			
 					echo "</a>";		
 					$count++;
 				}
