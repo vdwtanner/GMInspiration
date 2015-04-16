@@ -82,12 +82,12 @@
 	<!--<div class="hotContributions">-->
 	<ul id="quick_search" class="quick_search">
 		<li id="classes"><a href="http://gminspiration.com/tanner/search_results.php?keywords=class&usort=relevance&csort=relevance&searchSubmit=Search">classes</a></li>
-		<li id="feats"><a href="http://gminspiration.com/tanner/search_results.php?keywords=feat&usort=relevance&csort=relevance&searchSubmit=Search">feats</a></li>
-		<li id="items"><a href="http://gminspiration.com/tanner/search_results.php?keywords=item&usort=relevance&csort=relevance&searchSubmit=Search">items</a></li>
-		<li id="monsters"><a href="http://gminspiration.com/tanner/search_results.php?keywords=monster&usort=relevance&csort=relevance&searchSubmit=Search">monsters</a></li>
-		<li id="races"><a href="http://gminspiration.com/tanner/search_results.php?keywords=race&usort=relevance&csort=relevance&searchSubmit=Search">races</a></li>
-		<li id="spells"><a href="http://gminspiration.com/tanner/search_results.php?keywords=spell&usort=relevance&csort=relevance&searchSubmit=Search">spells</a></li>
-		<li id="weapons"><a href="http://gminspiration.com/tanner/search_results.php?keywords=weapon&usort=relevance&csort=relevance&searchSubmit=Search">weapons</a></li>
+		&nbsp<li id="feats"><a href="http://gminspiration.com/tanner/search_results.php?keywords=feat&usort=relevance&csort=relevance&searchSubmit=Search">feats</a></li>
+		&nbsp<li id="items"><a href="http://gminspiration.com/tanner/search_results.php?keywords=item&usort=relevance&csort=relevance&searchSubmit=Search">items</a></li>
+		&nbsp<li id="monsters"><a href="http://gminspiration.com/tanner/search_results.php?keywords=monster&usort=relevance&csort=relevance&searchSubmit=Search">monsters</a></li>
+		&nbsp<li id="races"><a href="http://gminspiration.com/tanner/search_results.php?keywords=race&usort=relevance&csort=relevance&searchSubmit=Search">races</a></li>
+		&nbsp<li id="spells"><a href="http://gminspiration.com/tanner/search_results.php?keywords=spell&usort=relevance&csort=relevance&searchSubmit=Search">spells</a></li>
+		&nbsp<li id="weapons"><a href="http://gminspiration.com/tanner/search_results.php?keywords=weapon&usort=relevance&csort=relevance&searchSubmit=Search">weapons</a></li>
 	</ul>
 	<?php
 		$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
@@ -102,7 +102,7 @@
 			}
 			$id = null; $u = null; $n = null; $t = null; $st = null; $g = null; $i = null; $af = null; $ab = null;
 			$stmt->bind_result($id, $u, $n, $t, $st, $g, $i, $af, $ab);
-			for($x = 0; $x < 6; $x++){
+			for($x = 0; $x < 5; $x++){
 				if($stmt->fetch()){
 					$row["id"] = $id;
 					$row["username"] = $u;
@@ -124,19 +124,29 @@
 
 					if($count == 0){
 						echo "<div class='row'>";
+						echo "<a class='col-1-3' style='width:50%; height:400px;' href='view_contribution_updateable.php?contid=".$row["id"]."'>";
+					}else if($count == 1){
+						echo "</div>";
+						echo "<div class='row'>";
+						echo "<a class='col-1-3' href='view_contribution_updateable.php?contid=".$row["id"]."'>";
 					}else if($count == 3){
 						echo "</div>";
 						echo "<div class='row'>";
+						echo "<a class='col-1-3' href='view_contribution_updateable.php?contid=".$row["id"]."'>";
 					}else if($count==sizeof($count)-1){
 						echo "</div>";
+						echo "<a class='col-1-3' href='view_contribution_updateable.php?contid=".$row["id"]."'>";
 					}
-
+					else{
 					echo "<a class='col-1-3' href='view_contribution_updateable.php?contid=".$row["id"]."'>";
+					}
 					if($key == 0)
 						echo "<img class='gridImage' border='0' alt='".$name."' src='".$row["img"]."'>";
 					else
 						echo "<img class='gridImage' border='0' alt='".$name."' src='".$row["img"]."'>";
-					echo "<div class='blockTextBackground'>";
+					if($count == 0){echo "<div class='blockTextBackground' style='height:160px; top:240px;'>";}
+					else{
+					echo "<div class='blockTextBackground'>";}
 					//echo "<h2 class='blockText ellipsis'>".$row["name"]." - ".$row["type"]." ".(!empty($row["sub_type"])?("(".$row["sub_type"].")"):"")."</h2>";
 					echo "<h2 class='blockText ellipsis'>".$row["name"]."<br>".$row["type"]." ".(!empty($row["sub_type"])?("(".$row["sub_type"].")"):"")."</h2>";
 					if($row["avg_fun"] < 0 || $row["avg_balance"] < 0)
@@ -159,5 +169,7 @@
 
 	<!--</div>-->
 </div>
+<br>
+<p style="clear:both;">This is das footer</p>
 </body>
 </html>
