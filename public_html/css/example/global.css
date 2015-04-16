@@ -20,6 +20,7 @@ body {
 	max-width: 60em;
 	border-style: ridge;
   border-color: gray;
+  
 }
 
 a:link {
@@ -258,6 +259,20 @@ div.textarea {
 /***********************
 	Homepage CSS
 ************************/
+.quick_search{
+list-style-type:none;
+text-align: center;
+}
+
+
+.quick_search li{
+display: inline;
+font-weight: bold;
+
+
+}
+
+
 .hotContributions{
   background-color: # !important; 
   background: linear-gradient(gray, white); /* Standard syntax */
@@ -355,7 +370,7 @@ b.ratingText{
 }
 
 .col-1-3{
-  width: 33.33%;
+  width: 25%;
   height: 200px;
 }
 
