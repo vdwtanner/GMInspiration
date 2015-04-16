@@ -410,14 +410,19 @@ b.ratingText{
   width: 2%;
   display: inline-block;
   /*background: black;*/
-  /*background: -webkit-linear-gradient(gray, white); /* For Safari 5.1 to 6.0 */
-  /*background: -o-linear-gradient(gray, white); /* For Opera 11.1 to 12.0 */
-  /*background: -moz-linear-gradient(gray, white); /* For Firefox 3.6 to 15 */
-  /*background: linear-gradient(gray, white); /* Standard syntax */
-  background: gray;
+  background: -webkit-linear-gradient(gray, white); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(gray, white); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(gray, white); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(gray, white); /* Standard syntax */
+  /*background: gray;*/
 }
 
 a.collectionItemEditDelete{
+  color: white;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+b.collectionItemEditDelete{
   color: white;
   margin-left: 4px;
   margin-right: 4px;
