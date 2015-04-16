@@ -243,13 +243,13 @@
 		<div class="name_user_game">
 			<h2><input type="text" id="name" name="name" placeholder="Contribution Name" minlength="3" required/> - <select id="type" name="type" required title="Select a type">
 				<option value="" disabled selected>Choose Type</option>
-				<option value="Weapon">Weapon</option>
-				<option value="Spell">Spell</option>
-				<option value="Consumable">Consumable</option>
-				<option value="Crafting">Crafting</option>
+				<option value="Armor">Armor</option>
+				<option value="Class">Class</option>
 				<option value="Feat">Feat</option>
-				<option value="Artifact">Artifact</option>
-				<option value="Tool">Tool</option>
+				<option value="Item">Item</option>
+				<option value="Monster">Monster</option>
+				<option value="Spell">Spell</option>
+				<option value="Weapon">Weapon</option>
 			</select> (<input id="subtype" name="subtype" type="text" minlength="3" placeholder="Subtype(s)" />)</h2>
 			<h3>submitted by <span style="color: blue;"><u><?php echo $_SESSION["username"]; ?></u></span></h3>
 			<select id="game" name="game" required oninput="editionCheck(this)">

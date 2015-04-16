@@ -81,7 +81,8 @@
 	</div>-->
 	<!--<div class="hotContributions">-->
 	<ul id="quick_search" class="quick_search">
-		<li id="classes"><a href="search_results.php?keywords=class&usort=relevance&csort=relevance&searchSubmit=Search">classes</a></li>
+		<li id="armor"><a href="search_results.php?keywords=armor&usort=relevance&csort=relevance&searchSubmit=Search">armor</a></li>
+		&nbsp <li id="classes"><a href="search_results.php?keywords=class&usort=relevance&csort=rating&searchSubmit=Search">classes</a></li>
 		&nbsp<li id="feats"><a href="search_results.php?keywords=feat&usort=relevance&csort=relevance&searchSubmit=Search">feats</a></li>
 		&nbsp<li id="items"><a href="search_results.php?keywords=item&usort=relevance&csort=relevance&searchSubmit=Search">items</a></li>
 		&nbsp<li id="monsters"><a href="search_results.php?keywords=monster&usort=relevance&csort=relevance&searchSubmit=Search">monsters</a></li>
