@@ -138,6 +138,7 @@
 			$("#modal_area").dialog({
 				height: 450,
 				width: 450,
+				title: "Sign Up",
 				modal: true,
 				position: {my: "center top", at: "center top", of: window},
 				buttons: {
@@ -188,7 +189,7 @@
 
 		echo "<b>Welcome, <a href='profile.php?user=".$_SESSION["username"]."'>".$_SESSION["username"]."</a> &nbsp; <a onclick='logoff()'>logout</a></b>";
 	}else{
-		echo "<b><a onclick='(login())'>Login</a> &nbsp; <a href='sign_up.php'>Sign up</a></b>";
+		echo "<b><a onclick='(login())'>Login</a> &nbsp; <a onclick='signUp()'>Sign up</a></b>";
 	}
 	
 	if($_SESSION["username"]){
