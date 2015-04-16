@@ -204,22 +204,7 @@
 		});
 	}
 
-	$.fn.stars = function() {
-		return $(this).each(function() {
-			// Get the value
-			var val = parseFloat($(this).html());
-			// Make sure that the value is in 0 - 5 range, multiply to get width
-			var size = Math.max(0, (Math.min(5, val))) * 16;
-			// Create stars holder
-			var $span = $('<span />').width(size);
-			// Replace the numerical value with stars
-			$(this).html($span);
-		});
-	}
-		
-	$(function() {
-		$('span.stars').stars();
-	});
+
 
 </script>
 
@@ -270,13 +255,13 @@
 				// Item Title and Sidebar decoration
 				echo "<span class='collectionItemTitle'>";
 				echo "<span style='float:right;'>";
-				echo "<a class='collectionItemEditDelete' href='view_collection.php'>view</a><a class='collectionItemEditDelete' onclick='shareCollection(".$row["id"].")'>share</a><a class='collectionItemEditDelete' onClick='deleteCollection(".$row["id"].")'>delete</a>";
+				echo "<a class='collectionItemEditDelete' onclick='shareCollection(".$row["id"].")'>share</a><a class='collectionItemEditDelete' onClick='deleteCollection(".$row["id"].")'>delete</a>";
 				echo "</span>";
 				echo "</span>";
 				echo "<span class='collectionItemSideBar'></span>";
 		
 					// Item Content
-					echo "<div class='collectionItemContent'>";
+					echo "<a class='collectionItemContent' href='view_collection.php?id=".$row["id"]."'>";
 					// Item Picture
 					echo "<img class='collectionPicture' src='".$row["img"]."'>";			
 					// Item Name, edition, and shared with				
@@ -292,7 +277,7 @@
 					echo "</div>";
 					// Num of Items in Collections
 					echo "<div class='collectionNumItems'><b>".$row["size"]." Items</b></div>";
-					echo "</div>";
+					echo "</a>";
 				echo "</div>";
 			}
 		}else{
@@ -345,14 +330,11 @@
 				echo "<span class='collectionItemTitle'>";
 				echo "<b class='collectionItemEditDelete'>Shared by:</b>";
 				echo "<a class='collectionItemEditDelete' href='profile.php?user=".$row["username"]."'>".$row["username"]."</a>";
-				echo "<span style='float:right;'>";
-				echo "<a class='collectionItemEditDelete' href='view_collection.php'>view</a>";
-				echo "</span>";
 				echo "</span>";
 				echo "<span class='collectionItemSideBar'></span>";
 		
 					// Item Content
-					echo "<div class='collectionItemContent'>";
+					echo "<a class='collectionItemContent' href='view_collection.php?id=".$row["id"]."'>";
 					// Item Picture
 					echo "<img class='collectionPicture' src='".$row["img"]."'>";			
 					// Item Name, edition, and shared with				
@@ -368,7 +350,7 @@
 					echo "</div>";
 					// Num of Items in Collections
 					echo "<div class='collectionNumItems'><b>".$row["size"]." Items</b></div>";
-					echo "</div>";
+					echo "</a>";
 				echo "</div>";
 			}
 		}else{
