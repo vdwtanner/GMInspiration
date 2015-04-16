@@ -74,6 +74,89 @@
 		});
 	}
 
+	function shareCollection(id){
+		var div = document.createElement("div");
+		$(div).load("shareCollection.html");
+		$(div).dialog({
+			height: 210,
+			width: 400,
+			title: "Share with who?",
+			modal: true,
+			position: {my: "center top", at: "center top", of: window },
+			buttons: ({
+				"Add": function(){
+					var share_username=$("#share_username").val();
+					var add = 1;
+					$.ajax({
+						url: "scripts/shareCollection.php",
+						type: "POST",
+						data: {
+							share_username: share_username,
+							id: id,
+							add: add,
+						},
+						success: function(html){
+							$(div).html(html);
+							$(div).dialog("option", "buttons", [{
+								text: "Close",
+								click: function(){
+									$(this).dialog("close");
+									window.location.href="collections.php";
+								}
+							}]);
+							//setTimeout(function(){location.reload()},1200);
+						},
+						error: function(xhr, status, html){
+							$(div).html(html);
+							$(this).dialog("option", "buttons", [{
+								text: "Close",
+								click: function(){
+									$(this).dialog("close");
+								}
+							}]);
+						}
+					});
+				},
+				"Remove": function(){
+					var share_username=$("#share_username").val();
+					var add = 0;
+					$.ajax({
+						url: "scripts/shareCollection.php",
+						type: "POST",
+						data: {
+							share_username: share_username,
+							id: id,
+							add: add,
+						},
+						success: function(html){
+							$(div).html(html);
+							$(div).dialog("option", "buttons", [{
+								text: "Close",
+								click: function(){
+									$(this).dialog("close");
+									window.location.href="collections.php";
+								}
+							}]);
+							//setTimeout(function(){location.reload()},1200);
+						},
+						error: function(xhr, status, html){
+							$(div).html(html);
+							$(this).dialog("option", "buttons", [{
+								text: "Close",
+								click: function(){
+									$(this).dialog("close");
+								}
+							}]);
+						}
+					});
+				},
+				"Cancel": function(){
+					$(this).dialog("close");
+				}
+			})
+		});
+	}
+
 	function deleteCollection(id){
 		var div = document.createElement("div");
 		$(div).html("<b>This cannot be undone.</b>");
@@ -121,10 +204,6 @@
 		});
 	}
 
-	function shareCollection(){
-		alert("Share Collection");
-	}
-
 	$.fn.stars = function() {
 		return $(this).each(function() {
 			// Get the value
@@ -154,7 +233,9 @@
 			die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 		}
 
-
+	/********************************************
+		My Collections Header and Content
+	********************************************/
 	try{
 		$stmt = $mysql->prepare("SELECT id, name, img, size, sharedusers_json, game FROM collections WHERE username=?");
 		$stmt->bind_param("s", $_SESSION["username"]);
@@ -189,7 +270,7 @@
 				// Item Title and Sidebar decoration
 				echo "<span class='collectionItemTitle'>";
 				echo "<span style='float:right;'>";
-				echo "<a class='collectionItemEditDelete' href='edit_collection.php'>view</a><a class='collectionItemEditDelete' onclick='shareCollection()'>share</a><a class='collectionItemEditDelete' onClick='deleteCollection(".$row["id"].")'>delete</a>";
+				echo "<a class='collectionItemEditDelete' href='view_collection.php'>view</a><a class='collectionItemEditDelete' onclick='shareCollection(".$row["id"].")'>share</a><a class='collectionItemEditDelete' onClick='deleteCollection(".$row["id"].")'>delete</a>";
 				echo "</span>";
 				echo "</span>";
 				echo "<span class='collectionItemSideBar'></span>";
@@ -218,17 +299,90 @@
 			echo "<b style='margin: 10px; display: inline-block'>You dont have any Collections!</b>";
 		}
 		echo "</div>";
+		unset($row);
+		unset($rowarr);
 		$mysql->commit();
 	}catch(Exception $e){
 		$mysql->rollback();
 	}
+
+	/***********************************************
+		Shared Collections Header and Content
+	************************************************/
+	try{
+		$stmt = $mysql->prepare("SELECT id, username, name, img, size, sharedusers_json, game FROM collections WHERE sharedusers_json LIKE ?");
+		$usernameTemplate = "%\"".$_SESSION["username"]."\"%";
+		$stmt->bind_param("s", $usernameTemplate);
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		}
+		$id = null; $u = null; $n = null; $img = null; $s = null; $suj = null; $g = null;
+		$stmt->bind_result($id, $u, $n, $img, $s, $suj, $g);
+		while($stmt->fetch()){
+			$row["id"] = $id;
+			$row["username"] = $u;
+			$row["name"] = $n;
+			$row["img"] = $img;
+			$row["size"] = $s;
+			$row["sharedusers_json"] = $suj;
+			$row["game"] = $g;
+			$rowarr[] = $row;
+		}
+
 		echo "<br><br>";
 		echo "<div class='collectionHeader'>";
 		echo "<h2 style='display:inline; margin-right:10px;'>Collections Shared With Me</h2>";
 		echo "</div>";
 		echo "<hr>";
 
+		echo "<div class='collectionList'>";
+		if($rowarr){
+			foreach($rowarr as $key => $row){
+				$sharedusernames = json_decode($row["sharedusers_json"], true);	// get associative json array
+				echo "<div class='collectionListItem'>";
 
+				// Item Title and Sidebar decoration
+				echo "<span class='collectionItemTitle'>";
+				echo "<b class='collectionItemEditDelete'>Shared by:</b>";
+				echo "<a class='collectionItemEditDelete' href='profile.php?user=".$row["username"]."'>".$row["username"]."</a>";
+				echo "<span style='float:right;'>";
+				echo "<a class='collectionItemEditDelete' href='view_collection.php'>view</a>";
+				echo "</span>";
+				echo "</span>";
+				echo "<span class='collectionItemSideBar'></span>";
+		
+					// Item Content
+					echo "<div class='collectionItemContent'>";
+					// Item Picture
+					echo "<img class='collectionPicture' src='".$row["img"]."'>";			
+					// Item Name, edition, and shared with				
+					echo "<div class='collectionText'><b>".$row["name"]."<br>".$row["game"]."</b><br>";
+					if($sharedusernames){
+						echo "<br>Shared With: ";
+						$userkeys = array_keys($sharedusernames);
+						for($i = 0; $i < sizeof($sharedusernames)-1; $i++){
+							echo $sharedusernames[$userkeys[$i]].", ";
+						}
+						echo $sharedusernames[$userkeys[$i]];
+					}
+					echo "</div>";
+					// Num of Items in Collections
+					echo "<div class='collectionNumItems'><b>".$row["size"]." Items</b></div>";
+					echo "</div>";
+				echo "</div>";
+			}
+		}else{
+			echo "<b style='margin: 10px; display: inline-block'>Noone has shared their stuff with you yet.</b>";
+		}
+		echo "</div>";
+
+	
+		
+
+		$mysql->commit();
+	}catch(Exception $e){
+		$mysql->rollback();
+	}
 
 	}else{
 		echo "You must be logged in to see this page";

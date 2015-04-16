@@ -8,11 +8,11 @@
 <div id="formContainer">
 	<form method="POST" action="addCollection.php">
 		<label for="name">Collection Name:</label><br>
-		<input id="collection_name" name="name" type="text" required autofocus/></br>
+		<input id="collection_name" name="name" type="text" maxlength="100" required autofocus/></br>
 		<label for="game">Game:</label><br>
-		<input id="collection_game" name="game" type="text" required /></br>
+		<input id="collection_game" name="game" type="text" maxlength="60" required /></br>
 		<label for="img">Image URL:</label><br>
-		<input id="collection_img" name="img" type="text" /></br>
+		<input id="collection_img" name="img" type="text" maxlength="255" /></br>
 	</form>
 
 </div>
