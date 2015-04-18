@@ -160,7 +160,7 @@
 					}
 					echo "</span>";
 					echo "<span class='collectionItemSideBar'></span>";
-						if($privacy == 0 || $privacy == 2){ // if item is public or protected
+						if($privacy == 0 || $privacy == 2 || $creator == $_SESSION["username"]){ // if item is public or protected
 	
 							// Item Content
 							echo "<a class='collectionItemContent' href='view_contribution_updateable.php?contid=".$contriID."'>";
