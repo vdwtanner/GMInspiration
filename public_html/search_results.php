@@ -101,7 +101,7 @@
 							ORDER BY joined ASC");*/
 
 				$stmt = $mysql->prepare("SELECT username, picture, joined FROM users WHERE username SOUNDS LIKE ? OR username LIKE ?
-							ORDER BY joined ASC");
+							ORDER BY joined DESC");
 			
 				$pvaluep = "%".$value."%";
 				$stmt->bind_param("ss", $value, $pvaluep);
@@ -192,7 +192,7 @@
 							WHEN name LIKE ? THEN 1
 							WHEN name LIKE ? THEN 2
 							WHEN name LIKE ? THEN 3
-							ELSE 4 END, name ASC");
+							ELSE 4 END, avg_fun ASC");
 			
 				$pvaluep = "%".$value."%"; $valuep = $value."%"; $pvalue = "%".$value;
 				$stmt->bind_param("sssssssssssss", $value, $pvaluep, $value, $pvaluep, $value, $pvaluep, $value, $pvaluep, $_SESSION["username"], $value, $valuep, $pvaluep, $pvalue);
@@ -236,7 +236,7 @@
 							WHEN name LIKE ? THEN 1
 							WHEN name LIKE ? THEN 2
 							WHEN name LIKE ? THEN 3
-							ELSE 4 END, timestamp ASC");
+							ELSE 4 END, timestamp DESC");
 			
 				$pvaluep = "%".$value."%"; $valuep = $value."%"; $pvalue = "%".$value;
 				$stmt->bind_param("sssssssssssss", $value, $pvaluep, $value, $pvaluep, $value, $pvaluep, $value, $pvaluep, $_SESSION["username"], $value, $valuep, $pvaluep, $pvalue);
@@ -294,7 +294,7 @@
 		echo "<ul id='ulist'>";
 
 		// arsort() will sort our array in reverse order and maintain our index association.
-		if($_GET["usort"] == "joindate")
+		if($_GET["usort"] == "relevance")
 			arsort($udupecount);	
 		//print_r($udupecount);
 		//print_r($rowarr);
@@ -352,7 +352,7 @@
 		echo "<ul id='clist'>";
 
 		// arsort() will sort our array in reverse order and maintain our index association.
-		if($_GET["csort"] == "submitdate")
+		if($_GET["csort"] == "relevance")
 			arsort($dupecount);	
 		//print_r($dupecount);
 		//print_r($crowarr);

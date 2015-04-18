@@ -8,6 +8,57 @@
         <link rel="stylesheet" href="css/example/global.css" media="all">
         <link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 	<script type='text/javascript'>
+
+		function deleteItemFromCollection(contriID, collectionID){
+			var div = document.createElement("div");
+			$(div).html("<b>Remove this contribution from your collection?</b>");
+			$(div).dialog({
+				height: 200,
+				width: 400,
+				title: "Are you sure?",
+				dialogClass: "ui-state-error",
+				modal: true,
+				position: {my: "center top", at: "center top", of: window },
+				buttons: ({
+					"Yes": function(){
+						$.ajax({
+							url: "scripts/deleteCollectionItem.php",
+							type: "POST",
+							data: {
+								contriID: contriID,
+								collectionID: collectionID,
+							},
+							success: function(html){
+								$(div).html(html);
+								$(div).dialog("option", "buttons", [{
+									text: "Close",
+									click: function(){
+										$(this).dialog("close");
+										window.location.href="view_collection.php?id="+collectionID;
+									}
+								}]);
+								//setTimeout(function(){location.reload()},1200);
+							},
+							error: function(xhr, status, html){
+								$(div).html(html);
+								$(this).dialog("option", "buttons", [{
+									text: "Close",
+									click: function(){
+										$(this).dialog("close");
+									}
+								}]);
+							}
+						});
+					},
+					"No": function(){
+						$(this).dialog("close");
+					}
+				})
+			});
+		}
+
+
+
 		$.fn.stars = function() {
 		return $(this).each(function() {
 			// Get the value
@@ -24,6 +75,7 @@
 		$(function() {
 			$('span.stars').stars();
 		});
+
 	</script>
 
 </head>
@@ -73,20 +125,17 @@
 
 				echo "<div class='collectionHeader'>";
 				echo "<h2 style='display:inline; margin-right:10px;'>".$name."</h2>";
-				echo "<a class='button' href='contribute.php' >New Contribution...</a>";
 				echo "<span style='float: right;'>";
 				echo "<b>".$size." Items</b>";
 				echo "</span>";
 				echo "</div>";
 				echo "<hr>";
 
-				unset($creator);
 				unset($name);
 				unset($size);
 
 
 				echo "<div class='collectionList'>";
-				
 				foreach($cjson as $key => $contriID){
 					$stmt = $mysql->prepare("SELECT username, img, name, `type`, sub_type, game, `desc`, json, avg_fun, avg_balance, privacy FROM contributions WHERE id=?");
 					$stmt->bind_param("i", $contriID);
@@ -104,22 +153,41 @@
 					echo "<span class='collectionItemTitle'>";
 					echo "<b class='collectionItemEditDelete'>Created by:</b>";
 					echo "<a class='collectionItemEditDelete' href='profile.php?user=".$user."'>".$user."</a>";
+					if($_SESSION["username"] == $creator){
+						echo "<span style='float: right;'>";
+						echo "<a class='collectionItemEditDelete' onclick='deleteItemFromCollection(".$contriID.",".$_GET["id"].")'>remove</a>";
+						echo "</span>";
+					}
 					echo "</span>";
 					echo "<span class='collectionItemSideBar'></span>";
+						if($privacy == 0 || $privacy == 2){ // if item is public or protected
 	
-						// Item Content
-						echo "<a class='collectionItemContent' href='view_contribution_updateable.php?contid=".$contriID."'>";
-						// Item Picture
-						echo "<img class='collectionPicture' src='".$img."'>";			
-						// Item Name, game, and rating			
-						echo "<div class='collectionText'><b>".$name."<br>".$game."</b><br>";
-						if($avgBalance >= 0 && $avgFun >= 0)
-							echo "<table><tr><td><b style='font-size:12'>Fun</b></td><td><span class='stars'>".$avgFun."</span></td></tr><tr><td><b style='font-size:12'>Balance</b></td><td><span class='stars'>".$avgBalance."</span></td></tr></table>";
-						else
-							echo "Not yet rated";
-						echo "</div>";
+							// Item Content
+							echo "<a class='collectionItemContent' href='view_contribution_updateable.php?contid=".$contriID."'>";
+							// Item Picture
+							echo "<img class='collectionPicture' src='".$img."'>";			
+							// Item Name, game, and rating			
+							echo "<div class='collectionText'><b>".$name."<br>".$game."</b><br>";
+							if($avgBalance >= 0 && $avgFun >= 0)
+								echo "<table><tr><td><b style='font-size:12'>Fun</b></td><td><span class='stars'>".$avgFun."</span></td></tr><tr><td><b style='font-size:12'>Balance</b></td><td><span class='stars'>".$avgBalance."</span></td></tr></table>";
+							else
+								echo "Not yet rated";
+							echo "</div>";
 
-						echo "</a>";
+							echo "</a>";
+						}else{
+							// Item Content
+							echo "<a class='collectionItemContent' href='view_contribution_updateable.php?contid=".$contriID."'>";
+							// Item Picture
+							echo "<img class='collectionPicture' src='http://upload.wikimedia.org/wikipedia/commons/3/33/White_square_with_question_mark.png'>";			
+							// Item Name, game, and rating			
+							echo "<div class='collectionText'><b>Unidentified Item<br>".$game."</b><br>";
+							echo "Undetermined Rating";
+							echo "</div>";
+
+							echo "</a>";
+
+						}
 					echo "</div>";
 				}
 			

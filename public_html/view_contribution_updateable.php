@@ -80,6 +80,58 @@
 	<script src="scripts/js/utils.js"></script>
 	<link href="scripts/ckeditor/samples/sample.css" rel="stylesheet">
 	<script type="text/javascript" language="javascript">
+
+		function addContributionToCollection(contriID){
+			var div = document.createElement("div");
+			var collectionID = $("#collection_select").val();
+			var collectionName = $("#collection_select_option_"+collectionID).html();
+			$(div).html("<b>Add this contribution to \""+collectionName+"\"?</b>");
+			$(div).dialog({
+				height: 200,
+				width: 400,
+				title: "Add to Collection",
+				modal: true,
+				position: {my: "center top", at: "center top", of: window },
+				buttons: ({
+					"Yes": function(){
+						$.ajax({
+							url: "scripts/addCollectionItem.php",
+							type: "POST",
+							data: {
+								contriID: contriID,
+								collectionID: collectionID,
+							},
+							success: function(html){
+								$(div).html(html);
+								$(div).dialog("option", "buttons", [{
+									text: "Close",
+									click: function(){
+										$(this).dialog("close");
+										window.location.href="view_contribution_updateable.php?contid="+contriID;
+									}
+								}]);
+								//setTimeout(function(){location.reload()},1200);
+							},
+							error: function(xhr, status, html){
+								$(div).html(html);
+								$(this).dialog("option", "buttons", [{
+									text: "Close",
+									click: function(){
+										$(this).dialog("close");
+									}
+								}]);
+							}
+						});
+					},
+					"No": function(){
+						$(this).dialog("close");
+					}
+				})
+			});
+
+
+		}
+
 		function comment(){
 			var cid = $("#contribution_id").text();
 			var username = $("#user").text();
@@ -414,13 +466,54 @@
         $fields = json_decode(($json));    //create associative array from json
 		if($user==$_SESSION["username"]){
 			echo "<a id='update_button' class='button' onclick='update()'>Save Changes</a> <a id='delete_button' class='button' onclick='deleteContribution()'>Delete Contribution</a></br>";
-			echo '<div id="privacy_settings">
+			echo '<div id="privacy_settings" style="display: inline-block">
 					<select id="privacy" title="Select a privacy option" required>
 						<option'.(($privacy==0)?" selected='selected'":"").' value="0">Public</option>
 						<option'.(($privacy==1)?" selected='selected'":"").' value="1">Private</option>
-						<option disabled value="2">Protected</option>
+						<option'.(($privacy==2)?" selected='selected'":"").' value="2">Protected</option>
 					</select></div>';
 			$isCreator=true;
+		}
+		if($_SESSION["username"]){
+			$stmt = $mysql->prepare("SELECT id, name, contribution_ids_json FROM collections WHERE username=?");
+			$stmt->bind_param("s", $_SESSION["username"]);
+			if(!$stmt->execute()){
+				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			}
+			$collectionID = null; $n = null; $contriIDs = null;
+			$stmt->bind_result($collectionID, $n, $contriIDs);
+			while($stmt->fetch()){
+				$row["id"] = $collectionID;
+				$row["name"] = htmlspecialchars($n, ENT_QUOTES, "UTF-8");
+				$row["contribution_ids_json"] = $contriIDs; 
+				$rowarr[] = $row;
+			}
+			echo "<span style='float: right;'>";
+			echo "<div id='collection_add'>";
+			echo "<select id='collection_select' title='Select a collection to add this contribution to.' required>";
+				foreach($rowarr as $key => $row){
+					if($contriIDs)
+						$cjson = json_decode($row["contribution_ids_json"], true);
+					else
+						$cjson = array();
+				
+					if(in_array($id, $cjson))
+						echo "<option disabled value=".$row["id"].">".$row["name"]."</option>";
+					else{
+						echo "<option id='collection_select_option_".$row["id"]."' value=".$row["id"].">".$row["name"]."</option>";
+						$enable_button = true;
+					}
+				}
+			echo "</select>";
+			if($enable_button)
+				echo "<button onclick='addContributionToCollection(".$id.")'>Add to Collection</button>";
+			else
+				echo "<button onclick='addContributionToCollection(".$id.")' disabled>Already Added</button>";
+			echo "</div>";
+			echo "</span>";
+
+			unset($row);
+			unset($rowarr);
 		}
 		
 		echo "<div id='contribution'><div class='profile_img'><img id='img' src='".$img."' alt='An image depicting ".$name."' width='175' height='175' ".($isCreator? "onclick='editImgSrc(this)'":"")."/></div>";

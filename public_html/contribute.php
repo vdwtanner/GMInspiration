@@ -236,7 +236,7 @@
 			<select id="privacy" title="Select a privacy option" required>
 				<option value="0">Public</option>
 				<option value="1">Private</option>
-				<option disabled value="2">Protected</option>
+				<option value="2">Protected</option>
 			</select>
 		</div>
 		<div class="profile_img"><img id="img" onclick="editImgSrc(this)" width="175" height="175" /></div>
