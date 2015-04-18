@@ -15,19 +15,20 @@
 	function sendVerifyMsg($to,$usr,$pass,$hash){
 		echo "<h2>TO:".$to."</h2>";
 		$subject="Dungeon Crawlers Activation";
-		$message="Thanks for signing up!
-		Your account has been created, you can login with the following credentials after activating the account with the URL below:
+		$message="Thanks for signing up!<br>
+		Your account has been created, you can login with the following credentials after activating the account with the URL below:<br><br>
 		
-		----------------------------
-		Username: ".$usr."
-		For security purposes, your password is not shown here.
-		Forgot your password? Click Here: 
-		----------------------------
-		Please click this link to activate your account:
-		http://gminspiration.com/verify.php?email=".$to."&hash=".$hash."
+		----------------------------<br>
+		Username: ".$usr."<br>
+		For security purposes, your password is not shown here.<br>
+		----------------------------<br>
+		Please click this link to activate your account:<br>
+		http://gminspiration.com/verify.php?email=".$to."&hash=".$hash."<Br>
 		
 		";
-		$headers="From:notify@gminspiration.com" . "\r\n";
+		$headers  = 'MIME-Version: 1.0' . "\r\n";
+		$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+		$headers .= 'From: Account Verification <notify@gminspiration.com>' . "\r\n";
 		//$message=wordwrap($message, 70);
 		$success = mail($to,$subject,$message,$headers);
 		if($success)
