@@ -81,14 +81,14 @@
 	</div>-->
 	<!--<div class="hotContributions">-->
 	<ul id="quick_search" class="quick_search">
-		<li id="armor"><a href="http://gminspiration.com/tanner/search_results.php?keywords=armor&usort=relevance&csort=rating&searchSubmit=Search">armor</a></li>
-		&nbsp <li id="classes"><a href="http://gminspiration.com/tanner/search_results.php?keywords=class&usort=relevance&csort=rating&searchSubmit=Search">classes</a></li>
-		&nbsp <li id="feats"><a href="http://gminspiration.com/tanner/search_results.php?keywords=feat&usort=relevance&csort=rating&searchSubmit=Search">feats</a></li>
-		&nbsp <li id="items"><a href="http://gminspiration.com/tanner/search_results.php?keywords=item&usort=relevance&csort=rating&searchSubmit=Search">items</a></li>
-		&nbsp <li id="monsters"><a href="http://gminspiration.com/tanner/search_results.php?keywords=monster&usort=relevance&csort=rating&searchSubmit=Search">monsters</a></li>
-		&nbsp <li id="races"><a href="http://gminspiration.com/tanner/search_results.php?keywords=race&usort=relevance&csort=rating&searchSubmit=Search">races</a></li>
-		&nbsp <li id="spells"><a href="http://gminspiration.com/tanner/search_results.php?keywords=spell&usort=relevance&csort=rating&searchSubmit=Search">spells</a></li>
-		&nbsp <li id="weapons"><a href="http://gminspiration.com/tanner/search_results.php?keywords=weapon&usort=relevance&csort=rating&searchSubmit=Search">weapons</a></li>
+		<li id="armor"><a href="search_results.php?keywords=armor&usort=relevance&csort=rating&searchSubmit=Search">armor</a></li>
+		&nbsp <li id="classes"><a href="search_results.php?keywords=class&usort=relevance&csort=rating&searchSubmit=Search">classes</a></li>
+		&nbsp <li id="feats"><a href="search_results.php?keywords=feat&usort=relevance&csort=rating&searchSubmit=Search">feats</a></li>
+		&nbsp <li id="items"><a href="search_results.php?keywords=item&usort=relevance&csort=rating&searchSubmit=Search">items</a></li>
+		&nbsp <li id="monsters"><a href="search_results.php?keywords=monster&usort=relevance&csort=rating&searchSubmit=Search">monsters</a></li>
+		&nbsp <li id="races"><a href="search_results.php?keywords=race&usort=relevance&csort=rating&searchSubmit=Search">races</a></li>
+		&nbsp <li id="spells"><a href="search_results.php?keywords=spell&usort=relevance&csort=rating&searchSubmit=Search">spells</a></li>
+		&nbsp <li id="weapons"><a href="search_results.php?keywords=weapon&usort=relevance&csort=rating&searchSubmit=Search">weapons</a></li>
 	</ul>
 	<?php
 		$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
