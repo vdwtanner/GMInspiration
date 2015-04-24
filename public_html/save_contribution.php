@@ -68,6 +68,8 @@
 			}
 			$num=null;
 			$stmt->bind_result($num);
+			$stmt->fetch();
+			echo "num contributiuons: ".$num;
 			$num++;
 			$stmt->close();
 			$stmt=$mysql->prepare("UPDATE users SET contributions=? WHERE username=?");
