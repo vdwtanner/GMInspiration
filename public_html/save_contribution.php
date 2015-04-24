@@ -61,23 +61,26 @@
 				}
 				$stmt->close();
 			}
-			$stmt=$mysql->prepare("SELECT contributions FROM users WHERE username=?");
-			$stmt->bind_param("s",$_SESSION["username"]);
-			if(!$stmt->execute()){
-				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			if($privacy==0){
+				$stmt=$mysql->prepare("SELECT contributions FROM users WHERE username=?");
+				$stmt->bind_param("s",$_SESSION["username"]);
+				if(!$stmt->execute()){
+					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+				}
+				$num=null;
+				$stmt->bind_result($num);
+				$stmt->fetch();
+				echo "num contributiuons: ".$num;
+				$num++;
+				$stmt->close();
+				$stmt=$mysql->prepare("UPDATE users SET contributions=? WHERE username=?");
+				$stmt->bind_param("is",$num,$_SESSION["username"]);
+				if(!$stmt->execute()){
+					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+				}
+				$stmt->close();
 			}
-			$num=null;
-			$stmt->bind_result($num);
-			$stmt->fetch();
-			echo "num contributiuons: ".$num;
-			$num++;
-			$stmt->close();
-			$stmt=$mysql->prepare("UPDATE users SET contributions=? WHERE username=?");
-			$stmt->bind_param("is",$num,$_SESSION["username"]);
-			if(!$stmt->execute()){
-				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
-			}
-			$stmt->close();
+			
 			echo "Your contribution was successfully added.";
 			$mysql->commit();
 		}catch(Exception $e){
