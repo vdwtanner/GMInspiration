@@ -186,7 +186,7 @@
 		}
 		$topContributors=json_decode(getTopContributors(), true);// the 'true' parameter makes all arrays instead of classes
 		echo "<br style='clear:both'>";
-		echo "<h2>Top Contributors</h2><div id='topContributors' class='row'>";
+		echo "<h2 title='Public contributions only'>Top Contributors</h2><div id='topContributors' class='row'>";
 		//print_r($topContributors);
 		foreach($topContributors as $index => $row){
 			echo "<a class='col-1-3' href='profile.php?user=".$row["username"]."'>";//Create link to user profile
