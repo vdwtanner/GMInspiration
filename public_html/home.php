@@ -72,6 +72,21 @@
 	$(function() {
 		$('span.stars').stars();
 	});
+	
+	$(document).ready(function(){
+		//console.log("test");
+		$("p.blockDescription").each(function(){
+			var divh=$(this).parent().height();
+			console.log("divh: "+divh+"  ::  this.outerHeight(): "+$(this).outerHeight());
+			while ($(this).outerHeight()>divh) {
+				$(this).text(function (index, text) {
+					return text.replace(/\W*\s(\S)*$/, '...');
+				});
+			}
+		})
+	});
+	
+	
 
 	</script>
 </head>
