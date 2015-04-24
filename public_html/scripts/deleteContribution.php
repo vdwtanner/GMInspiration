@@ -44,6 +44,23 @@
 		}
 		$count+=$mysql->affected_rows;
 		$stmt->close();
+		$stmt=$mysql->prepare("SELECT contributions FROM users WHERE username=?");
+		$stmt->bind_param("s",$_SESSION["username"]);
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		}
+		$num=null;
+		$stmt->bind_result($num);
+		$stmt->fetch();
+		echo "num contributiuons: ".$num;
+		$num--;
+		$stmt->close();
+		$stmt=$mysql->prepare("UPDATE users SET contributions=? WHERE username=?");
+		$stmt->bind_param("is",$num,$_SESSION["username"]);
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		}
+		$stmt->close();
 		if(count==1){
 			echo $count." entry deleted.";
 		}else{
