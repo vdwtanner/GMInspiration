@@ -7,13 +7,13 @@
     }
 	try{
 		$mysql->query("START TRANSACTION");
-		$stmt = $mysql->prepare("SELECT username from contributions WHERE id=?");
+		$stmt = $mysql->prepare("SELECT username, privacy from contributions WHERE id=?");
 		$stmt->bind_param("i",$id);
 		if(!$stmt->execute()){
 			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 		}
-		$creator=null;
-		$stmt->bind_result($creator);
+		$creator=null; $privacy=null;
+		$stmt->bind_result($creator, $privacy);
 		$stmt->fetch();
 		if($_SESSION["username"]!=$creator){
 			die("Username mismatch");
@@ -44,23 +44,25 @@
 		}
 		$count+=$mysql->affected_rows;
 		$stmt->close();
-		$stmt=$mysql->prepare("SELECT contributions FROM users WHERE username=?");
-		$stmt->bind_param("s",$_SESSION["username"]);
-		if(!$stmt->execute()){
-			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		if($privacy==0){//only decrement contributions count if it was public (aka, it was included in the count)
+			$stmt=$mysql->prepare("SELECT contributions FROM users WHERE username=?");
+			$stmt->bind_param("s",$_SESSION["username"]);
+			if(!$stmt->execute()){
+				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			}
+			$num=null;
+			$stmt->bind_result($num);
+			$stmt->fetch();
+			echo "num contributiuons: ".$num;
+			$num--;
+			$stmt->close();
+			$stmt=$mysql->prepare("UPDATE users SET contributions=? WHERE username=?");
+			$stmt->bind_param("is",$num,$_SESSION["username"]);
+			if(!$stmt->execute()){
+				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+			}
+			$stmt->close();
 		}
-		$num=null;
-		$stmt->bind_result($num);
-		$stmt->fetch();
-		echo "num contributiuons: ".$num;
-		$num--;
-		$stmt->close();
-		$stmt=$mysql->prepare("UPDATE users SET contributions=? WHERE username=?");
-		$stmt->bind_param("is",$num,$_SESSION["username"]);
-		if(!$stmt->execute()){
-			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
-		}
-		$stmt->close();
 		if(count==1){
 			echo $count." entry deleted.";
 		}else{
