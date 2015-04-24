@@ -218,6 +218,10 @@ a.button:active {
 	background: #E8A643;
 	border-radius: 10px;
 }
+a.col-1-3{
+	color: inherit;
+}
+
 div.comment {
 	background-color: rgba(150,100,56,.5);
 	border: 2px;
@@ -330,6 +334,13 @@ a.col-1-3:hover .blockTextBackground{
   height: 200;
 }
 
+.blockDescription {
+	color: #FFFFFF;
+	margin-left: 1em;
+	margin-bottom: 1em;
+	text-overflow: ellipsis;
+}
+
 h2.blockText{
   color: white;
   letter-spacing: -1px;
@@ -341,7 +352,7 @@ h2.blockText{
 h2.blockDescription{
   color: white;
   font-size: 20;
-  margin-left: 20px;
+  /*margin-left: 20px;*/
 }
 
 b.ratingText{

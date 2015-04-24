@@ -1,4 +1,7 @@
-<?php include "header.php";?>
+<?php
+	include "header.php";
+	include dirname(__FILE__)."/scripts/homeScripts.php";
+?>
 <DOCTYPE html>
 <html>
 <head>
@@ -166,6 +169,19 @@
 		}catch(Exception $e){
 			$mysql->rollback();
 		}
+		$topContributors=json_decode(getTopContributors(), true);// the 'true' parameter makes all arrays instead of classes
+		echo "<br style='clear:both'>";
+		echo "<h2>Top Contributors</h2><div id='topContributors' class='row'>";
+		//print_r($topContributors);
+		foreach($topContributors as $index => $row){
+			echo "<a class='col-1-3' href='profile.php?user=".$row["username"]."'>";//Create link to user profile
+			echo "<img class='gridImage' border='0' alt='".$row["username"]."' src='".$row["picture"]."'>";//show profile picture
+			echo "<div class='blockTextBackground'>";//Create text block overlay
+			echo "<h2 class='blockText ellipsis'>".$row["username"]."<br>Contributions: ".$row["contributions"]."</h2>";//Create text within overlay
+			echo "<p class='blockDescription ellipses'>".$row["desc"]."</p>";
+			echo "</div></a>";//close div and link
+		}
+		echo "</div>"
 	?>
 
 	<!--</div>-->
