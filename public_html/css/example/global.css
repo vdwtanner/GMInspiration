@@ -251,11 +251,15 @@ p {
 div.textarea {
 	background-color: #FFFFFF;
 	box-shadow: 1px 1px 3px #888888;
-	line-height: 1.5;
-	height: 50px;
+	line-height: 1;
+	min-height: 2em;
 	border-radius: 4px;
 	padding: 0px;
 	margin: 0px;
+}
+
+div.textarea *{
+	margin:	.25em;
 }
 
 /** End UpdateContribution CSS **/
@@ -338,6 +342,7 @@ a.col-1-3:hover .blockTextBackground{
 	color: #FFFFFF;
 	margin-left: 1em;
 	margin-bottom: 1em;
+	margin-right: 1em;
 	text-overflow: ellipsis;
 }
 
