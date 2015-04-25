@@ -464,6 +464,8 @@
 		exit("The contributor has currently set the privacy to \"private,\" so you cannot view it at this time.");
 	}
         $fields = json_decode(($json));    //create associative array from json
+		echo "<a style='float:right;' href='view_contribution_printable.php?contid=".$id."'>view printable version</a>";
+		echo "<span style='display:none; clear:both;'></span>";
 		if($user==$_SESSION["username"]){
 			echo "<a id='update_button' class='button' onclick='update()'>Save Changes</a> <a id='delete_button' class='button' onclick='deleteContribution()'>Delete Contribution</a></br>";
 			echo '<div id="privacy_settings" style="display: inline-block">
@@ -515,6 +517,7 @@
 			unset($row);
 			unset($rowarr);
 		}
+		
 		
 		echo "<div id='contribution'><div class='profile_img'><img id='img' src='".$img."' alt='An image depicting ".$name."' width='175' height='175' ".($isCreator? "onclick='editImgSrc(this)'":"")."/></div>";
 		echo "<div class='name_user_game' ><h2><span id='name' ".($isCreator?"contenteditable='true'":"").">".$name."</span> - <span id='type' ".($isCreator?"contenteditable='true'":"").">".stripslashes($type).(stripslashes(($s_type))? " </span>(<span id='subtype' title='Sub Type' ".($isCreator?"contenteditable='true'":"").">".$s_type."</span>)":"")."</h2>";
