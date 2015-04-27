@@ -262,7 +262,7 @@
 						$mysql->query("START TRANSACTION");
 						$result=$mysql->query("SELECT DISTINCT(game) FROM contributions ORDER BY game ASC");	// This SHOULD be secure.
 						while($row=$result->fetch_array(MYSQLI_BOTH)){
-							echo "<option value='".$row["game"]."'>".$row["game"]."</option>";
+							echo "<option value='".htmlspecialchars($row["game"], ENT_QUOTES, "UTF-8")."'>".htmlspecialchars($row["game"], ENT_QUOTES, "UTF-8")."</option>";
 						}
 						$mysql->commit();
 					}catch(Exception $e){

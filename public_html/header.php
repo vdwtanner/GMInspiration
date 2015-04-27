@@ -187,7 +187,7 @@
 	echo "<div id='headerlinks'>";
 	if($_SESSION["username"]){
 
-		echo "<b>Welcome, <a href='profile.php?user=".$_SESSION["username"]."'>".$_SESSION["username"]."</a> &nbsp; <a onclick='logoff()'>logout</a></b>";
+		echo "<b>Welcome, <a href='profile.php?user=".htmlspecialchars($_SESSION["username"], ENT_QUOTES, "UTF-8")."'>".htmlspecialchars($_SESSION["username"], ENT_QUOTES, "UTF-8")."</a> &nbsp; <a onclick='logoff()'>logout</a></b>";
 	}else{
 		echo "<b><a onclick='(login())'>Login</a> &nbsp; <a onclick='signUp()'>Sign up</a></b>";
 	}
@@ -208,7 +208,7 @@
 	echo "<hr>";
 	echo "<b><a href='home.php'>Home</a>&nbsp;</b>";
 	if($_SESSION["username"]){
-	echo "<b><a href='profile.php?user=".$_SESSION["username"]."'>Profile</a>&nbsp;</b>";
+	echo "<b><a href='profile.php?user=".htmlspecialchars($_SESSION["username"], ENT_QUOTES, "UTF-8")."'>Profile</a>&nbsp;</b>";
 	echo "<b><a href='contribute.php'>Contribute</a>&nbsp;</b>";
 	echo "<b><a href='collections.php'>Collections</a>&nbsp;</b>";
 	}

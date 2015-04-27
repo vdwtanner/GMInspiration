@@ -25,7 +25,7 @@
 			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 		}
 		$stmt->close();
-		echo "Your collection \"".$name."\" was successfully created!";
+		echo "Your collection \"".htmlspecialchars($name, ENT_QUOTES, "UTF-8")."\" was successfully created!";
 		$mysql->commit();
 	}catch(Exception $e){
 		$mysql->rollback();

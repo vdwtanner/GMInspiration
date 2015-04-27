@@ -83,7 +83,7 @@
 				$u = null; $p = null; $j = null;
 				$stmt->bind_result($u, $p, $j);
 				while($stmt->fetch()){
-					$row["username"] = $u;
+					$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 					$row["picture"] = $p;
 					$row["joined"] = $j;
 					$rowarr[$u] = $row;
@@ -111,7 +111,7 @@
 				$u = null; $p = null; $j = null;
 				$stmt->bind_result($u, $p, $j);
 				while($stmt->fetch()){
-					$row["username"] = $u;
+					$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 					$row["picture"] = $p;
 					$row["joined"] = $j;
 					$rowarr[$u] = $row;
@@ -159,9 +159,9 @@
 				while($stmt->fetch()){
 					$row["id"] = $id;
 					$row["img"] = $img;
-					$row["name"] = $n;
-					$row["game"] = $g;
-					$row["username"] = $u;
+					$row["name"] = htmlspecialchars($n, ENT_QUOTES, "UTF-8");
+					$row["game"] = htmlspecialchars($g, ENT_QUOTES, "UTF-8");
+					$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 					$crowarr[$id] = $row;
 					if(isset($dupecount[$row["id"]]))		// dupecount is gonna keep track of how many hits we get for each result
 						$dupecount[$row["id"]]++;
@@ -204,9 +204,9 @@
 				while($stmt->fetch()){
 					$row["id"] = $id;
 					$row["img"] = $img;
-					$row["name"] = $n;
-					$row["game"] = $g;
-					$row["username"] = $u;
+					$row["name"] = htmlspecialchars($n, ENT_QUOTES, "UTF-8");
+					$row["game"] = htmlspecialchars($g, ENT_QUOTES, "UTF-8");
+					$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 					$crowarr[$id] = $row;
 					if(isset($dupecount[$row["id"]]))		// dupecount is gonna keep track of how many hits we get for each result
 						$dupecount[$row["id"]]++;
@@ -248,9 +248,9 @@
 				while($stmt->fetch()){
 					$row["id"] = $id;
 					$row["img"] = $img;
-					$row["name"] = $n;
-					$row["game"] = $g;
-					$row["username"] = $u;
+					$row["name"] = htmlspecialchars($n, ENT_QUOTES, "UTF-8");
+					$row["game"] = htmlspecialchars($g, ENT_QUOTES, "UTF-8");
+					$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 					$crowarr[$id] = $row;
 					if(isset($dupecount[$row["id"]]))		// dupecount is gonna keep track of how many hits we get for each result
 						$dupecount[$row["id"]]++;
@@ -285,8 +285,8 @@
 			echo "<option value='joindate' selected='selected'>Join Date</option>";
 		}
 		echo "</select>";
-		echo "<input type='hidden' name='csort' value='".$_GET["csort"]."'>";
-		echo "<input type='hidden' name='keywords' value='".$_GET["keywords"]."'>";
+		echo "<input type='hidden' name='csort' value='".htmlspecialchars($_GET["csort"], ENT_QUOTES, "UTF-8")."'>";
+		echo "<input type='hidden' name='keywords' value='".htmlspecialchars($_GET["keywords"], ENT_QUOTES, "UTF-8")."'>";
 		echo "</form>";
 		echo "<div class='listshowhide'>";
 		echo "<a href='#' id='uhide' onclick='toggle_vis(\"ulist\",this);'>[hide]</a>";
@@ -343,8 +343,8 @@
 			echo "<option value='submitdate' selected='selected'>Submission Date</option>";
 		}
 		echo "</select>";
-		echo "<input type='hidden' name='usort' value='".$_GET["usort"]."'>";
-		echo "<input type='hidden' name='keywords' value='".$_GET["keywords"]."'>";
+		echo "<input type='hidden' name='usort' value='".htmlspecialchars($_GET["usort"], ENT_QUOTES, "UTF-8")."'>";
+		echo "<input type='hidden' name='keywords' value='".htmlspecialchars($_GET["keywords"], ENT_QUOTES, "UTF-8")."'>";
 		echo "</form>";
 		echo "<div class='listshowhide'>";
 		echo "<a href='#' id='chide' onclick='toggle_vis(\"clist\",this);'>[hide]</a>";

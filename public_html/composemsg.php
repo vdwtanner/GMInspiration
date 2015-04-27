@@ -18,10 +18,10 @@
 
 		try{
 
-			echo "<form method='POST' action='sendmsg.php?redirect=".$_GET["redirect"]."'>";
+			echo "<form method='POST' action='sendmsg.php?redirect=".htmlspecialchars($_GET["redirect"], ENT_QUOTES, "UTF-8")."'>";
 			if($_GET["recipient"]){
-				echo "TO: ".$_GET["recipient"]."<br>";
-				echo "<input type='hidden' name='msgrecipient' value='".$_GET["recipient"]."'>";
+				echo "TO: ".htmlspecialchars($_GET["recipient"], ENT_QUOTES, "UTF-8")."<br>";
+				echo "<input type='hidden' name='msgrecipient' value='".htmlspecialchars($_GET["recipient"], ENT_QUOTES, "UTF-8")."'>";
 			}else{
 				echo "<input type='text' name='msgrecipient' placeholder='Recipient' size='76' maxlength='255'></input><br>";
 			}

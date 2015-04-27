@@ -32,11 +32,17 @@
 		$stmt->fetch();		
 		$stmt->close();
 
+		$img = $purifier->purify($img);
+
 		$mysql->commit();
 	}catch(Exception $e){
 		$mysql->rollback();
 	}
 	$mysql->close();
+
+	$user = htmlspecialchars($user, ENT_QUOTES, "UTF-8");
+	$comment = htmlspecialchars($comment, ENT_QUOTES, "UTF-8");
+
 	echo "<div class='comment'><img src='".$img."' alt='".$user."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$user."</h4>";
 	echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date("F j, Y g:i A")."</h5></div></br>";
 	echo "<p style='padding: 0em; margin: 0em;'>".$comment."</p></div>";

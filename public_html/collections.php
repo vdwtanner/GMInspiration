@@ -231,11 +231,11 @@
 		$stmt->bind_result($id, $n, $img, $s, $suj, $g);
 		while($stmt->fetch()){
 			$row["id"] = $id;
-			$row["name"] = $n;
+			$row["name"] = htmlspecialchars($n, ENT_QUOTES, "UTF-8");
 			$row["img"] = $img;
-			$row["size"] = $s;
+			$row["size"] = $s
 			$row["sharedusers_json"] = $suj;
-			$row["game"] = $g;
+			$row["game"] = htmlspecialchars($g, ENT_QUOTES, "UTF-8");
 			$rowarr[] = $row;
 		}
 
@@ -270,9 +270,9 @@
 						echo "<br>Shared With: ";
 						$userkeys = array_keys($sharedusernames);
 						for($i = 0; $i < sizeof($sharedusernames)-1; $i++){
-							echo $sharedusernames[$userkeys[$i]].", ";
+							echo htmlspecialchars($sharedusernames[$userkeys[$i]], ENT_QUOTES, "UTF-8").", ";
 						}
-						echo $sharedusernames[$userkeys[$i]];
+						echo htmlspecialchars($sharedusernames[$userkeys[$i]], ENT_QUOTES, "UTF-8");
 					}
 					echo "</div>";
 					// Num of Items in Collections
@@ -305,12 +305,12 @@
 		$stmt->bind_result($id, $u, $n, $img, $s, $suj, $g);
 		while($stmt->fetch()){
 			$row["id"] = $id;
-			$row["username"] = $u;
-			$row["name"] = $n;
+			$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
+			$row["name"] = htmlspecialchars($n, ENT_QUOTES, "UTF-8");
 			$row["img"] = $img;
 			$row["size"] = $s;
 			$row["sharedusers_json"] = $suj;
-			$row["game"] = $g;
+			$row["game"] = htmlspecialchars($g, ENT_QUOTES, "UTF-8");
 			$rowarr[] = $row;
 		}
 
@@ -343,9 +343,9 @@
 						echo "<br>Shared With: ";
 						$userkeys = array_keys($sharedusernames);
 						for($i = 0; $i < sizeof($sharedusernames)-1; $i++){
-							echo $sharedusernames[$userkeys[$i]].", ";
+							echo htmlspecialchars($sharedusernames[$userkeys[$i]], ENT_QUOTES, "UTF-8").", ";
 						}
-						echo $sharedusernames[$userkeys[$i]];
+						echo htmlspecialchars($sharedusernames[$userkeys[$i]], ENT_QUOTES, "UTF-8");
 					}
 					echo "</div>";
 					// Num of Items in Collections
