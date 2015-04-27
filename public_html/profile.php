@@ -78,17 +78,20 @@
 			$stmt->fetch();
 			$stmt->close();
 
+			$picture = htmlspecialchars($picture, ENT_QUOTES, "UTF-8");
+			$description = htmlspecialchars($description, ENT_QUOTES, "UTF-8");
+			$d_username = htmlspecialchars($username, ENT_QUOTES, "UTF-8");
 
 			//IMG and PROFILE NAME
-			echo "<img src='".$picture."' style='float:left' height='100' width='100' alt='An image depicting ".$row["username"]."' />";
+			echo "<img src='".$picture."' style='float:left' height='100' width='100' alt='An image depicting ".$d_username."' />";
 			echo "<div id='namedate'>";
-			echo "<h2 style=''>".$username."</h2>";
+			echo "<h2 style=''>".$d_username."</h2>";
 			echo "<h4> User since ".$joined;
 			echo "<div id='pm'>";
 			if($username == $_SESSION["username"])
 				echo "<a href='profilesettings.php'>edit your profile settings</a>";
 			else
-				echo "<a href='composemsg.php?recipient=".$username."&redirect=p'>Send this user a private message</a>";
+				echo "<a href='composemsg.php?recipient=".$d_username."&redirect=p'>Send this user a private message</a>";
 			echo "</div>";
 			echo "</div>";
 
@@ -112,6 +115,8 @@
 			$id=null; $name=null; $privacy=null;
 			$stmt->bind_result($id, $name, $privacy);
 			$stmt->fetch();
+
+			$name = htmlspecialchars($name, ENT_QUOTES, "UTF-8");
 		
 			echo "<div class='boxele'>";
 			echo "<div style='padding-left: 2em'>";
@@ -126,7 +131,7 @@
 					echo "<br><br>";
 				}
 			}else{
-				echo $username." has yet to submit any contributions!";
+				echo $d_username." has yet to submit any contributions!";
 			}
 			echo "</div>";
 			echo "</div>";

@@ -233,7 +233,7 @@
 			$row["id"] = $id;
 			$row["name"] = htmlspecialchars($n, ENT_QUOTES, "UTF-8");
 			$row["img"] = $img;
-			$row["size"] = $s
+			$row["size"] = $s;
 			$row["sharedusers_json"] = $suj;
 			$row["game"] = htmlspecialchars($g, ENT_QUOTES, "UTF-8");
 			$rowarr[] = $row;

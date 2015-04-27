@@ -105,6 +105,7 @@
 			// Make all the display items safe
 			$name = htmlspecialchars($name, ENT_QUOTES, "UTF-8");
 			$creator = htmlspecialchars($creator, ENT_QUOTES, "UTF-8");
+			$game = htmlspecialchars($game, ENT_QUOTES, "UTF-8");
 
 			// Decode the contribution_ids_json
 			if($contriJson)
@@ -146,6 +147,13 @@
 					$stmt->bind_result($user, $img, $name, $type, $s_type, $game, $desc, $json, $avgFun, $avgBalance, $privacy);
 					$stmt->fetch();
 					$stmt->close();
+
+					$user = htmlspecialchars($user, ENT_QUOTES, "UTF-8");
+					$name = htmlspecialchars($name, ENT_QUOTES, "UTF-8");
+					$type = htmlspecialchars($type, ENT_QUOTES, "UTF-8");
+					$s_type = htmlspecialchars($s_type, ENT_QUOTES, "UTF-8");
+					$game = htmlspecialchars($game, ENT_QUOTES, "UTF-8");
+
 
 					echo "<div class='contributionListItem'>";
 

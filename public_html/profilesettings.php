@@ -41,6 +41,9 @@
 			$stmt->fetch();
 			$stmt->close();
 
+			$description = htmlspecialchars($description, ENT_QUOTES, "UTF-8");
+			$picture = htmlspecialchars($picture, ENT_QUOTES, "UTF-8");
+
 			echo "<form method='POST' action='profile.php'>";
 			echo "Description<br>";
 			echo "<textarea name='descrEdit' rows=7 cols=75>".$description."</textarea><br>";
