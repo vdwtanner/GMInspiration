@@ -42,7 +42,7 @@
 
 			// Then lets save that array
 			$stmt = $mysql->prepare("UPDATE collections SET contribution_ids_json=?, size=? WHERE id=?");
-			$stmt->bind_param("sii", $contriIDjson, count($contriIDjson), $collectionID);
+			$stmt->bind_param("sii", $contriIDjson, count($contriIDArray), $collectionID);
 			if(!$stmt->execute()){
 				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 			}

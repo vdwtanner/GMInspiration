@@ -28,11 +28,11 @@
 		}
 		//echo "Welcome to the contribution screen, ".$_SESSION["username"];
 		echo "</br>";
-		$privacy=$purifier->purify($_POST["privacy"]);
-		$name=$purifier->purify($_POST["name"]);	
-		$game=$purifier->purify($_POST["game"]);	
-		$type=$purifier->purify($_POST["type"]);	
-		$subtype=$purifier->purify($_POST["subtype"]);	
+		$privacy=$_POST["privacy"];
+		$name=$_POST["name"];	
+		$game=$_POST["game"];	
+		$type=$_POST["type"];	
+		$subtype=$_POST["subtype"];	
 		$desc=$purifier->purify($_POST["desc"]);	
 		$img=$purifier->purify($_POST["img"]);
 		$json=$purifier->purify($_POST["json"]);	

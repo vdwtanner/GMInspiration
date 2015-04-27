@@ -11,6 +11,9 @@
 </head>
 <body>
         <?php
+		require_once dirname(__FILE__).'/HTMLPurifier/library/HTMLPurifier.auto.php';
+		$purifier = new HTMLPurifier();
+
                 if(!$_SESSION["username"]){
                         header("HTTP/1.1 401 You are not logged in");
                         die("You must be logged in in order to access this part of the site.");
@@ -24,18 +27,17 @@
                 echo "</br>";
                 $parser = new parser;
                 $id=$_POST["id"];
-				$privacy=$_POST["privacy"];
-                $name=htmlspecialchars($_POST["name"], ENT_QUOTES);
-                $game=htmlspecialchars($_POST["game"]);
-                $type=htmlspecialchars($_POST["type"]);
-                $subtype=htmlspecialchars($_POST["subtype"]);
-                $desc=($_POST["desc"]);
-                //echo $desc;
-                $img=$_POST["img"];
+		$privacy=$_POST["privacy"];
+		$name=$_POST["name"];	
+		$game=$_POST["game"];	
+		$type=$_POST["type"];	
+		$subtype=$_POST["subtype"];	
+		$desc=$purifier->purify($_POST["desc"]);	
+		$img=$purifier->purify($_POST["img"]);
+		$json=$purifier->purify($_POST["json"]);
                 if($game=="other"){
-                        $game=htmlspecialchars($_POST["other"]);
+                        $game=$_POST["other"];
                 }
-                $json=($_POST["json"]);
                 //echo $json;
                 //print_r($array);
                 //echo "</br>";

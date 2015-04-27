@@ -30,6 +30,14 @@
 	$stmt->fetch();
 	$stmt->close();
 
+	$user = htmlspecialchars($user, ENT_QUOTES, "UTF-8");
+	$name = htmlspecialchars($name, ENT_QUOTES, "UTF-8");
+	$type = htmlspecialchars($type, ENT_QUOTES, "UTF-8");
+	$s_type = htmlspecialchars($s_type, ENT_QUOTES, "UTF-8");
+	$game = htmlspecialchars($game, ENT_QUOTES, "UTF-8");
+
+
+
 	if($privacy==1 && $user!=$_SESSION["username"]){
 		//echo "<h3>The contributor has currently set the privacy to \"private,\" so you cannot view it at this time.";
 		exit("The contributor has currently set the privacy to \"private,\" so you cannot view it at this time.");

@@ -433,6 +433,9 @@
 	$isCreator=false;
 	
     try{
+	/*********************************
+		Avg Ratings Code
+	**********************************/
         $mysql->query("START TRANSACTION");
 		//$ratings=$mysql->query("SELECT COUNT(*), SUM(fun), SUM(balance) FROM ratings WHERE contribution_id=".$id);
 		$stmt = $mysql->prepare("SELECT COUNT(*), SUM(fun), SUM(balance) FROM ratings WHERE contribution_id=?");
@@ -450,6 +453,9 @@
 			$avgBalance=$b/$c;
 		}
         //$result = $mysql->query("SELECT * from contributions where id='".$id."'");
+	/*********************************
+		Get Contribution Data
+	**********************************/
 	$stmt = $mysql->prepare("SELECT username, img, name, `type`, sub_type, game, `desc`, json, privacy FROM contributions WHERE id=?");
 	$stmt->bind_param("i", $id);
 	if(!$stmt->execute()){
@@ -460,10 +466,19 @@
 	$stmt->fetch();
 	$stmt->close();
 	if($privacy==1 && $user!=$_SESSION["username"]){
-		//echo "<h3>The contributor has currently set the privacy to \"private,\" so you cannot view it at this time.";
 		exit("The contributor has currently set the privacy to \"private,\" so you cannot view it at this time.");
 	}
+	// make it safe to display
+	$user = htmlspecialchars($user, ENT_QUOTES, "UTF-8");
+	$name = htmlspecialchars($name, ENT_QUOTES, "UTF-8");
+	$type = htmlspecialchars($type, ENT_QUOTES, "UTF-8");
+	$s_type = htmlspecialchars($s_type, ENT_QUOTES, "UTF-8");
+	$game = htmlspecialchars($game, ENT_QUOTES, "UTF-8");
+
         $fields = json_decode(($json));    //create associative array from json
+	/********************************
+		Privacy Drop Down
+	*********************************/
 		echo "<a style='float:right;' href='view_contribution_printable.php?contid=".$id."'>view printable version</a>";
 		echo "<span style='display:none; clear:both;'></span>";
 		if($user==$_SESSION["username"]){
@@ -477,6 +492,9 @@
 			$isCreator=true;
 		}
 		if($_SESSION["username"]){
+	/********************************
+		Collection Drop Down
+	*********************************/
 			$stmt = $mysql->prepare("SELECT id, name, contribution_ids_json FROM collections WHERE username=?");
 			$stmt->bind_param("s", $_SESSION["username"]);
 			if(!$stmt->execute()){
@@ -518,7 +536,9 @@
 			unset($rowarr);
 		}
 		
-		
+	/********************************
+		Display Collection
+	*********************************/	
 		echo "<div id='contribution'><div class='profile_img'><img id='img' src='".$img."' alt='An image depicting ".$name."' width='175' height='175' ".($isCreator? "onclick='editImgSrc(this)'":"")."/></div>";
 		echo "<div class='name_user_game' ><h2><span id='name' ".($isCreator?"contenteditable='true'":"").">".$name."</span> - <span id='type' ".($isCreator?"contenteditable='true'":"").">".stripslashes($type).(stripslashes(($s_type))? " </span>(<span id='subtype' title='Sub Type' ".($isCreator?"contenteditable='true'":"").">".$s_type."</span>)":"")."</h2>";
 		echo "<h3>submitted by <a href=profile.php?user=".$user.">".$user."</a></h3><h3 id='game'>".stripslashes($game)."</h3></div>";
@@ -547,11 +567,14 @@
 		echo "<button onclick='addField()'>Add Field</button></br>";
 	}
 ?>
-	
+
 	<span><button id="comments_tab" onclick="showComments()" disabled="true">Comments</button><button id="ratings_tab" onclick="showRatings()">Ratings</button></span>
 	</br></br>
 	<div id='comments'>
 		<?php
+	/********************************
+		Display Comments
+	*********************************/
 			if($_SESSION["username"]){
 				/*echo "<form id='make_comment'>
 					<textarea id='comment' contenteditable='true' rows='5' cols='50' placeholder='Enter comment here.' required ></textarea>
@@ -571,9 +594,9 @@
 			$u=null; $t=null; $c=null;
 			$stmt->bind_result($u, $t, $c);
 			while($stmt->fetch()){
-				$row["username"] = $u;
+				$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 				$row["timestamp"] = $t;
-				$row["comment"] = $c;
+				$row["comment"] = htmlspecialchars($c, ENT_QUOTES, "UTF-8");
 				$rowarr[] = $row;
 			}
 			$stmt->close();
@@ -589,9 +612,10 @@
 					$stmt->bind_result($img);
 					$stmt->fetch();
 					$stmt->close();
+
 					echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4></a>";
 					echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
-					echo "<p style=' margin: 0em;'>".stripslashes($row["comment"])."</p></div>";
+					echo "<p style=' margin: 0em;'>".$row["comment"]."</p></div>";
 				}
 			}
 			unset($row);
@@ -601,6 +625,9 @@
 	</div>
 	<div id="ratings" style="display:none;">
 		<?php
+	/********************************
+		Display Ratings
+	*********************************/
 			if($_SESSION["username"]){
 				//$rating_check=$mysql->query("SELECT * FROM ratings WHERE contribution_id=".$id." AND username='".$_SESSION["username"]."'");
 				$stmt = $mysql->prepare("SELECT id FROM ratings WHERE contribution_id=? AND username=?");
@@ -627,9 +654,9 @@
 			$u=null; $t=null; $c=null; $f=0; $b=0;
 			$stmt->bind_result($u, $t, $c, $f, $b);
 			while($stmt->fetch()){
-				$row["username"] = $u;
+				$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 				$row["timestamp"] = $t;
-				$row["comment"] = $c;
+				$row["comment"] = htmlspecialchars($c, ENT_QUOTES, "UTF-8");
 				$row["fun"] = $f;
 				$row["balance"] = $b;
 				$rowarr[] = $row;
@@ -651,7 +678,7 @@
 					echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
 					echo "<table class='rating_table'><tr><td><b>Fun</b></td><td><span class='stars'>".$row["fun"]."</span></td></tr>
 						<tr><td><b>Balance</b></td><td><span class='stars'>".$row["balance"]."</span></td></tr></table>";
-					echo "<p style=' margin: 0em;'>".stripslashes($row["comment"])."</p></div>";
+					echo "<p style=' margin: 0em;'>".$row["comment"]."</p></div>";
 				}
 			}
 

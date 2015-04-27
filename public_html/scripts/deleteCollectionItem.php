@@ -22,23 +22,23 @@
 		if($u == $_SESSION["username"]){
 
 			if($c)
-				$cjson = json_decode($c, true);
+				$cjsonArr = json_decode($c, true);
 			else
-				$cjson = array();
+				$cjsonArr = array();
 
 
-			$index = array_search($contribution_id, $cjson);
+			$index = array_search($contribution_id, $cjsonArr);
 			if($index === false){
 				echo "That contribution isnt in this collection!";
 				exit();
 			}else{
-				unset($cjson[$index]);
+				unset($cjsonArr[$index]);
 			}
 
-			$cjson = json_encode($cjson);
+			$cjson = json_encode($cjsonArr);
 
 			$stmt = $mysql->prepare("UPDATE collections SET contribution_ids_json=?, size=? WHERE id=?");
-			$stmt->bind_param("sii", $cjson, count($cjson), $collection_id);
+			$stmt->bind_param("sii", $cjson, count($cjsonArr), $collection_id);
 			if(!$stmt->execute()){
 				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 			}
