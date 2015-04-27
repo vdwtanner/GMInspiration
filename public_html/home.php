@@ -114,7 +114,7 @@
 			die('Connect Error ('.$mysqli->connect_errno.')'.$mysqli->connect_error);
 		}
 		try{
-			$stmt = $mysql->prepare("SELECT id, username, name, type, sub_type, game, img, avg_fun, avg_balance FROM contributions WHERE privacy=0 OR username=?");
+			/*$stmt = $mysql->prepare("SELECT id, username, name, type, sub_type, game, img, avg_fun, avg_balance FROM contributions WHERE privacy=0 OR username=?");
 			$stmt->bind_param("s", $_SESSION["username"]);
 			if(!$stmt->execute()){
 				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
@@ -135,8 +135,8 @@
 
 					$rowarr[] = $row;
 				}
-			}
-
+			}*/
+			$rowarr = json_decode(getUpAndComing(),true);
 			$count = 0;
 			if($rowarr){
 				foreach($rowarr as $key => $row){
@@ -179,8 +179,8 @@
 				}
 			}
 
-			$stmt->close();
-			$mysql->commit();
+			//$stmt->close();
+			//$mysql->commit();
 		}catch(Exception $e){
 			$mysql->rollback();
 		}
