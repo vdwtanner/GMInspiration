@@ -35,43 +35,43 @@
 		try{
 			$mysql->query("START TRANSACTION");
 			//by ratings
-			$stmt=$mysql->prepare("SELECT id, name, avg_fun, avg_balance, type, sub_type, img, ratings FROM contributions WHERE privacy=0 AND ratings > 0 AND `timestamp` > DATE_SUB(now(), INTERVAL 30 DAY) AND img != 'NULL' ORDER BY avg_fun DESC, avg_balance DESC LIMIT 5");
+			$stmt=$mysql->prepare("SELECT id, name, avg_fun, avg_balance, type, sub_type, game, img, ratings FROM contributions WHERE privacy=0 AND ratings > 0 AND `timestamp` > DATE_SUB(now(), INTERVAL 30 DAY) AND img != 'NULL' ORDER BY avg_fun DESC, avg_balance DESC LIMIT 5");
 			if(!$stmt->execute()){
 				echo "MYSQL ERROR";
 			}
-			$id=null; $name=null; $fun=null; $bal=null; $type=null; $sub=null; $img=null; $ratings=null;
-			$stmt->bind_result($id, $name, $fun, $bal, $type, $sub, $img, $ratings);
+			$id=null; $name=null; $fun=null; $bal=null; $type=null; $sub=null; $game=null; $img=null; $ratings=null;
+			$stmt->bind_result($id, $name, $fun, $bal, $type, $sub, $game, $img, $ratings);
 			while($stmt->fetch())
 			{
-				$bindResults = array("id"=>$id, "name"=>$name, "avg_fun"=>$fun, "avg_balance"=>$bal, "type"=>$type, "sub_type"=>$sub, "img"=>$img, "ratings"=>$ratings);
+				$bindResults = array("id"=>$id, "name"=>$name, "avg_fun"=>$fun, "avg_balance"=>$bal, "type"=>$type, "sub_type"=>$sub, "game"=>$game, "img"=>$img, "ratings"=>$ratings);
 				array_push($json, $bindResults);
 			}
 			$stmt->close();
 			//By num_ratings and ratings
-			$stmt=$mysql->prepare("SELECT id, name, avg_fun, avg_balance, type, sub_type, img, ratings FROM contributions WHERE privacy=0 AND ratings > 0 AND `timestamp` > DATE_SUB(now(), INTERVAL 30 DAY) AND img != 'NULL' ORDER BY ratings DESC, avg_fun DESC, avg_balance DESC LIMIT 5");
+			$stmt=$mysql->prepare("SELECT id, name, avg_fun, avg_balance, type, sub_type, game, img, ratings FROM contributions WHERE privacy=0 AND ratings > 0 AND `timestamp` > DATE_SUB(now(), INTERVAL 30 DAY) AND img != 'NULL' ORDER BY ratings DESC, avg_fun DESC, avg_balance DESC LIMIT 5");
 			if(!$stmt->execute()){
 				echo "MYSQL ERROR";
 			}
-			$id=null; $name=null; $fun=null; $bal=null; $type=null; $sub=null; $img=null; $ratings=null;
-			$stmt->bind_result($id, $name, $fun, $bal, $type, $sub, $img, $ratings);
+			$id=null; $name=null; $fun=null; $bal=null; $type=null; $sub=null; $game=null; $img=null; $ratings=null;
+			$stmt->bind_result($id, $name, $fun, $bal, $type, $sub, $game, $img, $ratings);
 			while($stmt->fetch())
 			{
-				$bindResults = array("id"=>$id, "name"=>$name, "avg_fun"=>$fun, "avg_balance"=>$bal, "type"=>$type, "sub_type"=>$sub, "img"=>$img, "ratings"=>$ratings);
+				$bindResults = array("id"=>$id, "name"=>$name, "avg_fun"=>$fun, "avg_balance"=>$bal, "type"=>$type, "sub_type"=>$sub, "game"=>$game, "img"=>$img, "ratings"=>$ratings);
 				array_push($json2, $bindResults);
 			}
 			$stmt->close();
 			if(count($json)<5){
 				$limit=5-count($json);
-				$stmt=$mysql->prepare("SELECT id, name, avg_fun, avg_balance, type, sub_type, img, ratings FROM contributions WHERE ratings=0 AND privacy=0 AND `timestamp` > DATE_SUB(now(), INTERVAL 30 DAY) AND img != 'NULL' ORDER BY timestamp DESC LIMIT ?");
+				$stmt=$mysql->prepare("SELECT id, name, avg_fun, avg_balance, type, sub_type, game, img, ratings FROM contributions WHERE ratings=0 AND privacy=0 AND `timestamp` > DATE_SUB(now(), INTERVAL 30 DAY) AND img != 'NULL' ORDER BY timestamp DESC LIMIT ?");
 				$stmt->bind_param("i", $limit);
 				if(!$stmt->execute()){
 					echo "MYSQL ERROR";
 				}
-				$id=null; $name=null; $fun=null; $bal=null; $type=null; $sub=null; $img=null; $ratings=null;
-				$stmt->bind_result($id, $name, $fun, $bal, $type, $sub, $img, $ratings);
+				$id=null; $name=null; $fun=null; $bal=null; $type=null; $sub=null; $game=null; $img=null; $ratings=null;
+				$stmt->bind_result($id, $name, $fun, $bal, $type, $sub, $game, $img, $ratings);
 				while($stmt->fetch())
 				{
-					$bindResults = array("id"=>$id, "name"=>$name, "avg_fun"=>$fun, "avg_balance"=>$bal, "type"=>$type, "sub_type"=>$sub, "img"=>$img, "ratings"=>$ratings);
+					$bindResults = array("id"=>$id, "name"=>$name, "avg_fun"=>$fun, "avg_balance"=>$bal, "type"=>$type, "sub_type"=>$sub, "game"=>$game, "img"=>$img, "ratings"=>$ratings);
 					array_push($json, $bindResults);
 				}
 				$stmt->close();

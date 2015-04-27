@@ -108,6 +108,7 @@
 		&nbsp <li id="spells"><a href="search_results.php?keywords=spell&usort=relevance&csort=rating&searchSubmit=Search">spells</a></li>
 		&nbsp <li id="weapons"><a href="search_results.php?keywords=weapon&usort=relevance&csort=rating&searchSubmit=Search">weapons</a></li>
 	</ul>
+	<h2>Up and Coming</h2>
 	<?php
 		$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
 		if($mysql->connect_error){
@@ -163,7 +164,7 @@
 						echo "<img class='gridImage' border='0' alt='".$name."' src='".$row["img"]."'>";
 					else
 						echo "<img class='gridImage' border='0' alt='".$name."' src='".$row["img"]."'>";
-					if($count == 0){echo "<div class='blockTextBackground' style='height:160px; top:240px;'>";}
+					if($count == 0){echo "<div class='blockTextBackground' style='height:200px; top:200px;'>";}
 					else{
 					echo "<div class='blockTextBackground'>";}
 					//echo "<h2 class='blockText ellipsis'>".$row["name"]." - ".$row["type"]." ".(!empty($row["sub_type"])?("(".$row["sub_type"].")"):"")."</h2>";
@@ -172,7 +173,8 @@
 						echo "<b class='ratingText'>Not yet rated</b>";
 					else
 						echo "<table class='rating_table'><tr><td><b class='ratingText'>Fun</b></td><td><span class='stars'>".$row["avg_fun"]."</span></td></tr><tr><td><b class='ratingText'>Balance</b></td><td><span class='stars'>".$row["avg_balance"]."</span></td></tr></table>";
-					echo "<h2 class='blockDescription'>By ".$row["username"]."<br>For ".$row["game"]."</h2>";
+					//echo "<h2 class='blockDescription'>By ".$row["username"]."<br>For ".$row["game"]."</h2>";
+					echo "<h2 class='blockDescription ellipsis'>".$row["game"]."</h2>";
 					echo "</div>";			
 					echo "</a>";		
 					$count++;
