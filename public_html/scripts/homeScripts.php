@@ -7,7 +7,7 @@
 		$json=array();
 		try{
 			$mysql->query("START TRANSACTION");
-			$stmt=$mysql->prepare("SELECT username, picture, contributions, description FROM users ORDER BY contributions DESC LIMIT 4");
+			$stmt=$mysql->prepare("SELECT username, picture, contributions, description FROM users WHERE contributions > 0 ORDER BY contributions DESC LIMIT 4");
 			if(!$stmt->execute())
 				echo "MYSQL ERROR";
 			$username=null; $picture=null; $contributions=null; $desc=null;
