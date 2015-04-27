@@ -42,7 +42,7 @@
 		}
 
 		$stmt = $mysql->prepare("UPDATE contributions SET avg_fun=?, avg_balance=? WHERE id=?");
-		$stmt->bind_param("iii", $avgFun, $avgBalance, $_POST["id"]);
+		$stmt->bind_param("ddi", $avgFun, $avgBalance, $_POST["id"]);
 		if(!$stmt->execute()){
 			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 		}
