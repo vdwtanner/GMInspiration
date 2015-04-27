@@ -13,9 +13,15 @@
 <body>
 <div id='container'>
 <?php
+	require_once dirname(__FILE__).'/HTMLPurifier/library/HTMLPurifier.auto.php';
+
 
 	function saveSettings(){
+
+		$purifier = new HTMLPurifier();
 		global $username;
+
+		$imgurl = $purifier->purify($_POST["imgurl"]);
 
 		$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
 		if($mysql->connect_error){
@@ -26,7 +32,7 @@
 			$mysql->query("START TRANSACTION");
 			//$result = $mysql->query("UPDATE users SET description='".$edescrEdit."' where username='".$username."'");
 			$stmt = $mysql->prepare("UPDATE users SET description=?, picture=? WHERE username=?");
-			$stmt->bind_param("sss", $edescrEdit, $_POST["imgurl"], $username);
+			$stmt->bind_param("sss", $edescrEdit, $imgurl, $username);
 			if(!$stmt->execute()){
 				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 			}

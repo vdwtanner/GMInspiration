@@ -52,7 +52,7 @@
 				if($userArray){
 					$tempUserArray = array_merge($userArray, $tempUserArray);
 					if(in_array( $share_username, $tempUserArray)){
-						echo "You've already shared this collection with ".$share_username;
+						echo "You've already shared this collection with ".htmlspecialchars($share_username, ENT_QUOTES, "UTF-8");
 						$mysql->rollback();
 						exit();
 					}
@@ -71,7 +71,7 @@
 				unset($tempUserJson);
 				unset($userArray);
 				unset($json);
-				echo "This collection has been successfully shared with ".$share_username;
+				echo "This collection has been successfully shared with ".htmlspecialchars($share_username, ENT_QUOTES, "UTF-8");
 
 
 			}else{
@@ -113,7 +113,7 @@
 				unset($userJson);
 				unset($userArray);
 				unset($json);
-				echo "You are no longer sharing this collection with ".$share_username;
+				echo "You are no longer sharing this collection with ".htmlspecialchars($share_username, ENT_QUOTES, "UTF-8");
 						
 
 				

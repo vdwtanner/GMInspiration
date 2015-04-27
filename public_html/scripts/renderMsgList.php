@@ -37,11 +37,11 @@
 			$m=null; $i=null; $sen=null; $r=null; $sub=null; $t=null;
 			$stmt->bind_result($m, $i, $sen, $r, $sub, $t);
 			while($stmt->fetch()){
-				$row["message"] = $m;
+				$row["message"] = htmlspecialchars($m, ENT_QUOTES, "UTF-8");
 				$row["id"] = $i;
-				$row["sender"] = $sen;
-				$row["recipient"] = $r;
-				$row["subject"] = $sub;
+				$row["sender"] = htmlspecialchars($sen, ENT_QUOTES, "UTF-8");
+				$row["recipient"] = htmlspecialchars($r, ENT_QUOTES, "UTF-8");
+				$row["subject"] = htmlspecialchars($sub, ENT_QUOTES, "UTF-8");
 				$row["timestamp"] = $t;
 				$rowarr[] = $row;
 			}
