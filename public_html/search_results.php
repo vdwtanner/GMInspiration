@@ -99,7 +99,7 @@
 							WHEN username LIKE '%".$value."' THEN 3
 							ELSE 4 END, username ASC");*/
 
-				$stmt = $mysql->prepare("SELECT username, picture, joined FROM users WHERE username SOUNDS LIKE ? OR username LIKE ?
+				$stmt = $mysql->prepare("SELECT username, picture, joined, description FROM users WHERE username SOUNDS LIKE ? OR username LIKE ?
 							ORDER BY CASE WHEN username = ? THEN 0
 							WHEN username LIKE ? THEN 1
 							WHEN username LIKE ? THEN 2
@@ -111,12 +111,13 @@
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}	
-				$u = null; $p = null; $j = null;
-				$stmt->bind_result($u, $p, $j);
+				$u = null; $p = null; $j = null; $d = null;
+				$stmt->bind_result($u, $p, $j, $d);
 				while($stmt->fetch()){
 					$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 					$row["picture"] = $p;
 					$row["joined"] = $j;
+					$row["description"] = $d;
 					$rowarr[$u] = $row;
 					if(isset($udupecount[$row["username"]]))		// dupecount is gonna keep track of how many hits we get for each result
 						$udupecount[$row["username"]]++;
@@ -131,7 +132,7 @@
 				/*$result = $mysql->query("SELECT * FROM users WHERE username SOUNDS LIKE '".$value."' OR username LIKE '%".$value."%'
 							ORDER BY joined ASC");*/
 
-				$stmt = $mysql->prepare("SELECT username, picture, joined FROM users WHERE username SOUNDS LIKE ? OR username LIKE ?
+				$stmt = $mysql->prepare("SELECT username, picture, joined, description FROM users WHERE username SOUNDS LIKE ? OR username LIKE ?
 							ORDER BY joined DESC");
 			
 				$pvaluep = "%".$value."%";
@@ -139,12 +140,13 @@
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}	
-				$u = null; $p = null; $j = null;
-				$stmt->bind_result($u, $p, $j);
+				$u = null; $p = null; $j = null; $d = null;
+				$stmt->bind_result($u, $p, $j, $d);
 				while($stmt->fetch()){
 					$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 					$row["picture"] = $p;
 					$row["joined"] = $j;
+					$row["description"] = $d;
 					$rowarr[$u] = $row;
 					if(isset($udupecount[$row["username"]]))		// dupecount is gonna keep track of how many hits we get for each result
 						$udupecount[$row["username"]]++;
@@ -346,14 +348,27 @@
 		foreach($udupecount as $key => $numdupes){
 			if(count($words) == 1 || $numdupes >= (count($words)-1)){
 				$value = $rowarr[$key];
-				echo "<li class='searchlistitem'>";
-				echo "<div class='searchresult'>";
-				//echo "<img src='".$value["picture"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["username"]."' />";
-				//echo "<a href='profile.php?user=".$value["username"]."'>".$value["username"]."</a>";
-				echo "<a href='profile.php?user=".$value["username"]."'>";
-				echo "<img src='".$value["picture"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["username"]."' />";
-				echo "<p style='padding-left: 5px;'><b>".$value["username"]."</b><br>User Since:<br>".$value["joined"]."</p>";
+				echo "<li class='searchlistitem clearfix'>";		// This will be n-1, where n is the amount of keywords we have to search by.
+				echo "<div class='searchthumbnail'>";
+				echo "<span class='verticalspan' style='background-color: green;'><span class='verticaltext ellipsis'>USER</span></span>";
+				echo "<a href='view_contribution_updateable.php?contid=".$value["id"]."' style='inline-block'>";
+				if($value["privacy"] == 1){
+					echo "<div class='search_img_overlay'>";
+					echo "<p class='search_overlay_text'>You have set this contribution to private</p>";
+					echo "</div>";
+				}
+				echo "<img src='".$value["picture"]."' alt='A picture of ".$value["username"]."' height='100px' width='100px'>";
 				echo "</a>";
+				echo "</div>";
+				echo "<div class='searchtext'>";
+				echo "<a href='view_contribution_updateable.php?contid=".$value["id"]."'>";
+				echo "<b class='searchitemname'>".$value["username"]."</b><br>";
+				echo "</a>";
+				$joinPieces = explode(" ", $value["joined"]);
+				echo "<span class='small_desctext'>Joined ".$joinPieces[0]."</span><br>";
+				echo "<span class='searchdesc'>".$value["description"]."</span>";
+				//echo "<span class='small_desctext searchgame'>".$value["game"]."</span>";
+
 				echo "</div>";
 				echo "</li>";
 				$resultcount++;
