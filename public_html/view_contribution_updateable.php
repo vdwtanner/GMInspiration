@@ -615,7 +615,8 @@
 
 					echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4></a>";
 					echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
-					echo "<p style=' margin: 0em;'>".$row["comment"]."</p></div>";
+					echo "<p style=' margin: 0em;'>".$row["comment"]."</p>";
+					//echo "<a class='button' onclick=''>Delete</a></div>";
 				}
 			}
 			unset($row);

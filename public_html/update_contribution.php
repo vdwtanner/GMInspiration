@@ -1,16 +1,7 @@
 <?php
         session_start();
         require dirname(__FILE__)."/scripts/parser.php";
-?>
-<DOCTYPE html>
-<html>
-<head>
-        <title>Contribution Update</title>
-        <link rel="stylesheet" href="css/example/global.css" media="all">
-        <link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
-</head>
-<body>
-        <?php
+
 		require_once dirname(__FILE__).'/HTMLPurifier/library/HTMLPurifier.auto.php';
 		$purifier = new HTMLPurifier();
 
@@ -24,7 +15,7 @@
                         die("No ID found, cannot complete update.");
                 }
                 //echo "Welcome to the contribution screen, ".$_SESSION["username"];
-                echo "</br>";
+                //echo "</br>";
                 $parser = new parser;
                 $id=$_POST["id"];
 		$privacy=$_POST["privacy"];
@@ -49,6 +40,20 @@
                 //print($json);
                 try{
                         $mysql->query("START TRANSACTION");
+						$stmt=$mysql->prepare("SELECT username FROM contributions WHERE id=?");
+						$stmt->bind_param("i", $id);
+						if(!$stmt->execute()){
+                            header("HTTP/1.1 500 Failed to check identity.</br> (".$stmt->errno.") ".$stmt->error);
+							die;
+                        }
+						$username=null;
+						$stmt->bind_result($username);
+						$stmt->fetch();
+						$stmt->close();
+						if($_SESSION["username"]!=$username){
+							header("HTTP/1.1 401 NO HACKING ALLOWED DAMMIT");
+							die;
+						}
                         if($img){
                                 //$stmt=$mysql->prepare("UPDATE contributions SET name=?");
                                 $stmt=$mysql->prepare("UPDATE contributions SET name=?, `type`=?, sub_type=?, game=?, `desc`=?, json=?, img=?, privacy=? WHERE id=?");
@@ -77,6 +82,3 @@
                 }
                 $mysql->close();
         ?>
-</body>
-</html>
-
