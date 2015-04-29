@@ -9,25 +9,56 @@
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 	<link rel="stylesheet" href="css/example/profile.css" media="all">
+	<style>
+		span.stars, span.stars span {
+			display: inline-block;
+			background: url(img/dice64x64.png) 0 -12px repeat-x;
+			background-size: 12px 24px;
+			width: 60px;
+			height: 12px;
+		}
+		span.stars span {
+			background-position: 0 0;
+		}
+	</style>
+
+
+	<script type="text/javascript" language="javascript">
+		function toggle_vis(list, hide){
+			var e = document.getElementById(list);
+			if(e.style.display != "none") {
+				e.style.display = "none";
+			}else{
+				e.style.display = "block";
+			}
+			if(hide.text != "[show]"){
+				hide.text = "[show]";
+			}else{
+				hide.text = "[hide]";
+			}
+		}
+
+		$.fn.stars = function() {
+			return $(this).each(function() {
+				// Get the value
+				var val = parseFloat($(this).html());
+				// Make sure that the value is in 0 - 5 range, multiply to get width
+				var size = Math.max(0, (Math.min(5, val))) * 12;
+				// Create stars holder
+				var $span = $('<span />').width(size);
+				// Replace the numerical value with stars
+				$(this).html($span);
+			});
+		}
+		
+		$(function() {
+			$('span.stars').stars();
+		});
+
+	</script>
 </head>
 <body>
 
-<script type="text/javascript" language="javascript">
-	function toggle_vis(list, hide){
-		var e = document.getElementById(list);
-		if(e.style.display != "none") {
-			e.style.display = "none";
-		}else{
-			e.style.display = "block";
-		}
-		if(hide.text != "[show]"){
-			hide.text = "[show]";
-		}else{
-			hide.text = "[hide]";
-		}
-	}
-
-</script>
 
 <div id='container'>
 <?php
@@ -139,7 +170,7 @@
 							WHEN name LIKE '%".$value."' THEN 3
 							ELSE 4 END, name ASC");*/
 
-				$stmt = $mysql->prepare("SELECT id, img, name, game, username FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
+				$stmt = $mysql->prepare("SELECT id, img, name, game, username, avg_fun, avg_balance, `desc` FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
 							OR type SOUNDS LIKE ? OR type LIKE ?
 							OR sub_type SOUNDS LIKE ? OR sub_type LIKE ?
 							OR game SOUNDS LIKE ? OR game LIKE ?) AND (privacy = 0 OR username = ?)
@@ -154,14 +185,17 @@
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}	
-				$id = null; $img = null; $n = null; $g = null; $u = null;
-				$stmt->bind_result($id, $img, $n, $g, $u);
+				$id = null; $img = null; $n = null; $g = null; $u = null; $af = null; $ab = null; $desc = null;
+				$stmt->bind_result($id, $img, $n, $g, $u, $af, $ab, $desc);
 				while($stmt->fetch()){
 					$row["id"] = $id;
 					$row["img"] = $img;
 					$row["name"] = htmlspecialchars($n, ENT_QUOTES, "UTF-8");
 					$row["game"] = htmlspecialchars($g, ENT_QUOTES, "UTF-8");
 					$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
+					$row["avg_fun"] = $af;
+					$row["avg_balance"] = $ab;
+					$row["desc"] = strip_tags($desc);
 					$crowarr[$id] = $row;
 					if(isset($dupecount[$row["id"]]))		// dupecount is gonna keep track of how many hits we get for each result
 						$dupecount[$row["id"]]++;
@@ -184,7 +218,7 @@
 							WHEN name LIKE '%".$value."' THEN 3
 							ELSE 4 END, name ASC");*/
 
-				$stmt = $mysql->prepare("SELECT id, img, name, game, username FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
+				$stmt = $mysql->prepare("SELECT id, img, name, game, username, avg_fun, avg_balance, `desc` FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
 							OR type SOUNDS LIKE ? OR type LIKE ?
 							OR sub_type SOUNDS LIKE ? OR sub_type LIKE ?
 							OR game SOUNDS LIKE ? OR game LIKE ?) AND (privacy = 0 OR username = ?)
@@ -199,14 +233,17 @@
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}	
-				$id = null; $img = null; $n = null; $g = null; $u = null;
-				$stmt->bind_result($id, $img, $n, $g, $u);
+				$id = null; $img = null; $n = null; $g = null; $u = null; $af = null; $ab = null; $desc = null;
+				$stmt->bind_result($id, $img, $n, $g, $u, $af, $ab, $desc);
 				while($stmt->fetch()){
 					$row["id"] = $id;
 					$row["img"] = $img;
 					$row["name"] = htmlspecialchars($n, ENT_QUOTES, "UTF-8");
 					$row["game"] = htmlspecialchars($g, ENT_QUOTES, "UTF-8");
 					$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
+					$row["avg_fun"] = $af;
+					$row["avg_balance"] = $ab;
+					$row["desc"] = strip_tags($desc);
 					$crowarr[$id] = $row;
 					if(isset($dupecount[$row["id"]]))		// dupecount is gonna keep track of how many hits we get for each result
 						$dupecount[$row["id"]]++;
@@ -228,7 +265,7 @@
 							WHEN name LIKE '%".$value."' THEN 3
 							ELSE 4 END, timestamp ASC");*/
 
-				$stmt = $mysql->prepare("SELECT id, img, name, game, username FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
+				$stmt = $mysql->prepare("SELECT id, img, name, game, username, avg_fun, avg_balance, `desc` FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
 							OR type SOUNDS LIKE ? OR type LIKE ?
 							OR sub_type SOUNDS LIKE ? OR sub_type LIKE ?
 							OR game SOUNDS LIKE ? OR game LIKE ?) AND (privacy = 0 OR username = ?)
@@ -243,14 +280,17 @@
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}	
-				$id = null; $img = null; $n = null; $g = null; $u = null;
-				$stmt->bind_result($id, $img, $n, $g, $u);
+				$id = null; $img = null; $n = null; $g = null; $u = null; $af = null; $ab = null; $desc = null;
+				$stmt->bind_result($id, $img, $n, $g, $u, $af, $ab, $desc);
 				while($stmt->fetch()){
 					$row["id"] = $id;
 					$row["img"] = $img;
 					$row["name"] = htmlspecialchars($n, ENT_QUOTES, "UTF-8");
 					$row["game"] = htmlspecialchars($g, ENT_QUOTES, "UTF-8");
 					$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
+					$row["avg_fun"] = $af;
+					$row["avg_balance"] = $ab;
+					$row["desc"] = strip_tags($desc);
 					$crowarr[$id] = $row;
 					if(isset($dupecount[$row["id"]]))		// dupecount is gonna keep track of how many hits we get for each result
 						$dupecount[$row["id"]]++;
@@ -289,7 +329,7 @@
 		echo "<input type='hidden' name='keywords' value='".htmlspecialchars($_GET["keywords"], ENT_QUOTES, "UTF-8")."'>";
 		echo "</form>";
 		echo "<div class='listshowhide'>";
-		echo "<a href='#' id='uhide' onclick='toggle_vis(\"ulist\",this);'>[hide]</a>";
+		echo "<a id='uhide' onclick='toggle_vis(\"ulist\",this);'>[hide]</a>";
 		echo "</div><hr>";
 		echo "<ul id='ulist'>";
 
@@ -309,12 +349,10 @@
 				//echo "<a href='profile.php?user=".$value["username"]."'>".$value["username"]."</a>";
 				echo "<a href='profile.php?user=".$value["username"]."'>";
 				echo "<img src='".$value["picture"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["username"]."' />";
-				echo "<p style='float:right;'><b>".$value["username"]."</b><br>User Since:<br>".$value["joined"]."</p>";
+				echo "<p style='padding-left: 5px;'><b>".$value["username"]."</b><br>User Since:<br>".$value["joined"]."</p>";
 				echo "</a>";
 				echo "</div>";
 				echo "</li>";
-				echo "<br>";
-				echo "<br>";
 				$resultcount++;
 			}
 		}
@@ -347,7 +385,7 @@
 		echo "<input type='hidden' name='keywords' value='".htmlspecialchars($_GET["keywords"], ENT_QUOTES, "UTF-8")."'>";
 		echo "</form>";
 		echo "<div class='listshowhide'>";
-		echo "<a href='#' id='chide' onclick='toggle_vis(\"clist\",this);'>[hide]</a>";
+		echo "<a id='chide' onclick='toggle_vis(\"clist\",this);'>[hide]</a>";
 		echo "</div><hr>";
 		echo "<ul id='clist'>";
 
@@ -361,18 +399,27 @@
 		foreach($dupecount as $key => $numdupes){
 			if(count($words) == 1 || $numdupes >= (count($words)-1)){	// The more keywords we have, the more trash we're likely to get, so lets set
 				$value = $crowarr[$key];				// a minimum hit requirement in order to display to the page. 
-				echo "<li class='searchlistitem'>";			// This will be n-1, where n is the amount of keywords we have to search by.
-				echo "<div class='searchresult'>";
-				//echo "<img src='".$value["img"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["name"]."' />";
-				//echo "<a href='view_contribution.php?contid=".$value["id"]."'>".$value["name"]."</a>";
-				echo "<a href='view_contribution_updateable.php?contid=".$value["id"]."'>";
-				echo "<img src='".$value["img"]."' style='float:left' height='100' width='100' alt='An image depicting ".$value["name"]."' />";
-				echo "<p style='float:right'><b>".$value["name"]."</b><br>".$value["game"]."<br>By ".$value["username"]."</p>";
+				echo "<li class='searchlistitem clearfix'>";		// This will be n-1, where n is the amount of keywords we have to search by.
+				echo "<div class='searchthumbnail'>";
+				echo "<span class='verticalspan'><span class='verticaltext ellipsis'>".$value["game"]."</span></span>";
+				echo "<a href='view_contribution_updateable.php?contid=".$value["id"]."' style='inline-block'>";
+				echo "<img src='".$value["img"]."' alt='A picture of ".$value["name"]."' height='100px' width='100px'>";
 				echo "</a>";
 				echo "</div>";
+				echo "<div class='searchtext'>";
+				echo "<a href='view_contribution_updateable.php?contid=".$value["id"]."'>";
+				echo "<b class='searchitemname'>".$value["name"]."</b><br>";
+				echo "</a>";
+				echo "<span class='small_desctext'>By ".$value["username"]." for ".$value["game"]."</span><br>";
+				if($value["avg_fun"] != -1)
+					echo "<table class='rating_table searchratings'><tr><td>Fun</td><td><span class='stars'>".$value["avg_fun"]."</span></td><td>Balance</td><td><span class='stars'>".$value["avg_balance"]."</span></td></tr></table>";
+				else
+					echo "<span class='small_desctext'>Not yet rated.</span><br>";
+				echo "<span class='searchdesc'>".$value["desc"]."</span>";
+				//echo "<span class='small_desctext searchgame'>".$value["game"]."</span>";
+
+				echo "</div>";
 				echo "</li>";
-				echo "<br>";
-				echo "<br>";
 				$resultcount++;
 			}
 		}
@@ -381,11 +428,9 @@
 	echo "</ul>";
 	echo "<h2>".$resultcount." results found!</h2>";
 
-
 ?>
 
-
-
 </div>
+
 </body>
 </html>

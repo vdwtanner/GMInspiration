@@ -143,7 +143,81 @@ Zac's search lists!
 }
 
 .searchlistitem{
+  display: block;
+  height: 100px;
+  margin-bottom: 20px;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.searchtext{
+  position: relative;
+  margin: 5px;
+  max-width: 75%;
+  overflow: hidden;
+}
+
+.searchitemname{
+
+}
+
+.searchratings{
+  color: #424242;
+  font-size: 75%;
+}
+
+.searchdesc{
+  display: block;
+  line-height: 1.2em;
+  max-height: 2.4em;
+  overflow: hidden;
+  color: #424242;
+}
+
+.small_desctext{
+  font-size: 75%;
+  color: #424242;
+}
+
+.searchgame{
+  display: block;
+  padding-top: .2em;
+}
+
+.verticalspan{
   display: inline-block;
+  float: left;
+  width: 100px;
+  position: absolute;
+  left: 20px;
+  top: 80px;
+  white-space: nowrap;
+  color: white;
+  background-color: black;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+
+
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+
+  /* also accepts left, right, top, bottom coordinates; not required, but a good idea for styling */
+  -webkit-transform-origin: left bottom 0;
+  -moz-transform-origin: left bottom 0;
+  -ms-transform-origin: left bottom 0;
+  -o-transform-origin: left bottom 0;
+  transform-origin: left bottom 0;
+
+}
+
+.verticaltext{
+  margin-left: 10px;
+  display: inline-block;
+  width: 85px;
 }
 
 .listshowhide{
@@ -157,6 +231,33 @@ Zac's search lists!
 .inlineform{
   display: inline;
 }
+
+.clearfix:before{
+  content: "";
+  display: block;
+  height: 0;
+  visibility: hidden;
+}
+
+.clearfix:after{
+  content: "";
+  display: block;
+  height: 0;
+  visibility: hidden;
+  clear: both;
+}
+
+.searchthumbnail{
+  float: left;
+  width: 120px;
+  display: block;
+  height: 100px;
+  position: relative;
+  overflow: hidden;
+  margin: 5px;
+  padding-left: 20px;
+}
+
 
 
 
@@ -364,6 +465,12 @@ b.ratingText{
   color: white;
   font-size: 16;
   margin-left: 20px;
+}
+
+.searchRatingText{
+  color: black;
+  font-size: 12;
+  margin: 0;
 }
 
 /** Grid System **/
