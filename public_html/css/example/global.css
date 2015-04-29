@@ -220,6 +220,19 @@ Zac's search lists!
   width: 85px;
 }
 
+.search_img_overlay{
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  top: 0px;
+  background: rgba(0,0,0,0.7);
+}
+
+.search_overlay_text{
+  color: white;
+  margin: 10px;
+}
+
 .listshowhide{
   float: right;
 }

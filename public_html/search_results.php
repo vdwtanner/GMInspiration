@@ -170,7 +170,7 @@
 							WHEN name LIKE '%".$value."' THEN 3
 							ELSE 4 END, name ASC");*/
 
-				$stmt = $mysql->prepare("SELECT id, img, name, game, username, avg_fun, avg_balance, `desc` FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
+				$stmt = $mysql->prepare("SELECT id, img, name, game, username, avg_fun, avg_balance, `desc`, privacy FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
 							OR type SOUNDS LIKE ? OR type LIKE ?
 							OR sub_type SOUNDS LIKE ? OR sub_type LIKE ?
 							OR game SOUNDS LIKE ? OR game LIKE ?) AND (privacy = 0 OR username = ?)
@@ -185,8 +185,8 @@
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}	
-				$id = null; $img = null; $n = null; $g = null; $u = null; $af = null; $ab = null; $desc = null;
-				$stmt->bind_result($id, $img, $n, $g, $u, $af, $ab, $desc);
+				$id = null; $img = null; $n = null; $g = null; $u = null; $af = null; $ab = null; $desc = null; $priv = null;
+				$stmt->bind_result($id, $img, $n, $g, $u, $af, $ab, $desc, $priv);
 				while($stmt->fetch()){
 					$row["id"] = $id;
 					$row["img"] = $img;
@@ -196,6 +196,7 @@
 					$row["avg_fun"] = $af;
 					$row["avg_balance"] = $ab;
 					$row["desc"] = strip_tags($desc);
+					$row["privacy"] = $priv;
 					$crowarr[$id] = $row;
 					if(isset($dupecount[$row["id"]]))		// dupecount is gonna keep track of how many hits we get for each result
 						$dupecount[$row["id"]]++;
@@ -218,7 +219,7 @@
 							WHEN name LIKE '%".$value."' THEN 3
 							ELSE 4 END, name ASC");*/
 
-				$stmt = $mysql->prepare("SELECT id, img, name, game, username, avg_fun, avg_balance, `desc` FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
+				$stmt = $mysql->prepare("SELECT id, img, name, game, username, avg_fun, avg_balance, `desc`, privacy FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
 							OR type SOUNDS LIKE ? OR type LIKE ?
 							OR sub_type SOUNDS LIKE ? OR sub_type LIKE ?
 							OR game SOUNDS LIKE ? OR game LIKE ?) AND (privacy = 0 OR username = ?)
@@ -233,8 +234,8 @@
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}	
-				$id = null; $img = null; $n = null; $g = null; $u = null; $af = null; $ab = null; $desc = null;
-				$stmt->bind_result($id, $img, $n, $g, $u, $af, $ab, $desc);
+				$id = null; $img = null; $n = null; $g = null; $u = null; $af = null; $ab = null; $desc = null; $priv = null;
+				$stmt->bind_result($id, $img, $n, $g, $u, $af, $ab, $desc, $priv);
 				while($stmt->fetch()){
 					$row["id"] = $id;
 					$row["img"] = $img;
@@ -244,6 +245,7 @@
 					$row["avg_fun"] = $af;
 					$row["avg_balance"] = $ab;
 					$row["desc"] = strip_tags($desc);
+					$row["privacy"] = $priv;
 					$crowarr[$id] = $row;
 					if(isset($dupecount[$row["id"]]))		// dupecount is gonna keep track of how many hits we get for each result
 						$dupecount[$row["id"]]++;
@@ -265,7 +267,7 @@
 							WHEN name LIKE '%".$value."' THEN 3
 							ELSE 4 END, timestamp ASC");*/
 
-				$stmt = $mysql->prepare("SELECT id, img, name, game, username, avg_fun, avg_balance, `desc` FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
+				$stmt = $mysql->prepare("SELECT id, img, name, game, username, avg_fun, avg_balance, `desc`, privacy FROM contributions WHERE (name SOUNDS LIKE ? OR name LIKE ?
 							OR type SOUNDS LIKE ? OR type LIKE ?
 							OR sub_type SOUNDS LIKE ? OR sub_type LIKE ?
 							OR game SOUNDS LIKE ? OR game LIKE ?) AND (privacy = 0 OR username = ?)
@@ -280,8 +282,8 @@
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}	
-				$id = null; $img = null; $n = null; $g = null; $u = null; $af = null; $ab = null; $desc = null;
-				$stmt->bind_result($id, $img, $n, $g, $u, $af, $ab, $desc);
+				$id = null; $img = null; $n = null; $g = null; $u = null; $af = null; $ab = null; $desc = null; $priv = null;
+				$stmt->bind_result($id, $img, $n, $g, $u, $af, $ab, $desc, $priv);
 				while($stmt->fetch()){
 					$row["id"] = $id;
 					$row["img"] = $img;
@@ -291,6 +293,7 @@
 					$row["avg_fun"] = $af;
 					$row["avg_balance"] = $ab;
 					$row["desc"] = strip_tags($desc);
+					$row["privacy"] = $priv;
 					$crowarr[$id] = $row;
 					if(isset($dupecount[$row["id"]]))		// dupecount is gonna keep track of how many hits we get for each result
 						$dupecount[$row["id"]]++;
@@ -403,6 +406,11 @@
 				echo "<div class='searchthumbnail'>";
 				echo "<span class='verticalspan'><span class='verticaltext ellipsis'>".$value["game"]."</span></span>";
 				echo "<a href='view_contribution_updateable.php?contid=".$value["id"]."' style='inline-block'>";
+				if($value["privacy"] == 1){
+					echo "<div class='search_img_overlay'>";
+					echo "<p class='search_overlay_text'>You have set this contribution to private</p>";
+					echo "</div>";
+				}
 				echo "<img src='".$value["img"]."' alt='A picture of ".$value["name"]."' height='100px' width='100px'>";
 				echo "</a>";
 				echo "</div>";
