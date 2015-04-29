@@ -220,6 +220,6 @@
 	<!--</div>-->
 </div>
 <br>
-<p style="clear:both;">This is das footer</p>
+<p style="clear:both;"></p>
 </body>
 </html>
