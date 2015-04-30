@@ -188,15 +188,16 @@ Zac's search lists!
 .verticalspan{
   display: inline-block;
   float: left;
-  width: 100px;
+  width: 95px;
   position: absolute;
   left: 20px;
-  top: 80px;
+  top: 75px;
   white-space: nowrap;
   color: white;
   background-color: black;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+  border: solid black 1px;
 
 
   -webkit-transform: rotate(-90deg);

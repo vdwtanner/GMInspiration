@@ -5,6 +5,7 @@
 	$user = $_POST["user"];
 	$cid = $_POST["c_id"];
 	$comment = $purifier->purify($_POST["comment"]);
+	//$comment = $_POST["comment"];
 	$img;
 	//echo print_r($_POST);
 	$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
@@ -41,7 +42,6 @@
 	$mysql->close();
 
 	$user = htmlspecialchars($user, ENT_QUOTES, "UTF-8");
-	$comment = htmlspecialchars($comment, ENT_QUOTES, "UTF-8");
 
 	echo "<div class='comment'><img src='".$img."' alt='".$user."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$user."</h4>";
 	echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date("F j, Y g:i A")."</h5></div></br>";

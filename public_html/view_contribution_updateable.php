@@ -596,7 +596,7 @@
 			while($stmt->fetch()){
 				$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 				$row["timestamp"] = $t;
-				$row["comment"] = htmlspecialchars($c, ENT_QUOTES, "UTF-8");
+				$row["comment"] = $c;
 				$rowarr[] = $row;
 			}
 			$stmt->close();
