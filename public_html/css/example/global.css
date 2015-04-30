@@ -120,7 +120,7 @@ Zac's lovely header css. Dont hurt me dalton. :(
   color: #000000;
   }
 #headcontainer {	/*In case we want the header to be different size than the page content... Idk how to web design.*/
-  padding: 1.618em;
+  padding: 1em;
   margin: 0 auto; 
   max-width: 60em;
   background: -webkit-linear-gradient(gray, white); /* For Safari 5.1 to 6.0 */
@@ -381,6 +381,59 @@ div.textarea *{
 /***********************
 	Homepage CSS
 ************************/
+/*possible button formatting*/
+.but {
+   border-top: 1px solid #eef895;
+   background: #e1c878;
+   background: -webkit-gradient(linear, left top, left bottom, from(#b69c3d), to(#e1c878));
+   background: -webkit-linear-gradient(top, #b69c3d, #e1c878);
+   background: -moz-linear-gradient(top, #b69c3d, #e1c878);
+   background: -ms-linear-gradient(top, #b69c3d, #e1c878);
+   background: -o-linear-gradient(top, #b69c3d, #e1c878);
+   padding: 2px 2px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 14px;
+   font-family: Georgia, serif;
+   text-decoration: none;
+   vertical-align: middle;
+   }
+.but:hover {
+   border-top-color: #5f4f1b;
+   background: #5f4f1b;
+   color: #ccc;
+   }
+.but:active {
+   border-top-color: #5f4f1b;
+   background: #5f4f1b;
+   }
+
+.hlink{
+
+display: block;
+padding-left: 10px;
+padding-right: 8px;
+padding-top: 5px;
+padding-bottom: 5px;
+float: left;
+   
+   
+}
+
+.hlink:hover{
+background-color:#254d76;
+box-shadow: 0 0 7px #000;
+color:#FFF !important;
+}
+
+
+
 .quick_search{
 list-style-type:none;
 text-align: center;
