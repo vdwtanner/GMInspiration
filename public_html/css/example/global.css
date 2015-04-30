@@ -422,7 +422,7 @@ padding-left: 10px;
 padding-right: 8px;
 padding-top: 5px;
 padding-bottom: 5px;
-float: left;
+/*float: left;*/
    
    
 }
@@ -448,6 +448,10 @@ font-weight: bold;
 
 }
 
+.quick_search li :hover{
+color: #FFF;
+
+}
 
 .hotContributions{
   background-color: # !important; 

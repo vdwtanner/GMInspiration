@@ -206,11 +206,11 @@
 	
 	echo "<div style='clear: both;'>";
 	echo "<hr>";
-	echo "<b><a class='hlink' href='home.php'>Home</a>&nbsp;</b>";
+	echo "<b><a style='float: left;' class='hlink' href='home.php'>Home</a>&nbsp;</b>";
 	if($_SESSION["username"]){
-	echo "<b><a class='hlink' href='profile.php?user=".htmlspecialchars($_SESSION["username"], ENT_QUOTES, "UTF-8")."'>Profile</a>&nbsp;</b>";
-	echo "<b><a class='hlink' href='contribute.php'>Contribute</a>&nbsp;</b>";
-	echo "<b><a class='hlink' href='collections.php'>Collections</a>&nbsp;</b>";
+	echo "<b><a style='float: left;' class='hlink' href='profile.php?user=".htmlspecialchars($_SESSION["username"], ENT_QUOTES, "UTF-8")."'>Profile</a>&nbsp;</b>";
+	echo "<b><a style='float: left;' class='hlink' href='contribute.php'>Contribute</a>&nbsp;</b>";
+	echo "<b><a style='float: left;' class='hlink' href='collections.php'>Collections</a>&nbsp;</b>";
 	}
 	echo "<form method='GET' style='display: inline; float: right; margin: 0px;' action='search_results.php'>";
 	echo "<input type='text' name='keywords' style='width: 20em' placeholder='Enter keywords here' title='Search for users, contributions, types, subtypes, and game versions'>";
