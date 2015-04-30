@@ -89,9 +89,10 @@
 	/******************************************
 		If not, register the account
 	*******************************************/
-					//$mysql->query("INSERT into users (username,pass,email,hash, picture) VALUES ('".$usr."','".$pass."','".$email."','".$hash."', 'img/man_wearing_hat.svg')");
+					//$mysql->query("INSERT into users (username,pass,email,hash, picture) VALUES ('".$usr."','".$pass."','".$email."','".$hash."', 'img/man_wearing_hat.svg', 'img/hat_profile200.png')");
 					$stmt = $mysql->prepare("INSERT into users (username, pass, email, hash, picture) VALUES (?,?,?,?,?)");
-					$img = "img/man_wearing_hat.svg";			
+					$img = "img/hat_profile200.png";
+					//$img = "img/man_wearing_hat.svg";			
 					$stmt->bind_param("sssss", $usr, $pass, $email, $hash, $img);
 					if(!$stmt->execute()){
 						echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;

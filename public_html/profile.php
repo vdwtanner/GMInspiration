@@ -29,6 +29,9 @@
 		}
 		try{
 			$edescrEdit = $_POST["descrEdit"];
+			if ($imgurl==""){
+				$imgurl="img/hat_profile200.png";
+			} 
 			$mysql->query("START TRANSACTION");
 			//$result = $mysql->query("UPDATE users SET description='".$edescrEdit."' where username='".$username."'");
 			$stmt = $mysql->prepare("UPDATE users SET description=?, picture=? WHERE username=?");

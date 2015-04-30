@@ -48,7 +48,12 @@
 			echo "Description<br>";
 			echo "<textarea name='descrEdit' rows=7 cols=75>".$description."</textarea><br>";
 			echo "Profile Image Data URL<br>";
+			if ($picture=="img/hat_profile200.png"){
+				echo "<textarea name='imgurl' rows=2 cols=75></textarea><br>";
+			}
+			else {
 			echo "<textarea name='imgurl' rows=2 cols=75>".$picture."</textarea><br>";	
+			}
 			echo "<input type='submit' name='settingEdit' value='Save Changes'>";		
 			echo "</form>";
 			$mysql->commit();
