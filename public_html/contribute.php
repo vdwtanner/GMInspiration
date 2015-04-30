@@ -244,10 +244,11 @@
 			<h2><input type="text" id="name" name="name" placeholder="Contribution Name" minlength="3" required/> - <select id="type" name="type" required title="Select a type">
 				<option value="" disabled selected>Choose Type</option>
 				<option value="Armor">Armor</option>
-				<option value="Class">Class</option>
+				<option value="Classes">Class</option>
 				<option value="Feat">Feat</option>
 				<option value="Item">Item</option>
 				<option value="Monster">Monster</option>
+				<option value="Race">Race</option>
 				<option value="Spell">Spell</option>
 				<option value="Weapon">Weapon</option>
 			</select> (<input id="subtype" name="subtype" type="text" minlength="3" placeholder="Subtype(s)" />)</h2>
