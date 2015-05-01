@@ -214,9 +214,8 @@
 	}
 	echo "<form method='GET' style='display: inline; float: right; margin: 0px;' action='search_results.php'>";
 	echo "<input type='text' name='keywords' style='width: 20em' placeholder='Enter keywords here' title='Search for users, contributions, types, subtypes, and game versions'>";
-	echo "<input type='hidden' name='usort' value='relevance'>";
 	echo "<input type='hidden' name='csort' value='relevance'>";
-	echo "<input class='but' type='submit' name='searchSubmit' value='Search'>";
+	echo "<input class='but' type='submit'>";
 	echo "</form>";
 	
 	//echo "<hr>";

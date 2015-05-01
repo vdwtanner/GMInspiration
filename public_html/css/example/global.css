@@ -151,6 +151,15 @@ Zac's search lists!
   position: relative;
 }
 
+.searchnumbers{
+  display: inline-block;
+  color: #424242;
+  font-size: 200%;
+  padding-top: 1em;
+  padding-right: .5em;
+  float: left;
+}
+
 .searchtext{
   position: relative;
   margin: 5px;
@@ -240,6 +249,7 @@ Zac's search lists!
 
 #ulist,#clist{
   display: block;
+  padding-left: 1em;
 }
 
 .inlineform{
