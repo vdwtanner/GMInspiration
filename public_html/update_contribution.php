@@ -26,6 +26,33 @@
 		$desc=$purifier->purify($_POST["desc"]);	
 		$img=$purifier->purify($_POST["img"]);
 		$json=$purifier->purify($_POST["json"]);
+		
+		if ($img==""){
+			if ($type==Armor){
+				$img = "img/Armor200.png";
+			}
+			if ($type==Classes){
+				$img = "img/Classes200.png";
+			}
+			if ($type==Feat){
+				$img = "img/Feats200.png";
+			}
+			if ($type==Item){
+				$img = "img/Items200.png";
+			}
+			if ($type==Monster){
+				$img = "img/Monsters200.png";
+			}
+			if ($type==Race){
+				$img = "img/Races200.png";
+			}
+			if ($type==Spell){
+				$img = "img/Spells200.png";
+			}
+			if ($type==Weapon){
+				$img = "img/Weapons200.png";
+			}
+		}
                 if($game=="other"){
                         $game=$_POST["other"];
                 }
