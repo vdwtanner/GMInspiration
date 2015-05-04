@@ -101,28 +101,28 @@
 	<ul id="quick_search" class="quick_search">
 		<li id="armor">
 				
-				<a href="search_results.php?keywords=armor&usort=relevance&csort=rating&searchSubmit=Search"><img src="img/Armor15.png">Armor</a></li>
+				<a href="search_results.php?keywords=armor&csort=rating"><img src="img/Armor15.png">Armor</a></li>
 		&nbsp <li id="classes">
 				
-				<a href="search_results.php?keywords=class&usort=relevance&csort=rating&searchSubmit=Search"><img src="img/Classes15.png">Classes</a></li>
+				<a href="search_results.php?keywords=class&csort=rating"><img src="img/Classes15.png">Classes</a></li>
 		&nbsp <li id="feats">
 				
-				<a href="search_results.php?keywords=feat&usort=relevance&csort=rating&searchSubmit=Search"><img src="img/Feats15.png">Feats</a></li>
+				<a href="search_results.php?keywords=feat&csort=rating"><img src="img/Feats15.png">Feats</a></li>
 		&nbsp <li id="items">
 				
-				<a href="search_results.php?keywords=item&usort=relevance&csort=rating&searchSubmit=Search"><img src="img/Items15.png">Items</a></li>
+				<a href="search_results.php?keywords=item&csort=rating"><img src="img/Items15.png">Items</a></li>
 		&nbsp <li id="monsters">
 				
-				<a href="search_results.php?keywords=monster&usort=relevance&csort=rating&searchSubmit=Search"><img src="img/Monsters15.png">Monsters</a></li>
+				<a href="search_results.php?keywords=monster&csort=rating"><img src="img/Monsters15.png">Monsters</a></li>
 		&nbsp <li id="races">
 				
-				<a href="search_results.php?keywords=race&usort=relevance&csort=rating&searchSubmit=Search"><img src="img/Races15.png">Races</a></li>
+				<a href="search_results.php?keywords=race&csort=rating"><img src="img/Races15.png">Races</a></li>
 		&nbsp <li id="spells">
 				
-				<a href="search_results.php?keywords=spell&usort=relevance&csort=rating&searchSubmit=Search"><img src="img/Spells15.png">Spells</a></li>
+				<a href="search_results.php?keywords=spell&csort=rating"><img src="img/Spells15.png">Spells</a></li>
 		&nbsp <li id="weapons">
 				
-				<a href="search_results.php?keywords=weapon&usort=relevance&csort=rating&searchSubmit=Search"><img src="img/Weapons15.png">Weapons</a></li>
+				<a href="search_results.php?keywords=weapon&csort=rating"><img src="img/Weapons15.png">Weapons</a></li>
 	</ul>
 	<h2>Up and Coming</h2>
 	<?php
