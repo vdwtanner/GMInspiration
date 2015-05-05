@@ -110,6 +110,7 @@ Zac's lovely header css. Dont hurt me dalton. :(
 #homelink{
   float: left;
   font-size: 3em;
+  size: 100%;
 }
 #headerlinks{
   a{
@@ -127,6 +128,18 @@ Zac's lovely header css. Dont hurt me dalton. :(
   background: -o-linear-gradient(gray, white); /* For Opera 11.1 to 12.0 */
   background: -moz-linear-gradient(gray, white); /* For Firefox 3.6 to 15 */
   background: linear-gradient(gray, white); /* Standard syntax */
+  border-style: none none ridge none;
+  border-color: gray;
+}
+
+#footcontainer {	
+  padding: 1em;
+  margin: 0 auto; 
+  max-width: 60em;
+  background: -webkit-linear-gradient(gray, darkgray); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(gray, darkgray); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(gray, darkgray); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(gray, darkgray); /* Standard syntax */
   border-style: none none ridge none;
   border-color: gray;
 }
@@ -336,25 +349,36 @@ a {
 	cursor: pointer;
 }
 a.button {
-	margin: .3em;
-	padding: 0 .3em 0 .3em;
-	vertical-align: top;
-	background: #FFAD33;
-	border-radius: 10px;
+   border-top: 1px solid #eef895;
+   background: #e1c878;
+   background: -webkit-gradient(linear, left top, left bottom, from(#b69c3d), to(#e1c878));
+   background: -webkit-linear-gradient(top, #b69c3d, #e1c878);
+   background: -moz-linear-gradient(top, #b69c3d, #e1c878);
+   background: -ms-linear-gradient(top, #b69c3d, #e1c878);
+   background: -o-linear-gradient(top, #b69c3d, #e1c878);
+   padding: 2px 2px;
+   -webkit-border-radius: 8px;
+   -moz-border-radius: 8px;
+   border-radius: 8px;
+   -webkit-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   -moz-box-shadow: rgba(0,0,0,1) 0 1px 0;
+   box-shadow: rgba(0,0,0,1) 0 1px 0;
+   text-shadow: rgba(0,0,0,.4) 0 1px 0;
+   color: white;
+   font-size: 14px;
+   font-family: Georgia, serif;
+   text-decoration: none;
+   vertical-align: middle;
+   margin: 2px 2px;
 }
 a.button:hover {
-	margin: .3em;
-	padding: 0 .3em 0 .3em;
-	vertical-align: top;
-	background: #EC9C2E;
-	border-radius: 10px;
+ border-top-color: #5f4f1b;
+   background: #5f4f1b;
+   color: #ccc;
 }
 a.button:active {
-	margin: .3em;
-	padding: 0 .3em 0 .3em;
-	vertical-align: top;
-	background: #E8A643;
-	border-radius: 10px;
+   border-top-color: #5f4f1b;
+   background: #5f4f1b;
 }
 a.col-1-3{
 	color: inherit;
@@ -430,6 +454,7 @@ div.textarea *{
    font-family: Georgia, serif;
    text-decoration: none;
    vertical-align: middle;
+   margin: 2px 2px;
    }
 .but:hover {
    border-top-color: #5f4f1b;

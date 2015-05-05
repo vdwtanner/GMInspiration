@@ -262,7 +262,7 @@
 	else
 		echo "<input type='text' name='keywords' style='width: 20em' value='".htmlspecialchars($_GET["keywords"], ENT_QUOTES, "UTF-8")."' title='Search for users, contributions, types, subtypes, and game versions'>";
 	echo "<input type='hidden' name='csort' value='relevance'>";
-	echo "<input class='but' type='submit'>";
+	echo "<input class='but' type='submit' value='Search'>";
 	echo "</form>";
 	
 	//echo "<hr>";

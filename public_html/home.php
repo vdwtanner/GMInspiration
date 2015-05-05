@@ -98,7 +98,7 @@
 		<p style='margin: 0em; padding: 0em'>Top Contributions</p>
 	</div>-->
 	<!--<div class="hotContributions">-->
-	<ul id="quick_search" class="quick_search">
+	<ul id="quick_search" class="quick_search" style="padding-left: 0em">
 		<li id="armor">
 				
 				<a href="search_results.php?keywords=armor&csort=rating"><img src="img/Armor15.png">Armor</a></li>
@@ -221,5 +221,7 @@
 </div>
 <br>
 <p style="clear:both;"></p>
+
 </body>
 </html>
+<?php include 'footer.php';?>
