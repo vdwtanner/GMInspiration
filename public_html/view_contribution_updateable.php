@@ -80,7 +80,21 @@
 	<script src="scripts/js/utils.js"></script>
 	<link href="scripts/ckeditor/samples/sample.css" rel="stylesheet">
 	<script type="text/javascript" language="javascript">
-
+		//Listeners
+		$(document).ready(function(){
+			$(".comment").hover(function(){
+			clearTimeout($(this).data('timeoutId'));
+			$(this).find(".button").fadeIn("slow");//all button class elements will fade in on hover
+			}).mouseleave(function(){
+				var someElement = $(this),
+				timeoutId = setTimeout(function(){
+					someElement.find(".button").fadeOut("slow");
+				}, 650);
+				//set the timeoutId, allowing us to clear this trigger if the mouse comes back over
+				someElement.data('timeoutId', timeoutId); 
+			});
+		});
+		
 		function addContributionToCollection(contriID){
 			var div = document.createElement("div");
 			var collectionID = $("#collection_select").val();
@@ -412,6 +426,109 @@
 		});
 		//$(div).dialog("option","title", "<img src='http://png-3.findicons.com/files/icons/1951/iconza/32/warning.png' />Are you sure?");
 	}
+	
+	function deleteComment(id, button){
+		var div = document.createElement("div");
+		$(div).html("<b>This cannot be undone<b>");
+		$(div).dialog({
+			height: 175,
+			width: 400,
+			title: "Are you sure?",
+			dialogClass: "ui-state-error",
+			modal: true,
+			position: { my: "left top", at: "left bottom", of: $("b")},
+			buttons: ({
+				"Yes": function(){
+					$.ajax({
+						url: "scripts/deleteCommentOrRating.php",
+						type: "POST",
+						data: {
+							id: id,
+							type: "comment"
+						},
+						success: function(html){
+							$(div).html(html);
+							$(div).dialog("option", "buttons", [{
+								text: "Close",
+								click: function(){
+									$(this).dialog("close");
+									location.reload();
+								}
+							}]);
+							//setTimeout(function(){location.reload()},1200);
+						},
+						error: function(xhr, status, html){
+							$(div).html(html);
+							$(div).dialog("option", "buttons", {
+								"Close": function(){
+									$(this).dialog("close");
+								}
+							});
+						}
+					});
+				},
+				"No": function(){
+					$(this).dialog("close");
+				}
+			})
+		});
+	}
+	
+	function deleteRating(id, button){
+		var div = document.createElement("div");
+		$(div).html("<b>This cannot be undone<b>");
+		$(div).dialog({
+			height: 175,
+			width: 400,
+			title: "Are you sure?",
+			dialogClass: "ui-state-error",
+			modal: true,
+			position: { my: "left top", at: "left bottom", of: $("b")},
+			buttons: ({
+				"Yes": function(){
+					$.ajax({
+						url: "scripts/deleteCommentOrRating.php",
+						type: "POST",
+						data: {
+							id: id,
+							type: "rating"
+						},
+						success: function(html){
+							$(div).html(html);
+							$(div).dialog("option", "buttons", [{
+								text: "Close",
+								click: function(){
+									$(this).dialog("close");
+									location.reload();
+								}
+							}]);
+							//setTimeout(function(){location.reload()},1200);
+						},
+						error: function(xhr, status, html){
+							$(div).html(html);
+							$(div).dialog("option", "buttons", {
+								"Close": function(){
+									$(this).dialog("close");
+								}
+							});
+						}
+					});
+				},
+				"No": function(){
+					$(this).dialog("close");
+				}
+			})
+		});
+	}
+	
+	function showDelete(id){
+		console.log("delete_"+id);
+		$("#delete_"+id).fadeIn(500);
+	}
+	
+	function hideDelete(id){
+		$("#delete_"+id).fadeOut(500);
+	}	
 	</script>
 </head>
 <body>
@@ -586,14 +703,15 @@
 				echo "You must login before you can comment.";
 			}
 			//$result=$mysql->query("SELECT * from contribution_comments WHERE contribution_id =".$id." ORDER BY timestamp DESC");
-			$stmt = $mysql->prepare("SELECT username, timestamp, comment FROM contribution_comments WHERE contribution_id = ? ORDER BY timestamp DESC");
+			$stmt = $mysql->prepare("SELECT id, username, timestamp, comment FROM contribution_comments WHERE contribution_id = ? ORDER BY timestamp DESC");
 			$stmt->bind_param("i", $id);
 			if(!$stmt->execute()){
 				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 			}
-			$u=null; $t=null; $c=null;
-			$stmt->bind_result($u, $t, $c);
+			$u=null; $t=null; $c=null; $i=null;
+			$stmt->bind_result($i, $u, $t, $c);
 			while($stmt->fetch()){
+				$row["id"] = $i;
 				$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 				$row["timestamp"] = $t;
 				$row["comment"] = $c;
@@ -613,10 +731,13 @@
 					$stmt->fetch();
 					$stmt->close();
 
-					echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4></a>";
+					echo "<div class='comment' ><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate_".$row["id"]."' style='margin-top:.4em;><b><em style='margin-bottom: .2em;'>".$row["username"]."</em></b></a>";
+					if($_SESSION["username"]==$row["username"]){
+						echo "<a id='delete_".$row["id"]."' class='button' style='display:none; float: right' onclick='deleteComment(".$row["id"].", this)'>Delete</a>";
+					}
 					echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
 					echo "<p style=' margin: 0em;'>".$row["comment"]."</p>";
-					//echo "<a class='button' onclick=''>Delete</a>";
+					
 					echo "</div>";
 				}
 			}
@@ -648,14 +769,15 @@
 				}
 			}
 			//$result=$mysql->query("SELECT * FROM ratings WHERE contribution_id =".$id." ORDER BY timestamp DESC");
-			$stmt = $mysql->prepare("SELECT username, timestamp, comment, fun, balance FROM ratings WHERE contribution_id=? ORDER BY timestamp DESC");
+			$stmt = $mysql->prepare("SELECT id, username, timestamp, comment, fun, balance FROM ratings WHERE contribution_id=? ORDER BY timestamp DESC");
 			$stmt->bind_param("i", $id);
 			if(!$stmt->execute()){
 				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 			}
-			$u=null; $t=null; $c=null; $f=0; $b=0;
-			$stmt->bind_result($u, $t, $c, $f, $b);
+			$i=null; $u=null; $t=null; $c=null; $f=0; $b=0;
+			$stmt->bind_result($i, $u, $t, $c, $f, $b);
 			while($stmt->fetch()){
+				$row["id"]=$i;
 				$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 				$row["timestamp"] = $t;
 				$row["comment"] = htmlspecialchars($c, ENT_QUOTES, "UTF-8");
@@ -676,7 +798,10 @@
 					$stmt->bind_result($img);
 					$stmt->fetch();
 					$stmt->close();
-					echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate'><h4 style='margin-top:.4em; margin-bottom: .2em;'>".$row["username"]."</h4></a>";
+					echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate_".$row["id"]."' style='margin-top:.4em;><b><em style='margin-bottom: .2em;'>".$row["username"]."</em></b></a>";
+					if($_SESSION["username"]==$row["username"]){
+						echo "<a id='delete_".$row["id"]."' class='button' style='display:none; float: right' onclick='deleteRating(".$row["id"].", this)'>Delete</a>";
+					}
 					echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
 					echo "<table class='rating_table'><tr><td><b>Fun</b></td><td><span class='stars'>".$row["fun"]."</span></td></tr>
 						<tr><td><b>Balance</b></td><td><span class='stars'>".$row["balance"]."</span></td></tr></table>";
