@@ -15,48 +15,6 @@
 		a {
 			cursor: pointer;
 		}
-		a.button {
-			margin: .3em;
-			padding: 0 .3em 0 .3em;
-			vertical-align: top;
-			background: #FFAD33;
-			border-radius: 10px;
-		}
-		a.button:hover {
-			margin: .3em;
-			padding: 0 .3em 0 .3em;
-			vertical-align: top;
-			background: #EC9C2E;
-			border-radius: 10px;
-		}
-		a.button:active {
-			margin: .3em;
-			padding: 0 .3em 0 .3em;
-			vertical-align: top;
-			background: #E8A643;
-			border-radius: 10px;
-		}
-		div.comment {
-			background-color: rgba(150,100,56,.5);
-			border: 2px;
-			border-color: #F59032;
-			padding: 1em;
-			border-radius: 10px;
-			margin: .5em;
-		}
-		div.namedate {
-			padding-left: 1em;
-		}
-		span.stars, span.stars span {
-			display: inline-block;
-			background: url(img/dice64x64.png) 0 -16px repeat-x;
-			background-size: 16px 32px;
-			width: 80px;
-			height: 16px;
-		}
-		span.stars span {
-			background-position: 0 0;
-		}
 		
 		p {
 			margin-top: .1em;
@@ -436,7 +394,7 @@
 			title: "Are you sure?",
 			dialogClass: "ui-state-error",
 			modal: true,
-			position: { my: "left top", at: "left bottom", of: $("b")},
+			position: { my: "right top", at: "right bottom", of: button},
 			buttons: ({
 				"Yes": function(){
 					$.ajax({
@@ -483,7 +441,7 @@
 			title: "Are you sure?",
 			dialogClass: "ui-state-error",
 			modal: true,
-			position: { my: "left top", at: "left bottom", of: $("b")},
+			position: { my: "right top", at: "right bottom", of: button},
 			buttons: ({
 				"Yes": function(){
 					$.ajax({
@@ -731,9 +689,10 @@
 					$stmt->fetch();
 					$stmt->close();
 
-					echo "<div class='comment' ><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate_".$row["id"]."' style='margin-top:.4em;><b><em style='margin-bottom: .2em;'>".$row["username"]."</em></b></a>";
+					echo "<div class='comment' ><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate_".$row["id"]."' style='margin-top:.4em;'><b><em style='margin-bottom: .2em;'>".$row["username"]."</em></b></a>";
 					if($_SESSION["username"]==$row["username"]){
 						echo "<a id='delete_".$row["id"]."' class='button' style='display:none; float: right' onclick='deleteComment(".$row["id"].", this)'>Delete</a>";
+						//echo "<a id='delete_".$row["id"]."' class='button' style='display:none; float: right' onclick='deleteComment(".$row["id"].", this)'>Edit</a>";
 					}
 					echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
 					echo "<p style=' margin: 0em;'>".$row["comment"]."</p>";
