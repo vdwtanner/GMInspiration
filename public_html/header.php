@@ -207,6 +207,7 @@
 	echo "<div style='clear: both;'>";
 	echo "<hr>";
 	echo "<b><a class='hlink' href='home.php'>Home</a>&nbsp;</b>";
+	echo "<b><a class='hlink' href='about.php'>About</a>&nbsp;</b>";
 	if($_SESSION["username"]){
 	echo "<b><a class='hlink' href='profile.php?user=".htmlspecialchars($_SESSION["username"], ENT_QUOTES, "UTF-8")."'>Profile</a>&nbsp;</b>";
 	echo "<b><a class='hlink' href='contribute.php'>Contribute</a>&nbsp;</b>";
