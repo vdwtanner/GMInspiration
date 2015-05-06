@@ -17,7 +17,7 @@
 <div id='container'>
 	<h2>Welcome to The Game Master's Inspiration!</h2>
 	<p>GMinspiration.com is an online repository for homebrew or custom content for all your favorite table top roleplaying games.
-	 Need an terrifying new monster to bring your players to tears? Perhaps you need a small artifact of the god of light to give them the slightest change of surviving your plans?
+	 Need an terrifying new monster to bring your players to tears? Perhaps you need a small artifact of the god of light to give them the slightest chance of surviving your plans?
 	 Search through our online database of user-submitted contributions for something that matches your maniacal tastes.</p>
 	<p>When you feel it's time to give back to the community, or just want to yell at some guy who thought you can use a d20 as a damage die,
 	 <a href='sign_up.php'>sign up</a> for an account with us. You'll be able to contribute homebrew items, spells, monsters, and other content and get feedback on your work, as well as give
