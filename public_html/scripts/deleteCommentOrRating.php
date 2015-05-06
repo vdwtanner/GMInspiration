@@ -10,7 +10,7 @@
 			$mysql->query("START TRANSACTION");
 			$stmt=$mysql->prepare("UPDATE contribution_comments SET comment=?, username=? WHERE id=? AND username=?");
 			$date = getdate();
-			$comment= $_SESSION["username"]." deleted their comment on ".$date["weekday"].", ".$date["month"]." ".$date["mday"].", ".$date["year"].".";
+			$comment= "[".$_SESSION["username"]." deleted their comment on ".$date["weekday"].", ".$date["month"]." ".$date["mday"].", ".$date["year"].".]";
 			$user="GMInspiration.com";
 			$stmt->bind_param("ssis",$comment, $user, $id, $_SESSION["username"]);
 			if(!$stmt->execute()){

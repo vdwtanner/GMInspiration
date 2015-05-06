@@ -9,6 +9,56 @@
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 	<link rel="stylesheet" href="css/example/profile.css" media="all">
+	<script type="text/javascript" language="javascript">
+		function changePassword(){
+			var div=document.createElement("div");
+			$(div).html("<input type='password' id='pass' placeholder='Current Password'/><br>" +
+				"<input type='password' id='newPass' placeholder='New Password'/><br>" +
+				"<input type='password' id='confirm' placeholder='Confirm Password'/><br>");
+			$(div).dialog({
+				title: "Change Password",
+				height: 250,
+				width: 400,
+				modal: true,
+				position: {my: "center", at: "center", of: window },
+				buttons:{
+					"Submit": function(){
+						$.ajax({
+							url: "scripts/profileScripts.php",
+							type: "POST",
+							data: {
+								pass: $("#pass").val(),
+								newPass: $("#newPass").val(),
+								confirmPass: $("#confirm").val(),
+								funct: "changePassword"
+							},
+							success: function(html){
+								$(div).html(html);
+								$(div).dialog("option", "buttons", [{
+									text: "Close",
+									click: function(){
+										$(this).dialog("close");
+									}
+								}]);
+							},
+							error: function(xhr, status, html){
+								$(div).html(html);
+								$(div).dialog("option", "buttons", [{
+									text: "Close",
+									click: function(){
+										$(this).dialog("close");
+									}
+								}]);
+							}
+						});
+					},
+					"Cancel": function(){
+						$(div).dialog("close");
+					}
+				}
+			})
+		}
+	</script>
 </head>
 <body>
 <div id='container'>
@@ -64,6 +114,7 @@
 
 	}
 ?>
+	<a class="but" id="changePass" onclick="changePassword()">Change Password</a>
 
 
 </div>

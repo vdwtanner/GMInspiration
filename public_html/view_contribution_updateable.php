@@ -15,48 +15,6 @@
 		a {
 			cursor: pointer;
 		}
-		a.button {
-			margin: .3em;
-			padding: 0 .3em 0 .3em;
-			vertical-align: top;
-			background: #FFAD33;
-			border-radius: 10px;
-		}
-		a.button:hover {
-			margin: .3em;
-			padding: 0 .3em 0 .3em;
-			vertical-align: top;
-			background: #EC9C2E;
-			border-radius: 10px;
-		}
-		a.button:active {
-			margin: .3em;
-			padding: 0 .3em 0 .3em;
-			vertical-align: top;
-			background: #E8A643;
-			border-radius: 10px;
-		}
-		div.comment {
-			background-color: rgba(150,100,56,.5);
-			border: 2px;
-			border-color: #F59032;
-			padding: 1em;
-			border-radius: 10px;
-			margin: .5em;
-		}
-		div.namedate {
-			padding-left: 1em;
-		}
-		span.stars, span.stars span {
-			display: inline-block;
-			background: url(img/dice64x64.png) 0 -16px repeat-x;
-			background-size: 16px 32px;
-			width: 80px;
-			height: 16px;
-		}
-		span.stars span {
-			background-position: 0 0;
-		}
 		
 		p {
 			margin-top: .1em;
@@ -463,7 +421,7 @@
 			title: "Are you sure?",
 			dialogClass: "ui-state-error",
 			modal: true,
-			position: { my: "left top", at: "left bottom", of: $("b")},
+			position: { my: "right top", at: "right bottom", of: button},
 			buttons: ({
 				"Yes": function(){
 					$.ajax({
@@ -510,7 +468,7 @@
 			title: "Are you sure?",
 			dialogClass: "ui-state-error",
 			modal: true,
-			position: { my: "left top", at: "left bottom", of: $("b")},
+			position: { my: "right top", at: "right bottom", of: button},
 			buttons: ({
 				"Yes": function(){
 					$.ajax({
