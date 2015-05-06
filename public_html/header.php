@@ -213,7 +213,10 @@
 	echo "<b><a class='hlink' href='collections.php'>Collections</a>&nbsp;</b>";
 	}
 	echo "<form method='GET' style='display: inline; float: right; margin: 0px;' action='search_results.php'>";
-	echo "<input type='text' name='keywords' style='width: 20em' placeholder='Enter keywords here' title='Search for users, contributions, types, subtypes, and game versions'>";
+	if(!$_GET["keywords"])
+		echo "<input type='text' name='keywords' style='width: 20em' placeholder='Enter keywords here' title='Search for users, contributions, types, subtypes, and game versions'>";
+	else
+		echo "<input type='text' name='keywords' style='width: 20em' value='".htmlspecialchars($_GET["keywords"], ENT_QUOTES, "UTF-8")."' title='Search for users, contributions, types, subtypes, and game versions'>";
 	echo "<input type='hidden' name='csort' value='relevance'>";
 	echo "<input class='but' type='submit'>";
 	echo "</form>";

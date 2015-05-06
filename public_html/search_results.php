@@ -383,7 +383,7 @@
 	
 	// RESULTS HEADER
 	if($resulttotal != 0)
-		echo "<h2 class='zacsh2'>Showing Results ".($offset+1)."-".($offset+$resultcount)." out of ".$resulttotal."</h2>";
+		echo "<h2 class='zacsh2 ellipsis'>Showing Results ".($offset+1)."-".($offset+$resultcount)." out of ".$resulttotal."</h2>";
 	else
 		echo "<h2 class='zacsh2'>No Results Found!</h2>";
 	echo "<form method=GET class='inlineform' action='search_results.php'>";

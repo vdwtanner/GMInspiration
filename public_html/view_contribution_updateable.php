@@ -186,6 +186,33 @@
 			}
 		}
 		
+		function showMoreComments(id, offset, totalComments){
+			var funct = "loadComments";
+			var num = 10;
+			var parent = document.getElementById("comments");
+			var child = document.getElementById("showmore_comments");
+			parent.removeChild(child);
+
+			$.ajax({
+			url: "scripts/loadComments.php",
+			type: "POST",
+			data: {
+				action: funct,
+				id: id,
+				numComments: num,
+				offset: offset,
+				totalComments: totalComments,
+			},
+			success: function(html){
+				$("#commentsEnd").prepend(html);
+				console.log(html);
+			},
+			error: function(xhr, status, error){
+				console.log(error);
+			}
+		});
+		}
+
 		function update(){
 			var id=$("#contribution_id").text();
 			var privacy=$("#privacy").val();
@@ -684,67 +711,43 @@
 		echo "<button onclick='addField()'>Add Field</button></br>";
 	}
 ?>
-
+	<br><br>
 	<span><button id="comments_tab" onclick="showComments()" disabled="true">Comments</button><button id="ratings_tab" onclick="showRatings()">Ratings</button></span>
-	</br></br>
+	<hr><br>
 	<div id='comments'>
 		<?php
 	/********************************
 		Display Comments
 	*********************************/
-			if($_SESSION["username"]){
-				/*echo "<form id='make_comment'>
-					<textarea id='comment' contenteditable='true' rows='5' cols='50' placeholder='Enter comment here.' required ></textarea>
-					</form><script>CKEDITOR.replace( 'comment' );</script>*/
-				echo "<label for='isRichText'>Use rich text</label><input id='isRichText' type='checkbox' onChange='switchCommentType(this)'/></br>";
-				echo "<textarea id='comment' rows='5' cols='40' placeholder='Enter comment here'></textarea></br>
-					<a class='button' onclick='comment();' id='submit_comment'>Submit</a>";
-			}else{
-				echo "You must login before you can comment.";
-			}
-			//$result=$mysql->query("SELECT * from contribution_comments WHERE contribution_id =".$id." ORDER BY timestamp DESC");
-			$stmt = $mysql->prepare("SELECT id, username, timestamp, comment FROM contribution_comments WHERE contribution_id = ? ORDER BY timestamp DESC");
+			include dirname(__FILE__)."/scripts/loadComments.php";
+
+			$commentPageLimit = 7;
+
+			$stmt = $mysql->prepare("SELECT COUNT(*) FROM contribution_comments WHERE contribution_id = ? ORDER BY timestamp DESC");
 			$stmt->bind_param("i", $id);
 			if(!$stmt->execute()){
 				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 			}
-			$u=null; $t=null; $c=null; $i=null;
-			$stmt->bind_result($i, $u, $t, $c);
-			while($stmt->fetch()){
-				$row["id"] = $i;
-				$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
-				$row["timestamp"] = $t;
-				$row["comment"] = $c;
-				$rowarr[] = $row;
-			}
+			$count = null;
+			$stmt->bind_result($count);
+			$stmt->fetch();
 			$stmt->close();
-			if(!empty($rowarr)){
-				foreach($rowarr as $key => $row){
-					//$result2 = $mysql->query("SELECT picture from users WHERE username='".$row["username"]."'");
-					$stmt = $mysql->prepare("SELECT picture FROM users WHERE username=?");
-					$stmt->bind_param("s", $row["username"]);
-					if(!$stmt->execute()){
-						echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
-					}
-					$img=null;
-					$stmt->bind_result($img);
-					$stmt->fetch();
-					$stmt->close();
 
-					echo "<div class='comment' ><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate_".$row["id"]."' style='margin-top:.4em;><b><em style='margin-bottom: .2em;'>".$row["username"]."</em></b></a>";
-					if($_SESSION["username"]==$row["username"]){
-						echo "<a id='delete_".$row["id"]."' class='button' style='display:none; float: right' onclick='deleteComment(".$row["id"].", this)'>Delete</a>";
-					}
-					echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
-					echo "<p style=' margin: 0em;'>".$row["comment"]."</p>";
-					
-					echo "</div>";
-				}
+			echo "<p><b>Most Recent Comments</b> (total comments: ".$count.")</p>";
+			if($_SESSION["username"]){
+				/*echo "<form id='make_comment'>
+					<textarea id='comment' contenteditable='true' rows='5' cols='50' placeholder='Enter comment here.' required ></textarea>
+					</form><script>CKEDITOR.replace( 'comment' );</script>*/
+				//echo "<label for='isRichText'>Use rich text</label><input id='isRichText' type='checkbox' onChange='switchCommentType(this)'/></br>";
+				echo "<textarea id='comment' class='comment_box' rows='5' placeholder='Enter comment here' ></textarea></br>
+					<a class='button' onclick='comment();' id='submit_comment'>Submit</a>";
+			}else{
+				echo "You must login before you can comment.";
 			}
-			unset($row);
-			unset($rowarr);
+			loadComments($id, 5, 0, $count);
 			
 		?>
+		<div id="commentsEnd"></div>
 	</div>
 	<div id="ratings" style="display:none;">
 		<?php

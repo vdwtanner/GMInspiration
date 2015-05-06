@@ -320,6 +320,18 @@ Zac's search lists!
 *********************************/
 
 	
+#comments{
+
+}
+
+#showmore_comments{
+	width: 100%;
+}
+
+.comment_box{
+	width: 40%;
+}
+
 a {
 	cursor: pointer;
 }
@@ -353,6 +365,8 @@ div.comment {
 	border: 2px;
 	border-color: #F59032;
 	padding: 1em;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
 	border-radius: 10px;
 	margin: .5em;
 }
@@ -387,6 +401,7 @@ div.textarea {
 div.textarea *{
 	margin:	.25em;
 }
+
 
 /** End UpdateContribution CSS **/
 
