@@ -263,11 +263,12 @@
 	echo "<hr>";
 	echo "<b><a class='hlink' href='home.php'>Home</a>&nbsp;</b>";
 	echo "<b><a class='hlink' href='about.php'>About</a>&nbsp;</b>";
+	echo "<b><a class='hlink' href='contact.php'>Contact Us</a>&nbsp;</b>";
 	if($_SESSION["username"]){
 	echo "<b><a class='hlink' href='profile.php?user=".htmlspecialchars($_SESSION["username"], ENT_QUOTES, "UTF-8")."'>Profile</a>&nbsp;</b>";
 	echo "<b><a class='hlink' href='contribute.php'>Contribute</a>&nbsp;</b>";
 	echo "<b><a class='hlink' href='collections.php'>Collections</a>&nbsp;</b>";
-	echo "<b><a class='hlink' href='contact.php'>Contact Us</a>&nbsp;</b>";
+	
 	}
 	echo "<form method='GET' style='display: inline; float: right; margin: 0px;' action='search_results.php'>";
 	if(!$_GET["keywords"])
