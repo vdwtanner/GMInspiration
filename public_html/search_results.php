@@ -225,7 +225,7 @@
 					$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 					$row["avg_fun"] = $af;
 					$row["avg_balance"] = $ab;
-					$row["desc"] = strip_tags($desc);
+					$row["desc"] = strip_tags($desc, "<br><p>");
 					$row["privacy"] = $priv;
 					$row["type"] = $t;
 					$row["sub_type"] = $s_t;
@@ -303,7 +303,7 @@
 					$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 					$row["avg_fun"] = $af;
 					$row["avg_balance"] = $ab;
-					$row["desc"] = strip_tags($desc);
+					$row["desc"] = strip_tags($desc, "<br><p>");
 					$row["privacy"] = $priv;
 					$row["type"] = $t;
 					$row["sub_type"] = $s_t;
@@ -383,7 +383,7 @@
 					$row["username"] = htmlspecialchars($u, ENT_QUOTES, "UTF-8");
 					$row["avg_fun"] = $af;
 					$row["avg_balance"] = $ab;
-					$row["desc"] = strip_tags($desc);
+					$row["desc"] = strip_tags($desc, "<br><p>");
 					$row["privacy"] = $priv;
 					$row["type"] = $t;
 					$row["sub_type"] = $s_t;
@@ -479,7 +479,7 @@
 					echo "<span class='verticalspan' style='background-color: red;'><span class='verticaltext ellipsis'>ADMIN</span></span>";
 				else
 					echo "<span class='verticalspan' style='background-color: green;'><span class='verticaltext ellipsis'>USER</span></span>";
-				echo "<a href='view_contribution_updateable.php?contid=".$value["id"]."' style='inline-block'>";
+				echo "<a href='profile.php?user=".$value["username"]."' style='inline-block'>";
 				echo "<img src='".$value["picture"]."' alt='A picture of ".$value["username"]."' height='100px' width='100px'>";
 				echo "</a>";
 				echo "</div>";

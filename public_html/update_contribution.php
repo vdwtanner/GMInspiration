@@ -3,7 +3,21 @@
         require dirname(__FILE__)."/scripts/parser.php";
 
 		require_once dirname(__FILE__).'/HTMLPurifier/library/HTMLPurifier.auto.php';
-		$purifier = new HTMLPurifier();
+
+		$allowedEle = "b,i,u,li,ol,ul,table,tr,td,th,br,p";
+
+		$allowedAttri = "p.style, p.class, table.style, table.class, table.width,
+				table.cellpadding, table.cellspacing, table.border, table.id
+				td.abbr, td.align, td.class, td.id, td.colspan, td.rowspan, td.style,
+				td.valign, tr.align, tr.class, tr.id, tr.style, tr.valign, th.abbr,
+				th.align, th.class, th.id, th.colspan, th.rowspan, th.style,
+				th.valign, ul.style";
+
+		$config = HTMLPurifier_Config::createDefault();
+		$config->set("Core.Encoding", "UTF-8");
+		$config->set("HTML.AllowedElements", $allowedEle);
+		$config->set("HTML.AllowedAttributes", $allowedAttri);
+		$purifier = new HTMLPurifier($config);
 
                 if(!$_SESSION["username"]){
                         header("HTTP/1.1 401 You are not logged in");
@@ -23,9 +37,13 @@
 		$game=$_POST["game"];	
 		$type=$_POST["type"];	
 		$subtype=$_POST["subtype"];	
+
 		$desc=$purifier->purify($_POST["desc"]);	
 		$img=$purifier->purify($_POST["img"]);
 		$json=$purifier->purify($_POST["json"]);
+
+		print_r(htmlspecialchars($_POST["json"], ENT_QUOTES, "UTF-8"));
+		print_r(htmlspecialchars($json, ENT_QUOTES, "UTF-8"));
 		
 		if ($img==""){
 			if ($type==Armor){

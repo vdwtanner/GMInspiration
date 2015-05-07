@@ -133,11 +133,12 @@
 			if($id){
 				while($stmt->fetch()){
 					if($_SESSION["username"]!=$username && $privacy!=0){
-						echo "You don't have permission to see this contribution.";
+						//echo "You don't have permission to see this contribution.";
 					}else{
 						echo "<a href='view_contribution_updateable.php?contid=".$id."'>".$name."</a>";
+						echo "<br><br>";
 					}
-					echo "<br><br>";
+
 				}
 			}else{
 				echo $d_username." has yet to submit any contributions!";

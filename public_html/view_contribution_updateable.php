@@ -697,8 +697,9 @@
 					<textarea id='comment' contenteditable='true' rows='5' cols='50' placeholder='Enter comment here.' required ></textarea>
 					</form><script>CKEDITOR.replace( 'comment' );</script>*/
 				//echo "<label for='isRichText'>Use rich text</label><input id='isRichText' type='checkbox' onChange='switchCommentType(this)'/></br>";
-				echo "<textarea id='comment' class='comment_box' rows='5' placeholder='Enter comment here' ></textarea></br>
+				echo "<textarea id='comment' class='comment_box' rows='5' placeholder='Enter comment here' ></textarea><br><br>
 					<a class='button' onclick='comment();' id='submit_comment'>Submit</a>";
+				echo "<br>";
 			}else{
 				echo "You must login before you can comment.";
 			}
