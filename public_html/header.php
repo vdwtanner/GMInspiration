@@ -59,16 +59,16 @@
 			form = $("#modal_area").innerHTML;
 			//alert(form);
 			$("#modal_area").dialog({
-				height: 260,
-				width: 380,
+				height: 270,
+				width: 430,
 				modal: true,
 				position: {my: "center top", at: "center top", of: window},
 				buttons: {
 					"Forgot Password": function(){
 						$("#modal_area").html("<b>Please enter the email linked to your account</b><br><input id='email' type='email' placeholder='email' tooltip='Must be a valid email' />");
 						$("#modal_area").dialog({
-							height: 260,
-							width: 380,
+							height: 270,
+							width: 430,
 							modal: true,
 							buttons: {
 								"Reset Password": function(){
