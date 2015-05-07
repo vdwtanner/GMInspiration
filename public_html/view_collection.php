@@ -174,7 +174,7 @@
 						echo "</div>";
 						echo "<div class='searchtext'>";
 							if($creator == $_SESSION["username"])
-								echo "<a style='float: right;' onclick='deleteItemFromCollection(".$contriID.",".$id.")'>[remove]</a>";
+								echo "<a style='float: right; max-width:20%;' onclick='deleteItemFromCollection(".$contriID.",".$id.")'>[remove]</a>";
 							echo "<a href='view_contribution_updateable.php?contid=".$contriID."'>";
 							if($s_type)
 								echo "<b class='searchitemname ellipsis'>".$name." - ".$type." (".$s_type.")</b><br>";
