@@ -15,7 +15,7 @@
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<script src="http://cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.min.js"></script>
 	<script src="scripts/ckeditor/ckeditor.js"></script>
-	<script src="scripts/js/utils.js"></script>
+	<!--<script src="scripts/js/utils.js"></script>-->
 	<script src="scripts/js/jquery-validation/dist/jquery.validate.min.js"></script>
 	<link href="scripts/ckeditor/samples/sample.css" rel="stylesheet">
 	<style>
@@ -199,7 +199,28 @@
 			e.border='2px solid blue';
 		}
 		
-		
+		function editImgSrc(img){
+			//var div = document.createElement("div");
+			//$(div).html('<label for="src">URL: </label><input type="text" id="src" placeholder="'+img.src+'" />');
+			$("#temp_div").dialog({
+				height: 300,
+				width: 450,
+				position: {my: "center top", at: "center top", of: window},
+				buttons: ({
+					"Accept": function(){
+						//console.log($("#temp_div").html());
+						img.src=$("#temp").val();
+						console.log(img);
+						//img.src=document.getElementById("src").value;
+						$("#temp_div").dialog("close");
+						//div.parentNode.removeChild(div);
+					},
+					"Cancel": function(){
+							$("#temp_div").dialog("close");
+					}
+				})
+			});
+		}
 		
 	</script>
 </head>
@@ -305,5 +326,6 @@
 		<div id="submit_button" style="display: inline-block;"><button class="but" id="submit_contribution"  onclick="submit()">Submit</button></div>
 	</br>
 </div>
+<div id="temp_div" style="display: none"><textarea id="temp" rows="6" cols="38" onkeypress="console.log(event.which)"></textarea></div>
 </body>
 </html>
