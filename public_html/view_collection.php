@@ -135,8 +135,9 @@
 				unset($name);
 				unset($size);
 
+				$count = 1;
 
-				echo "<div class='collectionList'>";
+				echo "<ul id='clist'>";
 				foreach($cjson as $key => $contriID){
 					$stmt = $mysql->prepare("SELECT username, img, name, `type`, sub_type, game, `desc`, json, avg_fun, avg_balance, privacy FROM contributions WHERE id=?");
 					$stmt->bind_param("i", $contriID);
@@ -153,56 +154,63 @@
 					$type = htmlspecialchars($type, ENT_QUOTES, "UTF-8");
 					$s_type = htmlspecialchars($s_type, ENT_QUOTES, "UTF-8");
 					$game = htmlspecialchars($game, ENT_QUOTES, "UTF-8");
+					$desc = strip_tags($desc);
 
 
-					echo "<div class='contributionListItem'>";
+					echo "<li class='searchlistitem clearfix'>";
+					echo "<span class='searchnumbers'>".(($count++))."</span>";
 
-					// Item Title and Sidebar decoration
-					echo "<span class='collectionItemTitle'>";
-					echo "<b class='collectionItemEditDelete'>Created by:</b>";
-					echo "<a class='collectionItemEditDelete' href='profile.php?user=".$user."'>".$user."</a>";
-					if($_SESSION["username"] == $creator){
-						echo "<span style='float: right;'>";
-						echo "<a class='collectionItemEditDelete' onclick='deleteItemFromCollection(".$contriID.",".$_GET["id"].")'>remove</a>";
-						echo "</span>";
-					}
-					echo "</span>";
-					echo "<span class='collectionItemSideBar'></span>";
-						if($privacy == 0 || $privacy == 2 || $creator == $_SESSION["username"]){ // if item is public or protected
-	
-							// Item Content
-							echo "<a class='collectionItemContent' href='view_contribution_updateable.php?contid=".$contriID."'>";
-							// Item Picture
-							echo "<img class='collectionPicture' src='".$img."'>";			
-							// Item Name, game, and rating			
-							echo "<div class='collectionText'><b>".$name."<br>".$game."</b><br>";
-							if($avgBalance >= 0 && $avgFun >= 0)
-								echo "<table><tr><td><b style='font-size:12'>Fun</b></td><td><span class='stars'>".$avgFun."</span></td></tr><tr><td><b style='font-size:12'>Balance</b></td><td><span class='stars'>".$avgBalance."</span></td></tr></table>";
+					if($privacy == 0 || $privacy == 2 || $creator == $_SESSION["username"]){
+						echo "<div class='searchthumbnail'>";
+							echo "<span class='verticalspan'><span class='verticaltext ellipsis'>".$game."</span></span>";
+							echo "<a href='view_contribution_updateable.php?contid=".$contriID."' style='inline-block'>";
+							if($privacy == 1){
+								echo "<div class='search_img_overlay'>";
+								echo "<p class='search_overlay_text'>You have set this contribution to private</p>";
+								echo "</div>";
+							}
+							echo "<img src='".$img."' alt='A picture of ".$name."' height='100px' width='100px'>";
+							echo "</a>";
+						echo "</div>";
+						echo "<div class='searchtext'>";
+							if($creator == $_SESSION["username"])
+								echo "<a style='float: right;' onclick='deleteItemFromCollection(".$contriID.",".$id.")'>[remove]</a>";
+							echo "<a href='view_contribution_updateable.php?contid=".$contriID."'>";
+							if($s_type)
+								echo "<b class='searchitemname ellipsis'>".$name." - ".$type." (".$s_type.")</b><br>";
 							else
-								echo "Not yet rated";
-							echo "</div>";
-
+								echo "<b class='searchitemname ellipsis'>".$name." - ".$type."</b><br>";
 							echo "</a>";
-						}else{
-							// Item Content
-							echo "<a class='collectionItemContent' href='view_contribution_updateable.php?contid=".$contriID."'>";
-							// Item Picture
-							echo "<img class='collectionPicture' src='http://upload.wikimedia.org/wikipedia/commons/3/33/White_square_with_question_mark.png'>";			
-							// Item Name, game, and rating			
-							echo "<div class='collectionText'><b>Unidentified Item<br>".$game."</b><br>";
-							echo "Undetermined Rating";
-							echo "</div>";
+							echo "<span class='small_desctext'>By <a href='profile.php?user=".$user."'>".$user."</a> for ".$game."</span><br>";
+							if($avgFun != -1)
+								echo "<table class='rating_table searchratings'><tr><td>Fun</td><td><span class='stars'>".$avgFun."</span></td><td>Balance</td><td><span class='stars'>".$avgBalance."</span></td></tr></table>";
+							else
+								echo "<span class='small_desctext'>Not yet rated.</span><br>";
+							echo "<span class='searchdesc'>".$desc."</span>";
+						echo "</div>";
+					}else{
+						echo "<div class='searchthumbnail'>";
+							echo "<span class='verticalspan'><span class='verticaltext ellipsis'>Unknown Game</span></span>";
+							echo "<img src='http://upload.wikimedia.org/wikipedia/commons/3/33/White_square_with_question_mark.png' alt='An unidentified item' height='100px' width='100px'>";
+						echo "</div>";
+						echo "<div class='searchtext'>";
+							echo "<b class='searchitemname ellipsis'>Unidentified Item</b><br>";
+							echo "<span class='small_desctext'>By <a href='profile.php?user=".$user."'>".$user."</a></span><br>";
+							echo "<span class='small_desctext'>Unknown Rating</span><br>";
+						echo "</div>";
 
-							echo "</a>";
+					}
+					//echo "<span class='small_desctext searchgame'>".$value["game"]."</span>";
 
-						}
-					echo "</div>";
+
+					echo "</li>";
 				}
+				echo "</ul>";
 			
-				echo "</div>";
 			}else{
 				echo "<b>You dont have permission to view this page</b>";
 			}
+
 		
 			$mysql->commit();
 		}catch(Exception $e){
