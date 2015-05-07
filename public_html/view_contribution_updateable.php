@@ -605,9 +605,10 @@
 		Privacy Drop Down
 	*********************************/
 		if($user==$_SESSION["username"]){
-		echo"<div class='control'>";}
-		else{
-		echo"<div class='control' style='float:right; width:45%;'>";}	
+			echo"<div class='control'>";
+		}else{
+			echo"<div class='control' style='float:right; width:45%;'>";
+		}	
 		echo "<a style='float:right;' href='view_contribution_printable.php?contid=".$id."'>view printable version</a>";
 		echo "<span style='display:none; clear:both;'></span>";
 		if($user==$_SESSION["username"]){
@@ -663,8 +664,10 @@
 
 			unset($row);
 			unset($rowarr);
+
+		}	
 		echo"</div>";
-}		
+	
 	/********************************
 		Display Collection
 	*********************************/	

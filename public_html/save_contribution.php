@@ -20,7 +20,22 @@
 <body>
 	<?php
 		require_once dirname(__FILE__).'/HTMLPurifier/library/HTMLPurifier.auto.php';
-		$purifier = new HTMLPurifier();
+
+
+		$allowedEle = "b,i,u,li,ol,ul,table,tr,td,th,br,p";
+
+		$allowedAttri = "p.style, p.class, table.style, table.class, table.width,
+				table.cellpadding, table.cellspacing, table.border, table.id
+				td.abbr, td.align, td.class, td.id, td.colspan, td.rowspan, td.style,
+				td.valign, tr.align, tr.class, tr.id, tr.style, tr.valign, th.abbr,
+				th.align, th.class, th.id, th.colspan, th.rowspan, th.style,
+				th.valign, ul.style";
+
+		$config = HTMLPurifier_Config::createDefault();
+		$config->set("Core.Encoding", "UTF-8");
+		$config->set("HTML.AllowedElements", $allowedEle);
+		$config->set("HTML.AllowedAttributes", $allowedAttri);
+		$purifier = new HTMLPurifier($config);
 
 		echo "Hi, ".$_SESSION["username"];
 		if(!$_SESSION["username"]){
@@ -35,7 +50,12 @@
 		$subtype=$_POST["subtype"];	
 		$desc=$purifier->purify($_POST["desc"]);	
 		$img=$purifier->purify($_POST["img"]);
-		$json=$purifier->purify($_POST["json"]);	
+		$json=json_decode($_POST["json"], true);
+		foreach($json as $key => $value){
+			$value["label"] = $purifier->purify($value["label"]);
+			$value["text"] = $purifier->purify($value["text"]);
+		}
+		$json=json_encode($json);	
 
 		if ($img==""){
 			if ($type==Armor){

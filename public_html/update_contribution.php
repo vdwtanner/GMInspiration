@@ -40,10 +40,17 @@
 
 		$desc=$purifier->purify($_POST["desc"]);	
 		$img=$purifier->purify($_POST["img"]);
-		$json=$purifier->purify($_POST["json"]);
+		$json=json_decode($_POST["json"], true);
+		foreach($json as $key => $value){
+			$value["label"] = $purifier->purify($value["label"]);
+			$value["text"] = $purifier->purify($value["text"]);
+		}
+		$json=json_encode($json);
 
-		print_r(htmlspecialchars($_POST["json"], ENT_QUOTES, "UTF-8"));
-		print_r(htmlspecialchars($json, ENT_QUOTES, "UTF-8"));
+
+		//print_r(htmlspecialchars($_POST["json"], ENT_QUOTES, "UTF-8"));
+		//print_r(htmlspecialchars($json, ENT_QUOTES, "UTF-8"));
+		//print_r(htmlspecialchars($desc, ENT_QUOTES, "UTF-8"));
 		
 		if ($img==""){
 			if ($type==Armor){
