@@ -518,6 +518,7 @@
 	function editImgSrc(img){
 		//var div = document.createElement("div");
 		//$(div).html('<label for="src">URL: </label><input type="text" id="src" placeholder="'+img.src+'" />');
+		$("#temp").text(img.src);
 		$("#temp_div").dialog({
 			height: 300,
 			width: 450,
