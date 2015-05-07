@@ -518,10 +518,9 @@
 	function editImgSrc(img){
 		//var div = document.createElement("div");
 		//$(div).html('<label for="src">URL: </label><input type="text" id="src" placeholder="'+img.src+'" />');
-		$("#temp").text(img.src);
 		$("#temp_div").dialog({
 			height: 300,
-			width: 460,
+			width: 450,
 			position: {my: "center top", at: "center top", of: window},
 			buttons: ({
 				"Accept": function(){
@@ -792,7 +791,7 @@
 					$stmt->close();
 					echo "<div class='comment'><a href='profile.php?user=".$row["username"]."'><img src='".$img."' alt='".$row["username"]."&#39s profile picture' width='50' height='50' style='float: left;'><div id='namedate_".$row["id"]."' style='margin-top:.4em;><b><em style='margin-bottom: .2em;'>".$row["username"]."</em></b></a>";
 					if($_SESSION["username"]==$row["username"]){
-						echo "<a id='delete_".$row["id"]."' class='button' style='display:none; float: right' onclick='deleteRating(".$row["id"].", this)'>Delete</a>";
+						echo "<a id='delete_".$row["id"]."' class='button' style='float: right;' onclick='deleteRating(".$row["id"].", this)'>Delete</a>";
 					}
 					echo "<h5 style='margin-top: .2em; margin-bottom: .4em;'>".date('F j, Y g:i A',strtotime($row["timestamp"]))."</h5></div></br>";
 					echo "<table class='rating_table'><tr><td><b>Fun</b></td><td><span class='stars'>".$row["fun"]."</span></td></tr>

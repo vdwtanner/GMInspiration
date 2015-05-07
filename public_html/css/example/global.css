@@ -506,7 +506,7 @@ div.comment {
 
 .comment:hover div[id^="namedate_"] .button{
 	display: inline-block;
-	pointer-events: none;
+	pointer-events: all;
 	cursor: pointer;
 	-webkit-opacity: 1;
 	-moz-opacity: 1;
