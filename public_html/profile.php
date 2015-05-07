@@ -106,7 +106,7 @@
 
 			//PLAYER DESCRIPTION
 			echo "<div class='boxele'>";
-			echo "<div style='padding-left: 2em; padding-top: 1em'";
+			echo "<div class='comment' style='margin:0em; padding-left: 2em; padding-top: 1em'";
 			if($description)
 				echo "<p>".$description."</p>";
 			else
@@ -128,7 +128,7 @@
 			$name = htmlspecialchars($name, ENT_QUOTES, "UTF-8");
 		
 			echo "<div class='boxele'>";
-			echo "<div style='padding-left: 2em'>";
+			echo "<div class='comment' style='margin:0em; padding-left: 2em'>";
 			echo "<h5>Contributions</h5>";
 			if($id){
 				while($stmt->fetch()){
@@ -158,3 +158,4 @@
 </div>
 </body>
 </html>
+<?php include 'footer.php';?>

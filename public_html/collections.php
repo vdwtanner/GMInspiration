@@ -377,3 +377,4 @@
 	<div id="collection_modal_area" style="display: none" title="New Collection..."></div>
 </body>
 </html>
+<?php include 'footer.php';?>

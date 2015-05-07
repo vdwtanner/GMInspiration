@@ -91,7 +91,7 @@
 				echo "</div><hr>";
 				//echo "<br><br>";
 				if($type != "INBOX_UNREAD")
-					echo "<hr>";
+				//	echo "<hr>";
 				echo "</div>";
 				//$count++;
 			}
