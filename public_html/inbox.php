@@ -38,6 +38,7 @@
 				console.log(html);
 			}
 		});
+		updateInboxNotificationSingle();
 	}
 	
 	function del(id){

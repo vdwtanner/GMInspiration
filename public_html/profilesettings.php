@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 	<link rel="stylesheet" href="css/example/profile.css" media="all">
+	<script src="scripts/js/utils.js" ></script>
 	<script type="text/javascript" language="javascript">
 		function changePassword(){
 			var div=document.createElement("div");
@@ -56,7 +57,17 @@
 						$(div).dialog("close");
 					}
 				}
-			})
+			});
+		}
+		
+		function updateImgurl(){
+			$("#imgurl").text(document.getElementById("img").src);
+			console.log(document.getElementById("img").src);
+		}
+		
+		function updateImg(){
+			console.log($("#imgurl").text());
+			document.getElementById("img").src = $("#imgurl").text();
 		}
 	</script>
 </head>
@@ -99,12 +110,14 @@
 			echo "<textarea name='descrEdit' rows=7 cols=75>".$description."</textarea><br>";
 			echo "Profile Image Data URL<br>";
 			if ($picture=="img/hat_profile200.png"){
-				echo "<textarea name='imgurl' rows=2 cols=75></textarea><br>";
+				echo "<textarea id='imgurl' name='imgurl' rows=2 cols=75 onblur='img.src=this.value;'></textarea>";
+				echo "<img id='img' src='' onclick='editImgSrc(this)' height='100' width='100' /><br>";
 			}
 			else {
-			echo "<textarea name='imgurl' rows=2 cols=75>".$picture."</textarea><br>";	
+				echo "<textarea id='imgurl' name='imgurl' rows=7 cols=75 onblur='img.src=this.value;'>".$picture."</textarea>";
+				echo "<img id='img' src='".$picture."' onclick='editImgSrc(this)' height='100' width='100' /><br>";
 			}
-			echo "<input type='submit' name='settingEdit' value='Save Changes'>";		
+			echo "<input type='submit' name='settingEdit' onmousedown='imgurl.value=img.src' onfocus='imgurl.value=img.src' value='Save Changes'>";		
 			echo "</form>";
 			$mysql->commit();
 		}catch(Exception $e){

@@ -210,7 +210,18 @@
 					$("#inbox_notification").html(html);
 				}
 			});
-			window.setTimeout(function(){updateInboxNotification()},30000);//update every 30 seconds
+			window.setTimeout(function(){updateInboxNotification()},10000);//update every 10 seconds
+		}
+		
+		function updateInboxNotificationSingle(){
+			console.log("updateInboxNotification()");
+			$.ajax({
+				url: "scripts/getNumberUnreadMessages.php",
+				type: "POST",
+				success: function(html){
+					$("#inbox_notification").html(html);
+				}
+			});
 		}
 		
 		$(function(){
