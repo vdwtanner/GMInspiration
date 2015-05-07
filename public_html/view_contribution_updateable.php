@@ -669,10 +669,10 @@
 		echo"</div>";
 	
 	/********************************
-		Display Collection
+		Display Contribution
 	*********************************/	
 		echo "<div id='contribution'><div class='profile_img'><img id='img' src='".$img."' alt='An image depicting ".$name."' width='175' height='175' ".($isCreator? "onclick='editImgSrc(this)'":"")."/></div>";
-		echo "<div class='name_user_game' ><h2><span id='name' ".($isCreator?"contenteditable='true'":"").">".$name."</span> - <span id='type' ".($isCreator?"contenteditable='true'":"").">".stripslashes($type).(stripslashes(($s_type))? " </span>(<span id='subtype' title='Sub Type' ".($isCreator?"contenteditable='true'":"").">".$s_type."</span>)":"")."</h2>";
+		echo "<div class='name_user_game' ><h2 style='margin-top:0px;'><span id='name' ".($isCreator?"contenteditable='true'":"").">".$name."</span> - <span id='type' ".($isCreator?"contenteditable='true'":"").">".stripslashes($type).(stripslashes(($s_type))? " </span>(<span id='subtype' title='Sub Type' ".($isCreator?"contenteditable='true'":"").">".$s_type."</span>)":"")."</h2>";
 		echo "<h3>submitted by <a href=profile.php?user=".$user.">".$user."</a></h3><h3 id='game'>".stripslashes($game)."</h3></div>";
 		if($num_ratings>0){
 			echo "<table class='rating_table'><tr><td><b>Fun</b></td><td><span class='stars'>".$avgFun."</span></td></tr><tr><td><b>Balance</b></td><td><span class='stars'>".$avgBalance."</span></td></tr></table>";
