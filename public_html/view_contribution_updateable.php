@@ -38,7 +38,7 @@
 	<script src="scripts/js/utils.js"></script>
 	<link href="scripts/ckeditor/samples/sample.css" rel="stylesheet">
 	<script type="text/javascript" language="javascript">
-		//Listeners
+		/*//Listeners
 		$(document).ready(function(){
 			$(".comment").hover(function(){
 			clearTimeout($(this).data('timeoutId'));
@@ -51,7 +51,7 @@
 				//set the timeoutId, allowing us to clear this trigger if the mouse comes back over
 				someElement.data('timeoutId', timeoutId); 
 			});
-		});
+		});*/
 		
 		function addContributionToCollection(contriID){
 			var div = document.createElement("div");
@@ -162,7 +162,7 @@
 				totalComments: totalComments,
 			},
 			success: function(html){
-				$("#commentsEnd").prepend(html);
+				$("#comments").append(html);
 				console.log(html);
 			},
 			error: function(xhr, status, error){
@@ -705,7 +705,6 @@
 			loadComments($id, 5, 0, $count);
 			
 		?>
-		<div id="commentsEnd"></div>
 	</div>
 	<div id="ratings" style="display:none;">
 		<?php

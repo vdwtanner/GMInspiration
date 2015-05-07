@@ -412,6 +412,34 @@ div.comment {
 	border-radius: 10px;
 	margin: .5em;
 }
+
+.comment div[id^="namedate_"] .button{
+	display: inline-block;
+	pointer-events: none;
+   	cursor: default;
+	-webkit-opacity: 0;
+	-moz-opacity: 0;
+	opacity: 0;
+	transition: opacity 250ms linear;
+	-o-transition: opacity 250ms linear;
+	-moz-transition: opacity 250ms linear;
+	-webkit-transition: opacity 250ms linear;
+	
+}
+
+.comment:hover div[id^="namedate_"] .button{
+	display: inline-block;
+	pointer-events: none;
+	cursor: pointer;
+	-webkit-opacity: 1;
+	-moz-opacity: 1;
+	opacity: 1;
+	transition: opacity 250ms linear;
+	-o-transition: opacity 250ms linear;
+	-moz-transition: opacity 250ms linear;
+	-webkit-transition: opacity 250ms linear;
+}
+
 div.namedate {
 	padding-left: 1em;
 }
