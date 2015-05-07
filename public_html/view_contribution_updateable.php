@@ -628,9 +628,9 @@
 				}
 			echo "</select>";
 			if($enable_button)
-				echo "<button onclick='addContributionToCollection(".$id.")'>Add to Collection</button>";
+				echo "<button class='but' onclick='addContributionToCollection(".$id.")'>Add to Collection</button>";
 			else
-				echo "<button onclick='addContributionToCollection(".$id.")' disabled>Already Added</button>";
+				echo "<button class='but' style='border-top-color: #5f4f1b; background: #5f4f1b; color: #ccc;' onclick='addContributionToCollection(".$id.")' disabled>Already Added</button>";
 			echo "</div>";
 			echo "</span>";
 

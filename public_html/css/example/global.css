@@ -13,7 +13,7 @@ body {
     -webkit-text-size-adjust:100%;
     -moz-text-size-adjust:100%;
     -ms-text-size-adjust:100%;
-	background-image: url("parchmentresize.jpg");
+	background-image: url("../../img/parchmentresize.jpg");
 	background-repeat: repeat;
 	background-position: center;
 	margin: 0 auto; 
@@ -502,7 +502,15 @@ div.textarea *{
    vertical-align: middle;
    margin: 2px 2px;
    }
-.but:hover {
+
+.but:disabled{
+   border-top-color: #5f4f1b;
+   background: #5f4f1b;
+   color: #ccc;
+
+}   
+   
+ .but:hover {
    border-top-color: #5f4f1b;
    background: #5f4f1b;
    color: #ccc;

@@ -77,10 +77,10 @@
 				}
 				echo "<b style='padding-left: 10px'>Subject:</b>&nbsp".$value["subject"];
 				echo "<div class='listshowhide'>";
-				echo "<a href='#' onclick='toggle_vis(\"b".$value["id"]."\",this);' style='float: right;'>[show]</a>";
+				echo "<a class='button' href='#' onclick='toggle_vis(\"b".$value["id"]."\",this);' style='float: right;'>show</a>";
 				if($value["sender"] != "DungeonCrawlers" && $type != "SENT")
-					echo "<a class='replylink' href='composemsg.php?recipient=".$value["sender"]."&redirect=i'>[reply]</a>";
-				echo "<a href='#' onclick='del(".$value["id"].")' style='float: right;'>[delete]&nbsp</a>";
+					echo "<a class='button' style='float: right;' href='composemsg.php?recipient=".$value["sender"]."&redirect=i'>reply</a>";
+				echo "<a class='button' href='#' onclick='del(".$value["id"].")' style='float: right;'>delete&nbsp</a>";
 				echo "<p style='display:inline; color: grey'>".$value["timestamp"]."&nbsp</p>";
 				echo "</div>";
 				echo "<div class='msgbody' id='b".$value["id"]."' style='display: none'>";//use ID instead of the original count so that we can load via AJAX

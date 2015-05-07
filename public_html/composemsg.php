@@ -27,7 +27,7 @@
 			}
 			echo "<input type='text' name='msgsubject' placeholder='Message Subject' size='76' maxlength='255'></input><br>";
 			echo "<textarea name='msgbody' rows=7 cols=75 placeholder='Enter your message here' style='resize:none' maxlength='6000'></textarea><br>";	
-			echo "<input type='submit' value='Send'>";
+			echo "<input class='but' type='submit' value='Send'>";
 		
 			echo "</form>";
 
