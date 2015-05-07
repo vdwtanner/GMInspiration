@@ -87,7 +87,7 @@
 				echo "<div class='msgborder'>";
 				echo "<p class='msgtext'>".$msg."<p>";
 				echo "</div>";
-				echo "</div>";
+				echo "</div><hr>";
 				//echo "<br><br>";
 				if($type != "INBOX_UNREAD")
 					echo "<hr>";

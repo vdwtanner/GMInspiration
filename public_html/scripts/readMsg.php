@@ -15,7 +15,6 @@
 			}
 			$stmt->close();
 			$mysql->commit();
-			echo "UPDATE private_messages SET `read`='1' WHERE `id`=".$id;
 			echo "Yay, did the things. Message with ID=".$id." was marked as read.";
 		}catch(Exception $e){
 			$mysql->rollback();

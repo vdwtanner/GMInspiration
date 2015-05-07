@@ -9,10 +9,15 @@ function editImgSrc(img){
 			"Accept": function(){
 				img.src=document.getElementById("src").value;
 				$(this).dialog("close");
+				div.parentNode.removeChild(div);
 			},
-			"Cancel": function(){$(this).dialog("close")}
+			"Cancel": function(){
+				$(this).dialog("close");
+				div.parentNode.removeChild(div);
+			}
 		})
-	});	
+	});
+	
 }
 
 //replace a div with an editor and then update the contents of said element
