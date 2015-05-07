@@ -440,7 +440,7 @@
 	if(($offset + $resultLimit) < $resulttotal){
 
 		$csort = htmlspecialchars($_GET["csort"], ENT_QUOTES, "UTF-8");
-		echo "<a href='search_results.php?keywords=".$keywords."&csort=".$csort."&offset=".($offset + $resultLimit)."'>[next]</a>";
+		echo "<a class='button' href='search_results.php?keywords=".$keywords."&csort=".$csort."&offset=".($offset + $resultLimit)."'>next</a>";
 	}
 
 	echo "</div>";
@@ -551,7 +551,7 @@
 		if(($offset + $resultLimit) < $resulttotal){
 
 			$csort = htmlspecialchars($_GET["csort"], ENT_QUOTES, "UTF-8");
-			echo "<a href='search_results.php?keywords=".$keywords."&csort=".$csort."&offset=".($offset + $resultLimit)."'>[next]</a>";
+			echo "<a class='button' href='search_results.php?keywords=".$keywords."&csort=".$csort."&offset=".($offset + $resultLimit)."'>next</a>";
 		}
 
 		echo "</div>";

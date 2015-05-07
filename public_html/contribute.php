@@ -22,27 +22,6 @@
 		a {
 			cursor: pointer;
 		}
-		a.button {
-			margin: .3em;
-			padding: 0 .3em 0 .3em;
-			vertical-align: top;
-			background: #FFAD33;
-			border-radius: 10px;
-		}
-		a.button:hover {
-			margin: .3em;
-			padding: 0 .3em 0 .3em;
-			vertical-align: top;
-			background: #EC9C2E;
-			border-radius: 10px;
-		}
-		a.button:active {
-			margin: .3em;
-			padding: 0 .3em 0 .3em;
-			vertical-align: top;
-			background: #E8A643;
-			border-radius: 10px;
-		}
 		
 		p {
 			margin-top: .1em;
@@ -322,8 +301,8 @@
 		});
 	</script>
 	</br>
-		<button id="add_field" style="border-radius: 10px;" onclick="addField()">Add Field</button>
-		<div id="submit_button" style="display: inline-block;"><button id="submit_contribution" style="border-radius: 10px;" onclick="submit()">Submit</button></div>
+		<button class="but" id="add_field" style="border-radius: 10px;" onclick="addField()">Add Field</button>
+		<div id="submit_button" style="display: inline-block;"><button class="but" id="submit_contribution"  onclick="submit()">Submit</button></div>
 	</br>
 </div>
 </body>
