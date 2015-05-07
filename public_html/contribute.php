@@ -329,3 +329,4 @@
 <div id="temp_div" style="display: none"><textarea id="temp" rows="6" cols="38" onkeypress="console.log(event.which)"></textarea></div>
 </body>
 </html>
+<?php include 'footer.php';?>
