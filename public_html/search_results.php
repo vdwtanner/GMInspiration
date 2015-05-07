@@ -519,6 +519,10 @@
 					echo "<div class='search_img_overlay'>";
 					echo "<p class='search_overlay_text'>You have set this contribution to private</p>";
 					echo "</div>";
+				}else if($value["privacy"] == 2){
+					echo "<div class='search_img_overlay'>";
+					echo "<p class='search_overlay_text'>You have set this contribution to protected</p>";
+					echo "</div>";
 				}
 				echo "<img src='".$value["img"]."' alt='A picture of ".$value["name"]."' height='100px' width='100px'>";
 				echo "</a>";
