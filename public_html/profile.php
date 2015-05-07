@@ -131,6 +131,12 @@
 			echo "<div class='comment' style='margin:0em; padding-left: 2em'>";
 			echo "<h5>Contributions</h5>";
 			if($id){
+				if($_SESSION["username"]!=$username && $privacy!=0){
+						echo "You don't have permission to see this contribution.";
+					}else{
+						echo "<a href='view_contribution_updateable.php?contid=".$id."'>".$name."</a>";
+					}
+					echo "<br><br>";
 				while($stmt->fetch()){
 					if($_SESSION["username"]!=$username && $privacy!=0){
 						//echo "You don't have permission to see this contribution.";

@@ -8,6 +8,7 @@ This file contains the unique styles needed for example.html which do not appear
 html { 
   background: rgb(244, 244, 244);
   background-color: #2E2E2E;
+  height:100%;
   }
 body {
     -webkit-text-size-adjust:100%;
@@ -20,7 +21,14 @@ body {
 	max-width: 60em;
 	border-style: ridge;
   border-color: gray;
-  
+  min-height: 100%;
+}
+
+#container{
+min-height: 100%;
+height: auto !important;
+height: 100%;
+margin: 0 auto -5em;
 }
 
 a:link {
@@ -146,7 +154,7 @@ height: auto;
   padding-bottom:1em;
   margin: 0 auto; 
   max-width: 60em;
-
+height: 6em;
 }
 
 /*
@@ -376,6 +384,21 @@ blockquote p {
 	UpdateContribution CSS
 *********************************/
 
+.control{
+  	background-color: rgba(150,100,56,.5);
+	border: 2px;
+	border-color: #F59032;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding:.5em;
+	height:4em;
+}
+
+#contribution{
+clear:both;
+padding-top: 1em;
+}
 	
 #comments{
 

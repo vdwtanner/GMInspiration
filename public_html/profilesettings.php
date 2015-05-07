@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 	<link rel="stylesheet" href="css/example/profile.css" media="all">
-	<script src="scripts/js/utils.js" ></script>
+	<!--<script src="scripts/js/utils.js" ></script> -->
 	<script type="text/javascript" language="javascript">
 		function changePassword(){
 			var div=document.createElement("div");
@@ -69,6 +69,29 @@
 			console.log($("#imgurl").text());
 			document.getElementById("img").src = $("#imgurl").text();
 		}
+		function editImgSrc(img){
+			//var div = document.createElement("div");
+			//$(div).html('<label for="src">URL: </label><input type="text" id="src" placeholder="'+img.src+'" />');
+			$("#temp_div").dialog({
+				height: 300,
+				width: 450,
+				position: {my: "center top", at: "center top", of: window},
+				buttons: ({
+					"Accept": function(){
+						console.log($("#temp_div").html());
+						img.src=$("#temp").val();
+						$("#imgurl").val($("#temp").val());
+						console.log(img);
+						//img.src=document.getElementById("src").value;
+						$("#temp_div").dialog("close");
+						//div.parentNode.removeChild(div);
+					},
+					"Cancel": function(){
+						$("#temp_div").dialog("close");
+					}
+				})
+			});
+		}
 	</script>
 </head>
 <body>
@@ -108,16 +131,17 @@
 			echo "<form method='POST' action='profile.php'>";
 			echo "Description<br>";
 			echo "<textarea name='descrEdit' rows=7 cols=75>".$description."</textarea><br>";
-			echo "Profile Image Data URL<br>";
+			echo "Click to edit profile image<br>";
 			if ($picture=="img/hat_profile200.png"){
-				echo "<textarea id='imgurl' name='imgurl' rows=2 cols=75 onblur='img.src=this.value;'></textarea>";
-				echo "<img id='img' src='' onclick='editImgSrc(this)' height='100' width='100' /><br>";
+				echo "<textarea id='imgurl' name='imgurl' rows='6' cols='38' style='display: none;'></textarea>";
+				echo "<img id='img' src='img/hat_profile200.png' onclick='editImgSrc(this)' height='100' width='100' /><br>";
 			}
 			else {
-				echo "<textarea id='imgurl' name='imgurl' rows=7 cols=75 onblur='img.src=this.value;'>".$picture."</textarea>";
-				echo "<img id='img' src='".$picture."' onclick='editImgSrc(this)' height='100' width='100' /><br>";
+				echo "<textarea id='imgurl' name='imgurl' rows='6' cols='38' style='display: none;'>".$picture."</textarea>";
+				//echo "<div id='imgurl_div' style='display: none'><input type='text' id='imgurl' name='imgurl' value='".$picture."'/></div>";
+				echo "<img id='img' src='".$picture."' onclick='editImgSrc(img)' height='100' width='100' /><br>";
 			}
-			echo "<input type='submit' name='settingEdit' onmousedown='imgurl.value=img.src' onfocus='imgurl.value=img.src' value='Save Changes'>";		
+			echo "<input type='submit' name='settingEdit' onmousedown='imgurl.value=img.src' onfocus='imgurl.value=img.src' value='Save Changes'>";	
 			echo "</form>";
 			$mysql->commit();
 		}catch(Exception $e){
@@ -128,7 +152,7 @@
 	}
 ?>
 	<a class="but" id="changePass" onclick="changePassword()">Change Password</a>
-
+	<div id="temp_div" style="display: none"><textarea id="temp" rows="6" cols="38" onkeypress="console.log(event.which)"></textarea></div>
 
 </div>
 </body>

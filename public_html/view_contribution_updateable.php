@@ -35,7 +35,7 @@
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<script src="http://cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.min.js"></script><!--Including some JQuery because yes-->
 	<script src="scripts/ckeditor/ckeditor.js"></script>
-	<script src="scripts/js/utils.js"></script>
+	<!--<script src="scripts/js/utils.js"></script>-->
 	<link href="scripts/ckeditor/samples/sample.css" rel="stylesheet">
 	<script type="text/javascript" language="javascript">
 		/*//Listeners
@@ -513,7 +513,30 @@
 	
 	function hideDelete(id){
 		$("#delete_"+id).fadeOut(500);
-	}	
+	}
+	
+	function editImgSrc(img){
+		//var div = document.createElement("div");
+		//$(div).html('<label for="src">URL: </label><input type="text" id="src" placeholder="'+img.src+'" />');
+		$("#temp_div").dialog({
+			height: 300,
+			width: 450,
+			position: {my: "center top", at: "center top", of: window},
+			buttons: ({
+				"Accept": function(){
+					//console.log($("#temp_div").html());
+					img.src=$("#temp").val();
+					console.log(img);
+					//img.src=document.getElementById("src").value;
+					$("#temp_div").dialog("close");
+					//div.parentNode.removeChild(div);
+				},
+				"Cancel": function(){
+					$("#temp_div").dialog("close");
+				}
+			})
+		});
+	}
 	</script>
 </head>
 <body>
@@ -581,11 +604,15 @@
 	/********************************
 		Privacy Drop Down
 	*********************************/
+		if($user==$_SESSION["username"]){
+		echo"<div class='control'>";}
+		else{
+		echo"<div class='control' style='float:right; width:45%;'>";}	
 		echo "<a style='float:right;' href='view_contribution_printable.php?contid=".$id."'>view printable version</a>";
 		echo "<span style='display:none; clear:both;'></span>";
 		if($user==$_SESSION["username"]){
-			echo "<a id='update_button' class='button' onclick='update()'>Save Changes</a> <a id='delete_button' class='button' onclick='deleteContribution()'>Delete Contribution</a></br>";
-			echo '<div id="privacy_settings" style="display: inline-block">
+			echo "<a style='margin-top: 1em;' id='update_button' class='button' onclick='update()'>Save Changes</a> <a id='delete_button' class='button' onclick='deleteContribution()'>Delete Contribution</a></br>";
+			echo '<div style="margin-top:1em; float:left;" id="privacy_settings" style="display: inline-block">
 					<select id="privacy" title="Select a privacy option" required>
 						<option'.(($privacy==0)?" selected='selected'":"").' value="0">Public</option>
 						<option'.(($privacy==1)?" selected='selected'":"").' value="1">Private</option>
@@ -636,8 +663,8 @@
 
 			unset($row);
 			unset($rowarr);
-		}
-		
+		echo"</div>";
+}		
 	/********************************
 		Display Collection
 	*********************************/	
@@ -697,7 +724,7 @@
 					<textarea id='comment' contenteditable='true' rows='5' cols='50' placeholder='Enter comment here.' required ></textarea>
 					</form><script>CKEDITOR.replace( 'comment' );</script>*/
 				//echo "<label for='isRichText'>Use rich text</label><input id='isRichText' type='checkbox' onChange='switchCommentType(this)'/></br>";
-				echo "<textarea id='comment' class='comment_box' rows='5' placeholder='Enter comment here' ></textarea><br><br>
+				echo "<textarea style='margin-bottom:1em;' id='comment' class='comment_box' rows='5' placeholder='Enter comment here' ></textarea></br>
 					<a class='button' onclick='comment();' id='submit_comment'>Submit</a>";
 				echo "<br>";
 			}else{
@@ -775,6 +802,7 @@
 		?>
 	</div>
 </div>
+<div id="temp_div" style="display: none"><textarea id="temp" rows="6" cols="38" onkeypress="console.log(event.which)"></textarea></div>
 </body>
 </html>
 <?php include 'footer.php';?>
