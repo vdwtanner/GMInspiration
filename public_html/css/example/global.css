@@ -107,6 +107,14 @@ header h2:after {
 /*
 Zac's lovely header css. Dont hurt me dalton. :(
 */
+
+.title{
+max-width: 612px;
+width: 100%;
+height: auto;
+
+}
+
 #homelink{
   float: left;
   font-size: 3em;
@@ -133,7 +141,9 @@ Zac's lovely header css. Dont hurt me dalton. :(
 }
 
 #footcontainer {	
-  padding: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-bottom:1em;
   margin: 0 auto; 
   max-width: 60em;
 

@@ -255,7 +255,7 @@
 
 	echo "<div style='clear: both;'>";
 	
-	echo "<a  id='homelink' href='index.html'><img src='img/title2.png'></a>";
+	echo "<a  id='homelink' href='index.html'><img class='title' src='img/title2.png'></a>";
 	
 	echo "</div>";
 	

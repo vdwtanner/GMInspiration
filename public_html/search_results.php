@@ -561,7 +561,7 @@
 		}
 
 		echo "</div>";
-		echo "<br><hr>";
+		echo "<br>";
 	}
 
 ?>
@@ -570,3 +570,4 @@
 
 </body>
 </html>
+<?php include 'footer.php';?>
