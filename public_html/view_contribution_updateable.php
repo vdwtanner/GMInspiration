@@ -521,7 +521,7 @@
 		$("#temp").text(img.src);
 		$("#temp_div").dialog({
 			height: 300,
-			width: 450,
+			width: 460,
 			position: {my: "center top", at: "center top", of: window},
 			buttons: ({
 				"Accept": function(){
