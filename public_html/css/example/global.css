@@ -352,11 +352,17 @@ blockquote p {
 
 .msgborder{
   display: block;
-  border: 1px solid #e0e0e0;
 }
 
 .msgtext{
   padding-left: 8px;
+  	background-color: rgba(150,100,56,.5);
+	border: 2px;
+	border-color: #F59032;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	min-height:3em;
 }
 
 .replylink{
