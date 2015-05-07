@@ -15,15 +15,38 @@
 
 <body>
 <div id='container'>
-	<h2>Welcome to The Game Master's Inspiration!</h2>
-	<p>GMinspiration.com is an online repository for homebrew or custom content for all your favorite table top roleplaying games.
-	 Need an terrifying new monster to bring your players to tears? Perhaps you need a small artifact of the god of light to give them the slightest chance of surviving your plans?
-	 Search through our online database of user-submitted contributions for something that matches your maniacal tastes.</p>
-	<p>When you feel it's time to give back to the community, or just want to yell at some guy who thought you can use a d20 as a damage die,
-	 <a href='sign_up.php'>sign up</a> for an account with us. You'll be able to contribute homebrew items, spells, monsters, and other content and get feedback on your work, as well as give
-	 feedback to those other plebians whose content offended your fragile nerd heart.</p>
-	<blockquote style='max-width: 20em;'>This sword gave me and all my players cancer.<br><span style='display:inline-block; padding-left: 6em;'>-One of our amazing users.<span></blockquote>
-	<p>Enjoy our site! It is still fairly new, so make sure to <a href='contact.php'>contact us</a> if you find any issues.</p>
+	<h2>Contact Information</h2>
+	<p>Got a comment, complaint, or suggestion for the devs? Contact us at</p>
+		<ul>
+		<li>Email: gminspiration@gmail.com</li>
+		</ul>
+	<p>Need to report a user or contribution for inappropriate content? Contact an admin!</p>
+		<ul>
+	<?php
+		$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
+		if ($mysql->connect_error) {
+			die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
+		}
+
+		$stmt = $mysql->prepare("SELECT username FROM users WHERE admin = 1");
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		}
+		$user = null;
+		$stmt->bind_result($user);
+		while($stmt->fetch()){
+			$row["username"] = htmlspecialchars($user, ENT_QUOTES, "UTF-8");
+			$rowarr[] = $row;
+		}
+
+		foreach($rowarr as $key => $value){
+			echo "<li><a href='profile.php?user=".$value["username"]."'>".$value["username"]."</a></li>";
+		}
+		
+
+	?>
+		</ul>
+
 <!--
 	<h4 style='font-size: 120%'>Your Profile</h4>
 	<p>After signing up, you should take a second to check out your profile page. From here you can,</p>
