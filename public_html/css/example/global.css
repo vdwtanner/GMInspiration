@@ -384,6 +384,21 @@ blockquote p {
 	UpdateContribution CSS
 *********************************/
 
+.control{
+  	background-color: rgba(150,100,56,.5);
+	border: 2px;
+	border-color: #F59032;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	padding:.5em;
+	height:4em;
+}
+
+#contribution{
+clear:both;
+padding-top: 1em;
+}
 	
 #comments{
 

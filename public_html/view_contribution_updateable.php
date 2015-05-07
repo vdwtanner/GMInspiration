@@ -604,11 +604,15 @@
 	/********************************
 		Privacy Drop Down
 	*********************************/
+		if($user==$_SESSION["username"]){
+		echo"<div class='control'>";}
+		else{
+		echo"<div class='control' style='float:right; width:45%;'>";}	
 		echo "<a style='float:right;' href='view_contribution_printable.php?contid=".$id."'>view printable version</a>";
 		echo "<span style='display:none; clear:both;'></span>";
 		if($user==$_SESSION["username"]){
-			echo "<a id='update_button' class='button' onclick='update()'>Save Changes</a> <a id='delete_button' class='button' onclick='deleteContribution()'>Delete Contribution</a></br>";
-			echo '<div id="privacy_settings" style="display: inline-block">
+			echo "<a style='margin-top: 1em;' id='update_button' class='button' onclick='update()'>Save Changes</a> <a id='delete_button' class='button' onclick='deleteContribution()'>Delete Contribution</a></br>";
+			echo '<div style="margin-top:1em; float:left;" id="privacy_settings" style="display: inline-block">
 					<select id="privacy" title="Select a privacy option" required>
 						<option'.(($privacy==0)?" selected='selected'":"").' value="0">Public</option>
 						<option'.(($privacy==1)?" selected='selected'":"").' value="1">Private</option>
@@ -659,8 +663,8 @@
 
 			unset($row);
 			unset($rowarr);
-		}
-		
+		echo"</div>";
+}		
 	/********************************
 		Display Collection
 	*********************************/	
@@ -720,7 +724,7 @@
 					<textarea id='comment' contenteditable='true' rows='5' cols='50' placeholder='Enter comment here.' required ></textarea>
 					</form><script>CKEDITOR.replace( 'comment' );</script>*/
 				//echo "<label for='isRichText'>Use rich text</label><input id='isRichText' type='checkbox' onChange='switchCommentType(this)'/></br>";
-				echo "<textarea id='comment' class='comment_box' rows='5' placeholder='Enter comment here' ></textarea></br>
+				echo "<textarea style='margin-bottom:1em;' id='comment' class='comment_box' rows='5' placeholder='Enter comment here' ></textarea></br>
 					<a class='button' onclick='comment();' id='submit_comment'>Submit</a>";
 			}else{
 				echo "You must login before you can comment.";
