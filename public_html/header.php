@@ -59,11 +59,55 @@
 			form = $("#modal_area").innerHTML;
 			//alert(form);
 			$("#modal_area").dialog({
-				height: 300,
-				width: 350,
+				height: 260,
+				width: 380,
 				modal: true,
 				position: {my: "center top", at: "center top", of: window},
 				buttons: {
+					"Forgot Password": function(){
+						$("#modal_area").html("<b>Please enter the email linked to your account</b><br><input id='email' type='email' placeholder='email' tooltip='Must be a valid email' />");
+						$("#modal_area").dialog({
+							height: 260,
+							width: 380,
+							modal: true,
+							buttons: {
+								"Reset Password": function(){
+									console.log("reset pass");
+									$.ajax({
+										url: "scripts/profileScripts.php",
+										type: "POST",
+										data: {
+											funct: "resetPassword",
+											email: $("#email").val(),
+										},
+										success: function(html){
+											$("#modal_area").html(html);
+											$("#modal_area").dialog({
+												buttons: {
+													"Close": function(){
+														$(this).dialog("close");
+													}
+												}
+											});
+										},
+										error: function(xhr, status, error){
+											$("#modal_area").html(error);
+											$("#modal_area").dialog({
+												buttons: {
+													"Close": function(){
+														$(this).dialog("close");
+													}
+												}
+											});
+										}
+									});
+								},
+								"Cancel": function(){
+									login();
+								}
+							}
+						});
+					},
 					"Login": function(){
 						submitLogin(this);
 					},

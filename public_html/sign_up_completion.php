@@ -14,7 +14,7 @@
 <?php
 	function sendVerifyMsg($to,$usr,$pass,$hash){
 		echo "<h2>TO:".$to."</h2>";
-		$subject="Dungeon Crawlers Activation";
+		$subject="GMInspiration Account Activation";
 		$message="Thanks for signing up!<br>
 		Your account has been created, you can login with the following credentials after activating the account with the URL below:<br><br>
 		
@@ -122,7 +122,6 @@
 	}
 	$mysql->close();
 ?>
-	<a href="index.html"><button style="border-radius: 4px;">Home</button></a>
 </div>
 </body>
 </html>
