@@ -217,7 +217,7 @@
 		echo "</div>"
 	?>
 
-	<!--</div>-->
+	</div>
 </div>
 <br>
 <p style="clear:both;"></p>
