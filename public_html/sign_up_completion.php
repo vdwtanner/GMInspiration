@@ -1,19 +1,6 @@
 <?php
-	include "header.php";
-?>
-
-<DOCTYPE html>
-<html>
-<head>
-	<title>Sign up</title>
-	<link rel="stylesheet" href="css/example/global.css" media="all">
-	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
-</head>
-<body>
-<div id='container'>
-<?php
 	function sendVerifyMsg($to,$usr,$pass,$hash){
-		echo "<h2>TO:".$to."</h2>";
+		//echo "<h2>TO:".$to."</h2>";
 		$subject="GMInspiration Account Activation";
 		$message="Thanks for signing up!<br>
 		Your account has been created, you can login with the following credentials after activating the account with the URL below:<br><br>
@@ -32,9 +19,11 @@
 		//$message=wordwrap($message, 70);
 		$success = mail($to,$subject,$message,$headers);
 		if($success)
-			echo "<h4>Mail Sent</h4>";
-		else
+			//echo "<h4>Mail Sent</h4>";
+		else{
+			header("HTTP/1.1 500 There was an Error with the Mailing System")
 			echo "<h4>There was an Error with the Mailing System</h4>";
+		}
 	}
 
 
@@ -46,14 +35,14 @@
 	/******************************************
 	   Lets get our sign up data and validate
 	*******************************************/
-	$usrvalid1 = "/^[a-zA-Z_.-]+$/";
+	//$usrvalid1 = "/^[a-zA-Z_.-]+$/";
+	$usrvalid1 = "/^[a-zA-Z]+[\w_.-]+/";
 	$usrvalid2 = "/^[^\s]+$/";
 	$usr = $_POST["username"];
 	$email = $_POST["email"];
 	$pass = md5($_POST["pass"]);
 //	$pass = crypt($_POST["pass"], "$2a$09$anexamplestringforsalt$");
 	$hash = md5( rand(0,1000) ); // Generate random 32 character hash and assign it to a local variable.
-
 	if(preg_match($usrvalid1, $usr) && preg_match($usrvalid2, $usr) && strlen($usr) >= 3 && strlen($usr) <= 20){
 		if(filter_var($email, FILTER_VALIDATE_EMAIL)){
 		try{
@@ -65,6 +54,7 @@
 			$stmt = $mysql->prepare("SELECT email FROM users WHERE username=?");
 			$stmt->bind_param("s", $usr);
 			if(!$stmt->execute()){
+				header("HTTP/1.1 500 Database Error");
 				echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 			}
 			$e = null;
@@ -103,7 +93,7 @@
 					$stmt->close();
 					// send an email to verify the users email account.
 					sendVerifyMsg($email, $usr, $pass, $hash);
-					echo "<h1>Successful sign up!</h1>";
+					echo "<b>Successful signup. Check your inbox and spam filter for an activation email</b>";
 					$mysql->commit();
 				}else{
 					header("HTTP/1.1 412 I'm sorry, that email is already in use.");
@@ -124,7 +114,7 @@
 			echo "<h2>Invalid Email</h2>";
 		}
 	}else{
-		header("HTTP/1.1 412 Invalid username");
+		header("HTTP/1.1 412 Invalid username: ".$usr."<br>Usernames must start with a letter and contain only letters, numbers, underscores, and periods.");
 		echo "<h2>Invalid Username</h2>";
 	}
 	$mysql->close();

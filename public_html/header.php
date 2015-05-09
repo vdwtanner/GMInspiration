@@ -170,7 +170,8 @@
 					pass: pass,
 				}),
 				success: function(html){
-					$("#modal_area").html("<b>Successful signup. Check your inbox and spam filter for an activation email</b>");
+					//$("#modal_area").html("<b>Successful signup. Check your inbox and spam filter for an activation email</b>");
+					$("#modal_area").html(html);
 					$("#modal_area").dialog({
 						title: "Successful sign up!",
 						buttons: {
@@ -211,7 +212,7 @@
 				buttons: {
 					"Sign Up": function(){
 						//$("#signup_form").validate();
-						if(($("#signup_pass").val()==$("#signup_confirm_pass").val())){
+						if(($("#signup_pass").val()==$("#signup_confpass").val())){
 							submitSignUp();
 						}else{
 							//$("#signup_form").submit();

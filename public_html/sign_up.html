@@ -12,7 +12,7 @@
 	</style>
 	<script type="text/javascript" language="javascript">
 		function check(input) {
-			if (input.value != document.getElementById('pass').value) {
+			if (input.value != document.getElementById('signup_pass').value) {
 				input.setCustomValidity('Password Must be Matching.');
 				input.style.borderColor = "red";
 			} else {
@@ -25,14 +25,14 @@
 </head>
 <body>
 	<form id="signUpForm" method="POST" action="sign_up_completion.php">
-		<label for="username">Username:</label><br>
-		<input id="username" name="username" type="text" maxlength="20" minlength="3" required/></br>
-		<label for="email">Email:</label><br>
-		<input id="email" name="email" type="email" maxlength="60" required/></br>
-		<label for="pass">Password:</label><br>
-		<input id="pass" name="pass" type="password" pattern=".{6,25}" title="6-25 characters required" minlength="6" maxlength="25" required oninput="check(confpass)"/></br>
-		<label for="pass">Confirm Password:</label><br>
-		<input id="confpass" name="confpass" type="password" pattern=".{6,25}" title="6-25 characters required" minlength="6" maxlength="25" required oninput="check(this)" />
+		<label for="signup_username">Username:</label><br>
+		<input id="signup_username" name="username" type="text" maxlength="20" minlength="3" required/></br>
+		<label for="signup_email">Email:</label><br>
+		<input id="signup_email" name="email" type="email" maxlength="60" required/></br>
+		<label for="signup_pass">Password:</label><br>
+		<input id="signup_pass" name="pass" type="password" pattern=".{6,25}" title="6-25 characters required" minlength="6" maxlength="25" required oninput="check(signup_confpass)"/></br>
+		<label for="signup_pass">Confirm Password:</label><br>
+		<input id="signup_confpass" name="confpass" type="password" pattern=".{6,25}" title="6-25 characters required" minlength="6" maxlength="25" required oninput="check(this)" />
 	</form>
 	<script type="text/javascript" language="javascript">
 		$("#signUpForm").validate();
