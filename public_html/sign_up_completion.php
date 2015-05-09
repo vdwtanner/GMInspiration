@@ -23,7 +23,7 @@
 		For security purposes, your password is not shown here.<br>
 		----------------------------<br>
 		Please click this link to activate your account:<br>
-		http://gminspiration.com/verify.php?email=".$to."&hash=".$hash."<Br>
+		<a href='http://gminspiration.com/verify.php?email=".$to."&hash=".$hash."' target='_blank'>http://gminspiration.com/verify.php?email=".$to."&hash=".$hash."</a><br>
 		
 		";
 		$headers  = 'MIME-Version: 1.0' . "\r\n";
@@ -79,6 +79,7 @@
 				$stmt = $mysql->prepare("SELECT username FROM users WHERE email=?");
 				$stmt->bind_param("s", $email);
 				if(!$stmt->execute()){
+					header("HTTP/1.1 500 Database Error");
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}
 				$u = null;
@@ -95,6 +96,7 @@
 					//$img = "img/man_wearing_hat.svg";			
 					$stmt->bind_param("sssss", $usr, $pass, $email, $hash, $img);
 					if(!$stmt->execute()){
+						header("HTTP/1.1 500 Database Error");
 						echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 					}
 					//echo mysqli_errno($mysql) . ": " . mysqli_error($mysql). "\n";
@@ -104,20 +106,25 @@
 					echo "<h1>Successful sign up!</h1>";
 					$mysql->commit();
 				}else{
-					echo "<h4>I'm sorry, that email is already in use. Please go <a onclick='window.history.back()'>back</a> and use a new email.";
+					header("HTTP/1.1 412 I'm sorry, that email is already in use.");
+					//echo "<h4>I'm sorry, that email is already in use. Please go <a onclick='window.history.back()'>back</a> and use a new email.";
 				}
 			}else{
-				echo "<h4>I'm sorry, that username is already taken. Please go <a onclick='window.history.back()'>back</a> and choose a new name.</h4>";
+				header("HTTP/1.1 412 I'm sorry, that username is already taken.");
+				//echo "<h4>I'm sorry, that username is already taken. Please go <a onclick='window.history.back()'>back</a> and choose a new name.</h4>";
 			}
 		}catch(Exception $e){
-			echo "<h1 style='color:red'>An error occurred while saving data to the database</h1>";
+			header("HTTP/1.1 500 An error occurred while saving data to the database<");
+			//echo "<h1 style='color:red'>An error occurred while saving data to the database</h1>";
 			echo "<p>".$e."</p>";
 			$mysql->rollback();
 		}
 		}else{
+			header("HTTP/1.1 412 Invalid email");
 			echo "<h2>Invalid Email</h2>";
 		}
 	}else{
+		header("HTTP/1.1 412 Invalid username");
 		echo "<h2>Invalid Username</h2>";
 	}
 	$mysql->close();
