@@ -1,4 +1,7 @@
 <?php
+	// Define variables for SEO
+	$pageTitle = "View Contribution - The GM's Inspiration";
+	$pageDescription = "View a contribution or edit one of your own.";
 	include "header.php";
     session_start();
 	require dirname(__FILE__)."/scripts/parser.php";
@@ -6,7 +9,6 @@
 <DOCTYPE html>
 <html>
 <head>
-	<title>View Contribution - The GM's Inspiration</title>
 	<meta name="viewport" content="initial-scale=1">
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all">

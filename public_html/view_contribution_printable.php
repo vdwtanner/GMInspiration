@@ -1,11 +1,13 @@
 <?php
+	// Define variables for SEO
+	$pageTitle = "Print Contribution - The GM's Inspiration";
+	$pageDescription = "Printer-friendly view of contributions";
 	session_start();
 	mb_internal_encoding("UTF-8");
 ?>
 
 <html>
 <head>
-	<title>Print Contribution - The GM's Inspiration</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all">

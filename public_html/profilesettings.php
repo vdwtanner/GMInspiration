@@ -1,11 +1,13 @@
 <?php
+	// Define variables for SEO
+	$pageTitle = "Profile Settings - The GM's Inspiration";
+	$pageDescription = "Change your profile settings: description, profile picture, and password are currently supported";
 	include "header.php";
 	session_start();
 ?>
 <DOCTYPE html>
 <html>
 <head>
-	<title>Profile Settings - The GM's Inspiration</title>
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 	<link rel="stylesheet" href="css/example/profile.css" media="all">

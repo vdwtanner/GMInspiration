@@ -1,12 +1,13 @@
 <?php
+	// Define variables for SEO
+	$pageTitle = "Contribute - The GM's Inspiration";
+	$pageDescription = "Contribute to the growing database of homebrew content for tabletop RPGs";
 	include "header.php";
 	session_start();
 ?>
 <DOCTYPE html>
 <html>
 <head>
-
-	<title>Contribute - The GM's Inspiration</title></title>
 	<meta name="viewport" content="initial-scale=1">
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">

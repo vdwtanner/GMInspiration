@@ -1,11 +1,13 @@
 <?php
+	// Define variables for SEO
+	$pageTitle = "Contact Us - The GM's Inspiration";
+	$pageDescription = "Get in contact with the developers of The GM's Inspiration";
 	include "header.php";
 	session_start();
 ?>
 <DOCTYPE html>
 <html>
 <head>
-	<title>Contact Us - The GM's Inspiration</title>
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 

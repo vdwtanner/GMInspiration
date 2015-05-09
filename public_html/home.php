@@ -1,11 +1,13 @@
 <?php
+	// Define variables for SEO
+	$pageTitle = "The GM's Inspiration";
+	$pageDescription = "The GM's Inspiration is a repository designed to facilitate the sharing of homebrew content for tabletop RPGs.";
 	include "header.php";
 	include dirname(__FILE__)."/scripts/homeScripts.php";
 ?>
 <DOCTYPE html>
 <html>
 <head>
-	<title>The GM's Inspiration</title>
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 	<style>
