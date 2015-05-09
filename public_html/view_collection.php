@@ -5,8 +5,9 @@
 <DOCTYPE html>
 <html>
 <head>
-        <link rel="stylesheet" href="css/example/global.css" media="all">
-        <link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
+	<title>View Collection - The GM's Inspiration</title>
+    <link rel="stylesheet" href="css/example/global.css" media="all">
+    <link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 	<script type='text/javascript'>
 
 		function deleteItemFromCollection(contriID, collectionID){

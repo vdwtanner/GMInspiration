@@ -6,7 +6,7 @@
 <html>
 <head>
 
-	<title>Contribute</title>
+	<title>Contribute - The GM's Inspiration</title></title>
 	<meta name="viewport" content="initial-scale=1">
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">

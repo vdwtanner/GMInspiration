@@ -5,6 +5,7 @@
 
 <html>
 <head>
+	<title>Print Contribution - The GM's Inspiration</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all">

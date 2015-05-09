@@ -6,6 +6,7 @@
 <DOCTYPE html>
 <html>
 <head>
+	<title>View Contribution - The GM's Inspiration</title>
 	<meta name="viewport" content="initial-scale=1">
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all">
