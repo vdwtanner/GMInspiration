@@ -59,6 +59,7 @@
 			form = $("#modal_area").innerHTML;
 			//alert(form);
 			$("#modal_area").dialog({
+				title: "Login",
 				height: 270,
 				width: 430,
 				modal: true,
@@ -67,6 +68,7 @@
 					"Forgot Password": function(){
 						$("#modal_area").html("<b>Please enter the email linked to your account</b><br><input id='email' type='email' placeholder='email' tooltip='Must be a valid email' />");
 						$("#modal_area").dialog({
+							title: "Recover Password",
 							height: 270,
 							width: 430,
 							modal: true,
@@ -83,6 +85,7 @@
 										success: function(html){
 											$("#modal_area").html(html);
 											$("#modal_area").dialog({
+												title: "Success!",
 												buttons: {
 													"Close": function(){
 														$(this).dialog("close");
@@ -93,6 +96,7 @@
 										error: function(xhr, status, error){
 											$("#modal_area").html(error);
 											$("#modal_area").dialog({
+												title: "ERROR",
 												buttons: {
 													"Close": function(){
 														$(this).dialog("close");
@@ -119,7 +123,7 @@
 					$("#modal_area").keypress(function(e) {
 					//console.log("Key pressed: " +e.keyCode);
 					if (e.keyCode == 13) {
-						var buttons = $("#modal_area").dialog("option", "buttons");
+						//var buttons = $("#modal_area").dialog("option", "buttons");
 						//console.log(buttons);
 						submitLogin(dialog);
 					}
@@ -158,7 +162,7 @@
 			var pass=$("#signup_pass").val();
 			var email=$("#signup_email").val();
 			$.ajax({
-				url: "sign_up.php",
+				url: "sign_up_completion.php",
 				type: "POST",
 				data: ({
 					username: user,
@@ -167,9 +171,28 @@
 				}),
 				success: function(html){
 					$("#modal_area").html("<b>Successful signup. Check your inbox and spam filter for an activation email</b>");
+					$("#modal_area").dialog({
+						title: "Successful sign up!",
+						buttons: {
+							"Close": function(){
+								$("#modal_area").dialog("close");
+							}
+						}
+					});
 				},
 				error: function(xhr, status, error){
-					$("#modal_area").html("<b>An error occurred.</b>");
+					$("#modal_area").html(error);
+					$("#modal_area").dialog({
+						title: "ERROR",
+						buttons: {
+							"Back": function(){
+								signUp();
+							},
+							"Close": function(){
+								$("#modal_area").dialog("close");
+							}
+						}
+					});
 				}
 			});
 		}
@@ -187,11 +210,12 @@
 				position: {my: "center top", at: "center top", of: window},
 				buttons: {
 					"Sign Up": function(){
-						$("#signup_form").validate();
-						if($("#signup_form").valid() && ($("#signup_pass").val()==$("#signup_confirm_pass").val())){
+						//$("#signup_form").validate();
+						if(($("#signup_pass").val()==$("#signup_confirm_pass").val())){
 							submitSignUp();
 						}else{
-							$("#signup_form").submit();
+							//$("#signup_form").submit();
+							alert("Password mismatch");
 						}
 					},
 					"Cancel": function(){
