@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /tanner
+Disallow: /zac
+Disallow: /dalton
+Disallow: /david
+Disallow: /scripts
+Disallow: /img
