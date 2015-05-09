@@ -1,7 +1,31 @@
 <?php
+	if($_GET["contid"]){
+		$id=$_GET["contid"];
+    }else{
+		$id=$_POST["id"];
+	}
+	$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
+    if ($mysql->connect_error) {
+        die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
+    }
+	$stmt=$mysql->prepare("SELECT name, `desc` FROM contributions WHERE id=?");
+	$stmt->bind_param("i", $id);
+	$stmt->execute();
+	$titleName=null; $pageDesctiption=null;
+	$stmt->bind_result($titleName, $pageDescription);
+	$stmt->fetch();
+	$pageDescription=strip_tags($pageDescription);
+	$pageDescription=htmlspecialchars_decode($pageDescription);
 	// Define variables for SEO
-	$pageTitle = "View Contribution - The GM's Inspiration";
-	$pageDescription = "View a contribution or edit one of your own.";
+	if($titleName!=null){
+		$pageTitle = $titleName." - The GM's Inspiration";
+	}else{
+		$pageTitle = "View Contribution - The GM's Inspiration";
+	}
+	if($pageDescription==null){
+		$pageDescription = "View a contribution or edit one of your own.";
+	}
+	$stmt->close();
 	include "header.php";
     session_start();
 	require dirname(__FILE__)."/scripts/parser.php";
@@ -545,17 +569,7 @@
 <body>
 <div id="container" class="cf">
 <?php
-    //echo "Hello ".$_SESSION("username");
-    $mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
-    if ($mysql->connect_error) {
-        die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
-    }
-    // Tanner might wanna change this, and just use GET in the end. (we need to use GET in order to link contributions)
-    if($_GET["contid"]){
-		$id=$_GET["contid"];
-    }else{
-		$id=$_POST["id"];
-	}
+    
 	echo "<p id='contribution_id' style='display: none;' >".$id."</p>";
 	echo "<p id='user' style='display: none;'>".$_SESSION["username"]."</p>";
 	$isCreator=false;

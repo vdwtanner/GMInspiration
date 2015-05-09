@@ -1,6 +1,6 @@
 <?php
 	// Define variables for SEO
-	$pageTitle = "Profile - The GM's Inspiration";
+	$pageTitle = $_GET["user"]." - The GM's Inspiration";
 	$pageDescription = "View your profile or that of another user on The GM's Inspiration";
 	session_start();
 	include "header.php";
