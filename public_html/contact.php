@@ -1,4 +1,7 @@
 <?php
+	// Define variables for SEO
+	$pageTitle = "Contact Us - The GM's Inspiration";
+	$pageDescription = "Get in contact with the developers of The GM's Inspiration";
 	include "header.php";
 	session_start();
 ?>

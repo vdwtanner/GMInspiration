@@ -1,4 +1,7 @@
 <?php
+	// Define variables for SEO
+	$pageTitle = "View Contribution - The GM's Inspiration";
+	$pageDescription = "View a contribution or edit one of your own.";
 	include "header.php";
     session_start();
 	require dirname(__FILE__)."/scripts/parser.php";

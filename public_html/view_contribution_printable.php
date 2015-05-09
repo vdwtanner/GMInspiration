@@ -1,4 +1,7 @@
 <?php
+	// Define variables for SEO
+	$pageTitle = "Print Contribution - The GM's Inspiration";
+	$pageDescription = "Printer-friendly view of contributions";
 	session_start();
 	mb_internal_encoding("UTF-8");
 ?>

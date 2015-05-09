@@ -1,12 +1,15 @@
 <?php
+	// Define variables for SEO
+	$pageTitle = "View Collection - The GM's Inspiration";
+	$pageDescription = "View a detailed listing of the contents of a collection. Remove contributions from the collection if you are the owner of the collection.";
 	session_start();
 	include "header.php";
 ?>
 <DOCTYPE html>
 <html>
 <head>
-        <link rel="stylesheet" href="css/example/global.css" media="all">
-        <link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
+    <link rel="stylesheet" href="css/example/global.css" media="all">
+    <link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 	<script type='text/javascript'>
 
 		function deleteItemFromCollection(contriID, collectionID){

@@ -1,4 +1,7 @@
 <?php
+	// Define variables for SEO
+	$pageTitle = "Collections - The GM's Inspiration";
+	$pageDescription = "View collections that you have created or have been shared with you, or create a new one. Share collections with other users.";
 	include "header.php";
 	session_start();
 ?>
@@ -6,7 +9,6 @@
 <DOCTYPE html>
 <html>
 <head>
-
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 

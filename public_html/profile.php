@@ -1,11 +1,13 @@
 <?php
+	// Define variables for SEO
+	$pageTitle = "Profile - The GM's Inspiration";
+	$pageDescription = "View your profile or that of another user on The GM's Inspiration";
 	session_start();
 	include "header.php";
 ?>
 <DOCTYPE html>
 <html>
 <head>
-
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
 	<link rel="stylesheet" href="css/example/profile.css" media="all">
