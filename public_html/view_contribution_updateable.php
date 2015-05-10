@@ -616,8 +616,22 @@
 	$type = htmlspecialchars($type, ENT_QUOTES, "UTF-8");
 	$s_type = htmlspecialchars($s_type, ENT_QUOTES, "UTF-8");
 	$game = htmlspecialchars($game, ENT_QUOTES, "UTF-8");
+	$fields = json_decode(($json));    //create associative array from json
 
-        $fields = json_decode(($json));    //create associative array from json
+	/********************************
+	Structured Data - Rich Snippets
+	********************************/
+		echo "<div id='rich_snippets' style='display:none;'><div itemscope itemtype='http://schema.org/Product'>
+			<span itemprop='brand'>".$game."</span>
+			<span itemprop='name'>".$name."</span>
+			<img itemprop='image' src='".$img."' alt='Executive Anvil logo' />
+			<span itemprop='description'>".htmlspecialchars_decode(strip_tags($desc))."</span>
+			Contribution ID #: <span itemprop='mpn'>".$id."</span>";
+		if($num_ratings>0){
+			echo "<span itemprop='aggregateRating' itemscope itemtype='http://schema.org/AggregateRating'>
+			<span itemprop='ratingValue'>".(($avgFun+$avgBalance)/2)."</span> stars, based on <span itemprop='reviewCount'>".$num_ratings."</span> review".(($num_ratings>1)? "s":"")."</span>";
+		}
+		echo "</div></div>";
 	/********************************
 		Privacy Drop Down
 	*********************************/
