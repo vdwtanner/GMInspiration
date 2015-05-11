@@ -100,7 +100,7 @@
 			echo "<h4> User since ".$joined;
 			echo "<div id='pm'>";
 			if($username == $_SESSION["username"])
-				echo "<a href='profile-settings.php'>edit your profile settings</a>";
+				echo "<a href='profilesettings.php'>edit your profile settings</a>";
 			else
 				echo "<a href='composemsg.php?recipient=".$d_username."&redirect=p'>Send this user a private message</a>";
 			echo "</div>";
@@ -136,14 +136,14 @@
 				if($_SESSION["username"]!=$username && $privacy!=0){
 						echo "You don't have permission to see this contribution.";
 					}else{
-						echo "<a href='view-contribution-updateable.php?contid=".$id."'>".$name."</a>";
+						echo "<a href='view_contribution_updateable.php?contid=".$id."'>".$name."</a>";
 					}
 					echo "<br><br>";
 				while($stmt->fetch()){
 					if($_SESSION["username"]!=$username && $privacy!=0){
 						//echo "You don't have permission to see this contribution.";
 					}else{
-						echo "<a href='view-contribution-updateable.php?contid=".$id."'>".$name."</a>";
+						echo "<a href='view_contribution_updateable.php?contid=".$id."'>".$name."</a>";
 						echo "<br><br>";
 					}
 

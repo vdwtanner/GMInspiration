@@ -129,7 +129,7 @@
 				}
 				$stmt->close();
 			}
-			file_put_contents("sitemap.txt", "\nhttp://www.gminspiration.com/view_contribution_printable.php?contid=".$id, FILE_APPEND);
+			file_put_contents("sitemap.txt", "\nhttp://www.gminspiration.com/view-contribution-updateable.php?contid=".$id, FILE_APPEND);
 			echo "Your contribution was successfully added.";
 			$mysql->commit();
 		}catch(Exception $e){

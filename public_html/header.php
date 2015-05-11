@@ -310,7 +310,7 @@
 	}
 	echo "<b><a class='hlink' href='about.php'>About</a>&nbsp;</b>";
 	echo "<b><a class='hlink' href='contact.php'>Contact Us</a>&nbsp;</b>";
-	echo "<form method='GET' style='display: inline; float: right; margin: 0px;' action='search_results.php'>";
+	echo "<form method='GET' style='display: inline; float: right; margin: 0px;' action='search-results.php'>";
 	if(!$_GET["keywords"])
 		echo "<input type='text' name='keywords' style='width: 20em' placeholder='Enter keywords here' title='Search for users, contributions, types, subtypes, and game versions'>";
 	else
