@@ -28,6 +28,19 @@
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<script src="http://cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.min.js"></script>
   	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+	
+	<script type="application/ld+json">
+	{
+		"@context": "http://schema.org",
+		"@type": "WebSite",
+		"url": "https://www.gminspiration.com/",
+		"potentialAction": {
+			"@type": "SearchAction",
+			"target": "https://www.gminspiration.com/search_results.php?keywords={search_term_string}&csort=relevance",
+			"query-input": "required name=search_term_string"
+		}
+	}
+	</script>
 
 	<script type="text/javascript">
 		

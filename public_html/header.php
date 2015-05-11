@@ -15,6 +15,14 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<script type="application/ld+json">
+    {  "@context" : "http://schema.org",
+       "@type" : "WebSite",
+       "name" : "The GM's Inspiration",
+       "alternateName" : "GM's Inspiration",
+       "url" : "http://www.gminspiration.com"
+    }
+    </script>
 	<script type="text/javascript" language="javascript">
 		function submitLogin(dialog){
 			
