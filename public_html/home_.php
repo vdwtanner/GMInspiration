@@ -36,7 +36,7 @@
 		"url": "https://www.gminspiration.com/",
 		"potentialAction": {
 			"@type": "SearchAction",
-			"target": "https://www.gminspiration.com/search-results.php?keywords={search_term_string}&csort=relevance",
+			"target": "https://www.gminspiration.com/search_results.php?keywords={search_term_string}&csort=relevance",
 			"query-input": "required name=search_term_string"
 		}
 	}
@@ -116,28 +116,28 @@
 	<ul id="quick_search" class="quick_search" style="padding-left: 0em">
 		<li id="armor">
 				
-				<a href="search-results.php?keywords=armor&csort=rating"><img src="img/Armor15.png">Armor</a></li>
+				<a href="search_results.php?keywords=armor&csort=rating"><img src="img/Armor15.png">Armor</a></li>
 		&nbsp <li id="classes">
 				
-				<a href="search-results.php?keywords=class&csort=rating"><img src="img/Classes15.png">Classes</a></li>
+				<a href="search_results.php?keywords=class&csort=rating"><img src="img/Classes15.png">Classes</a></li>
 		&nbsp <li id="feats">
 				
-				<a href="search-results.php?keywords=feat&csort=rating"><img src="img/Feats15.png">Feats</a></li>
+				<a href="search_results.php?keywords=feat&csort=rating"><img src="img/Feats15.png">Feats</a></li>
 		&nbsp <li id="items">
 				
-				<a href="search-results.php?keywords=item&csort=rating"><img src="img/Items15.png">Items</a></li>
+				<a href="search_results.php?keywords=item&csort=rating"><img src="img/Items15.png">Items</a></li>
 		&nbsp <li id="monsters">
 				
-				<a href="search-results.php?keywords=monster&csort=rating"><img src="img/Monsters15.png">Monsters</a></li>
+				<a href="search_results.php?keywords=monster&csort=rating"><img src="img/Monsters15.png">Monsters</a></li>
 		&nbsp <li id="races">
 				
-				<a href="search-results.php?keywords=race&csort=rating"><img src="img/Races15.png">Races</a></li>
+				<a href="search_results.php?keywords=race&csort=rating"><img src="img/Races15.png">Races</a></li>
 		&nbsp <li id="spells">
 				
-				<a href="search-results.php?keywords=spell&csort=rating"><img src="img/Spells15.png">Spells</a></li>
+				<a href="search_results.php?keywords=spell&csort=rating"><img src="img/Spells15.png">Spells</a></li>
 		&nbsp <li id="weapons">
 				
-				<a href="search-results.php?keywords=weapon&csort=rating"><img src="img/Weapons15.png">Weapons</a></li>
+				<a href="search_results.php?keywords=weapon&csort=rating"><img src="img/Weapons15.png">Weapons</a></li>
 	</ul>
 	<h2>Up and Coming</h2>
 	<?php
@@ -175,21 +175,21 @@
 
 					if($count == 0){
 						echo "<div class='row'>";
-						echo "<a class='col-1-3' style='width:50%; height:400px;' href='view-contribution-updateable.php?contid=".$row["id"]."'>";
+						echo "<a class='col-1-3' style='width:50%; height:400px;' href='view_contribution_updateable.php?contid=".$row["id"]."'>";
 					}else if($count == 1){
 						echo "</div>";
 						echo "<div class='row'>";
-						echo "<a class='col-1-3' href='view-contribution-updateable.php?contid=".$row["id"]."'>";
+						echo "<a class='col-1-3' href='view_contribution_updateable.php?contid=".$row["id"]."'>";
 					}else if($count == 3){
 						echo "</div>";
 						echo "<div class='row'>";
-						echo "<a class='col-1-3' href='view-contribution-updateable.php?contid=".$row["id"]."'>";
+						echo "<a class='col-1-3' href='view_contribution_updateable.php?contid=".$row["id"]."'>";
 					}else if($count==sizeof($count)-1){
 						echo "</div>";
-						echo "<a class='col-1-3' href='view-contribution-updateable.php?contid=".$row["id"]."'>";
+						echo "<a class='col-1-3' href='view_contribution_updateable.php?contid=".$row["id"]."'>";
 					}
 					else{
-					echo "<a class='col-1-3' href='view-contribution-updateable.php?contid=".$row["id"]."'>";
+					echo "<a class='col-1-3' href='view_contribution_updateable.php?contid=".$row["id"]."'>";
 					}
 					if($key == 0)
 						echo "<img class='gridImage' border='0' alt='".$name."' src='".$row["img"]."'>";

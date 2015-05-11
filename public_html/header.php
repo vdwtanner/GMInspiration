@@ -15,6 +15,14 @@
 	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<script type="application/ld+json">
+    {  "@context" : "http://schema.org",
+       "@type" : "WebSite",
+       "name" : "The GM's Inspiration",
+       "alternateName" : "GM's Inspiration",
+       "url" : "http://www.gminspiration.com"
+    }
+    </script>
 	<script type="text/javascript" language="javascript">
 		function submitLogin(dialog){
 			
@@ -302,7 +310,7 @@
 	}
 	echo "<b><a class='hlink' href='about.php'>About</a>&nbsp;</b>";
 	echo "<b><a class='hlink' href='contact.php'>Contact Us</a>&nbsp;</b>";
-	echo "<form method='GET' style='display: inline; float: right; margin: 0px;' action='search_results.php'>";
+	echo "<form method='GET' style='display: inline; float: right; margin: 0px;' action='search-results.php'>";
 	if(!$_GET["keywords"])
 		echo "<input type='text' name='keywords' style='width: 20em' placeholder='Enter keywords here' title='Search for users, contributions, types, subtypes, and game versions'>";
 	else

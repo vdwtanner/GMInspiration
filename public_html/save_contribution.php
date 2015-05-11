@@ -88,6 +88,7 @@
 		if ($mysql->connect_error) {
 			die('Connect Error (' . $mysqli->connect_errno . ') ' . $mysqli->connect_error);
 		}
+		$id=null;
 		try{
 			$mysql->query("START TRANSACTION");
 			if($img){
@@ -97,6 +98,7 @@
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}
+				$id=$stmt->insert_id;
 				$stmt->close();
 			}else{
 				//$mysql->query("INSERT INTO contributions (username, name, `type`, subype, game, `desc`, json) VALUES ('".$mysql->real_escape_string($_SESSION["username"])."','".$name."','".$type."','".$subtype."','".$game."','".$desc."','".$json."')");
@@ -105,6 +107,7 @@
 				if(!$stmt->execute()){
 					echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
 				}
+				$id=$stmt->insert_id;
 				$stmt->close();
 			}
 			if($privacy==0){
@@ -126,7 +129,7 @@
 				}
 				$stmt->close();
 			}
-			
+			file_put_contents("sitemap.txt", "\nhttp://www.gminspiration.com/view-contribution-updateable.php?contid=".$id, FILE_APPEND);
 			echo "Your contribution was successfully added.";
 			$mysql->commit();
 		}catch(Exception $e){

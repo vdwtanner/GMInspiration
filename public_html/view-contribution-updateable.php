@@ -106,7 +106,7 @@
 									text: "Close",
 									click: function(){
 										$(this).dialog("close");
-										window.location.href="view_contribution_updateable.php?contid="+contriID;
+										window.location.href="view-contribution-updateable.php?contid="+contriID;
 									}
 								}]);
 								//setTimeout(function(){location.reload()},1200);
@@ -640,7 +640,7 @@
 		}else{
 			echo"<div class='control' style='float:right; width:45%;'>";
 		}	
-		echo "<a style='float:right;' href='view_contribution_printable.php?contid=".$id."'>view printable version</a>";
+		echo "<a style='float:right;' href='view-contribution-printable.php?contid=".$id."'>view printable version</a>";
 		echo "<span style='display:none; clear:both;'></span>";
 		if($user==$_SESSION["username"]){
 			echo "<a style='margin-top: 1em;' id='update_button' class='button' onclick='update()'>Save Changes</a> <a id='delete_button' class='button' onclick='deleteContribution()'>Delete Contribution</a></br>";
