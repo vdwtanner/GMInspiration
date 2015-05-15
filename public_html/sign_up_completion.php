@@ -18,10 +18,10 @@
 		$headers .= 'From: Account Verification <notify@gminspiration.com>' . "\r\n";
 		//$message=wordwrap($message, 70);
 		$success = mail($to,$subject,$message,$headers);
-		if($success)
+		if($success){
 			//echo "<h4>Mail Sent</h4>";
-		else{
-			header("HTTP/1.1 500 There was an Error with the Mailing System")
+		}else{
+			header("HTTP/1.1 500 There was an Error with the Mailing System");
 			echo "<h4>There was an Error with the Mailing System</h4>";
 		}
 	}
