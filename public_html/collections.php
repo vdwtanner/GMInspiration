@@ -23,10 +23,10 @@
 	function addCollection(){
 		$("#collection_modal_area").load("newCollection.html");
 		$("#collection_modal_area").dialog({
-			height: 300,
+			height: 320,
 			width: 350,
 			modal: true,
-			position: {my: "center top", at: "center top", of: window},
+			position: {my: "left top", at: "right top", of: $("#new_collection_button")},
 			buttons: {
 				"Add": function(){
 					submitAddCollection();
@@ -243,7 +243,7 @@
 
 		echo "<div class='collectionHeader'>";
 		echo "<h2 style='display:inline; margin-right:10px;'>My Collections</h2>";
-		echo "<a class='button' onclick='addCollection()' >New...</a>";
+		echo "<a id='new_collection_button' class='button' onclick='addCollection()' >New...</a>";
 		echo "</div>";
 		echo "<hr>";
 
