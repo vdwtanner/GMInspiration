@@ -22,6 +22,7 @@
 		//echo "SELECT COUNT(*) FROM `private_messages` WHERE `recipient`='".$_SESSION["username"]."' AND `read`=0";
 		echo "Inbox";
 		echo ($msgCount>0)?"[".$msgCount." unread]":"";
+		$_SESSION["numMessages"]=$msgCount;
 	}catch(Exception $e){
 		die("ERROR READING MESSAGES");
 	}

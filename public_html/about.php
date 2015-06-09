@@ -27,6 +27,7 @@
 	 feedback to those other plebians whose content offended your fragile nerd heart.</p>
 	<blockquote style='max-width: 20em;'>This sword gave me and all my players cancer.<br><span style='display:inline-block; padding-left: 6em;'>-One of our amazing users.<span></blockquote>
 	<p>Enjoy our site! It is still fairly new, so make sure to <a href='contact.php'>contact us</a> if you find any issues.</p>
+	<p>Look forward to our companion app on the Android market! It is currently under development, but should be available for download before the end of summer 2015!</p>
 <!--
 	<h4 style='font-size: 120%'>Your Profile</h4>
 	<p>After signing up, you should take a second to check out your profile page. From here you can,</p>

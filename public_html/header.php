@@ -12,9 +12,10 @@
 	{
 		echo '<meta name="robots" content="' . $pageRobots . '">';
 	}*/?>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<script src="scripts/js/notify.min.js"></script>
 	<script type="application/ld+json">
     {  "@context" : "http://schema.org",
        "@type" : "WebSite",
@@ -240,6 +241,7 @@
 			});
 		}
 		
+		var numMessages=<?php echo ($_SESSION["numMessages"]>0)?$_SESSION["numMessages"]:"0" ?>;
 		function updateInboxNotification(){
 			console.log("updateInboxNotification()");
 			$.ajax({
@@ -247,6 +249,13 @@
 				type: "POST",
 				success: function(html){
 					$("#inbox_notification").html(html);
+					var msg=$("#inbox_notification").text();
+					msg=msg.replace(/\D/g,'');
+					console.log(numMessages +" "+ msg);
+					if(numMessages<msg){
+						$.notify("You have "+(msg-numMessages)+" new message"+(((msg-numMessages)>1)?"s":"")+"!", "info");
+					}
+					numMessages=msg;
 				}
 			});
 			window.setTimeout(function(){updateInboxNotification()},10000);//update every 10 seconds
@@ -291,9 +300,8 @@
 	}
 	
 	echo "</div>";
-
+	//header img
 	echo "<div style='clear: both;'>";
-	
 	echo "<a  id='homelink' href='index.html'><img class='title' src='img/title2.png'></a>";
 	
 	echo "</div>";
@@ -310,6 +318,7 @@
 	}
 	echo "<b><a class='hlink' href='about.php'>About</a>&nbsp;</b>";
 	echo "<b><a class='hlink' href='contact.php'>Contact Us</a>&nbsp;</b>";
+	//search bar
 	echo "<form method='GET' style='display: inline; float: right; margin: 0px;' action='search-results.php'>";
 	if(!$_GET["keywords"])
 		echo "<input type='text' name='keywords' style='width: 20em' placeholder='Enter keywords here' title='Search for users, contributions, types, subtypes, and game versions'>";
@@ -318,7 +327,6 @@
 	echo "<input type='hidden' name='csort' value='relevance'>";
 	echo "<input class='but' type='submit' value='Search'>";
 	echo "</form>";
-	
 	//echo "<hr>";
 	echo "</div>";
 	echo "</div>";
