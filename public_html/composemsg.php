@@ -25,7 +25,14 @@
 			}else{
 				echo "<input type='text' name='msgrecipient' placeholder='Recipient' size='76' maxlength='255'></input><br>";
 			}
-			echo "<input type='text' name='msgsubject' placeholder='Message Subject' size='76' maxlength='255'></input><br>";
+			echo "<input type='text' name='msgsubject' placeholder='Message Subject' size='76' maxlength='255' value='";
+			if($_GET["subject"]){
+				if(substr($_GET["subject"],0,3) != "RE:"){
+					echo "RE: ";
+				}
+				echo $_GET["subject"];
+			}
+			echo "'/><br>";
 			echo "<textarea name='msgbody' rows=7 cols=75 placeholder='Enter your message here' style='resize:none' maxlength='6000'></textarea><br>";	
 			echo "<input class='but' type='submit' value='Send'>";
 		

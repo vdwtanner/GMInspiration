@@ -80,7 +80,7 @@
 				echo "<div class='listshowhide'>";
 				echo "<a class='button' onclick='toggle_vis(\"b".$value["id"]."\",this);' style='float: right;'>show</a>";
 				if($value["sender"] != "DungeonCrawlers" && $type != "SENT")
-					echo "<a class='button' style='float: right;' href='composemsg.php?recipient=".$value["sender"]."&redirect=i'>reply</a>";
+					echo "<a class='button' style='float: right;' href='composemsg.php?recipient=".$value["sender"]."&redirect=i&subject=".$value["subject"]."'>reply</a>";
 				echo "<a class='button' onclick='del(".$value["id"].")' style='float: right;'>delete&nbsp</a>";
 				echo "<p style='display:inline; color: grey'>".$value["timestamp"]."&nbsp</p>";
 				echo "</div>";
