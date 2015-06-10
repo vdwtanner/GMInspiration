@@ -333,54 +333,6 @@
 				}
 			});
 		}
-		
-		/*$.widget( "custom.catcomplete", $.ui.autocomplete, {
-			_create: function() {
-				this._super();
-				this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
-				},
-			_renderMenu: function( ul, items ) {
-				var that = this,
-				currentCategory = "";
-				$.each( items, function( index, item ) {
-					var li;
-					if ( item.category != currentCategory ) {
-						ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
-						currentCategory = item.category;
-					}
-					li = that._renderItemData( ul, item );
-					if ( item.category ) {
-						li.attr( "aria-label", item.category + " : " + item.label );
-					}
-				});
-			}
-		});*/
-	
-		/*$(function() {
-			var data=[];
-			
-			$.ajax({
-				url: "scripts/autoCompleter.php",
-				type: "POST",
-				data: {
-					type: "userNames",
-					input: ""
-				},
-				success: function(json){
-					console.log(json);
-					data=json;
-					console.log(data);
-				},
-				error: function(xhr, status, error){
-					console.log(error);
-				}
-			});
-			$( "#search" ).catcomplete({
-				delay: 0,
-				source: data
-			});
-		});*/
-		
 	</script>
 	<?php 
 		$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
