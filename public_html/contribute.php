@@ -11,10 +11,7 @@
 	<meta name="viewport" content="initial-scale=1">
 	<link rel="stylesheet" href="css/example/global.css" media="all">
 	<link rel="stylesheet" href="css/example/layout.css" media="all and (min-width: 33.236em)">
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
-	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-	<script src="http://cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.min.js"></script>
+	<!--<script src="http://cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.min.js"></script> -->
 	<script src="scripts/ckeditor/ckeditor.js"></script>
 	<!--<script src="scripts/js/utils.js"></script>-->
 	<script src="scripts/js/jquery-validation/dist/jquery.validate.min.js"></script>

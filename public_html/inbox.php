@@ -89,7 +89,7 @@
 	}
 	
 	$(function(){
-		window.setInterval(function(){checkMessages("INBOX_UNREAD")},30000);//update every 30 seconds
+		window.setInterval(function(){checkMessages("INBOX_UNREAD")},10000);//update every 30 seconds
 	});
 
 </script>
