@@ -12,10 +12,11 @@
 	{
 		echo '<meta name="robots" content="' . $pageRobots . '">';
 	}*/?>
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script src="scripts/js/notify.min.js"></script>
+	
 	<script type="application/ld+json">
     {  "@context" : "http://schema.org",
        "@type" : "WebSite",
@@ -24,6 +25,42 @@
        "url" : "http://www.gminspiration.com"
     }
     </script>
+	<style>
+		.ui-autocomplete-category {
+			font-weight: bold;
+			padding: .2em .4em;
+			margin: .8em 0 .2em;
+			line-height: 1.5;
+		}
+		.ui-autocomplete {
+			max-height: 10em;
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+  </style>
+  <script>
+  $.widget( "custom.catcomplete", $.ui.autocomplete, {
+    _create: function() {
+      this._super();
+      this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+    },
+    _renderMenu: function( ul, items ) {
+      var that = this,
+        currentCategory = "";
+      $.each( items, function( index, item ) {
+        var li;
+        if ( item.category != currentCategory ) {
+          ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+          currentCategory = item.category;
+        }
+        li = that._renderItemData( ul, item );
+        if ( item.category ) {
+          li.attr( "aria-label", item.category + " : " + item.label );
+        }
+      });
+    }
+  });
+  </script>
 	<script type="text/javascript" language="javascript">
 		function submitLogin(dialog){
 			
@@ -277,14 +314,106 @@
 			//setTimeout(function(){updateInboxNotification()},50);//update after 50 milliseconds
 		});
 		
+		function autosearch(input){
+			var text=input.value;
+			$.ajax({
+				url: "scripts/autoCompleter.php",
+				type: "POST",
+				data: {
+					type: "userNames",
+					input: text
+				},
+				success: function(json){
+					console.log(json);
+					var source=JSON.parse(json);
+					$(input).autocomplete({source: source});
+				},
+				error: function(xhr, status, error){
+					console.log(error);
+				}
+			});
+		}
+		
+		/*$.widget( "custom.catcomplete", $.ui.autocomplete, {
+			_create: function() {
+				this._super();
+				this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+				},
+			_renderMenu: function( ul, items ) {
+				var that = this,
+				currentCategory = "";
+				$.each( items, function( index, item ) {
+					var li;
+					if ( item.category != currentCategory ) {
+						ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+						currentCategory = item.category;
+					}
+					li = that._renderItemData( ul, item );
+					if ( item.category ) {
+						li.attr( "aria-label", item.category + " : " + item.label );
+					}
+				});
+			}
+		});*/
+	
+		/*$(function() {
+			var data=[];
+			
+			$.ajax({
+				url: "scripts/autoCompleter.php",
+				type: "POST",
+				data: {
+					type: "userNames",
+					input: ""
+				},
+				success: function(json){
+					console.log(json);
+					data=json;
+					console.log(data);
+				},
+				error: function(xhr, status, error){
+					console.log(error);
+				}
+			});
+			$( "#search" ).catcomplete({
+				delay: 0,
+				source: data
+			});
+		});*/
+		
 	</script>
+	<?php 
+		$mysql = new mysqli("localhost", "ab68783_crawler", "El7[Pv~?.p(1", "ab68783_dungeon");
+		if($mysql->connect_error){
+		die('Connect Error ('.$mysqli->connect_errno.')'.$mysqli->connect_error);
+	}
+		$stmt=$mysql->prepare("SELECT username FROM `users` ORDER BY username ASC");
+		if(!$stmt->execute()){
+			echo "Failed to execute mysql command: (".$stmt->errno.") ".$stmt->error;
+		}
+		$result=null;
+		$stmt->bind_result($result);
+		$json=array();
+		while($stmt->fetch()){
+			$res_arr=array( "label" => $result, "category"=>"users");
+			array_push($json, $res_arr);
+		}
+		
+		?>
+  <script>
+  $(function() {
+    var data = <?php echo "'".json_encode($json)."'";?>;
+	data=JSON.parse(data);
+    $( "#search" ).catcomplete({
+      delay: 0,
+      source: data
+    });
+  });
+  </script>
 </head>
 <body>
 
 <?php
-
-
-
 	echo "<div id='headcontainer'>";
 	
 	echo "<div id='headerlinks'>";
@@ -319,11 +448,11 @@
 	echo "<b><a class='hlink' href='about.php'>About</a>&nbsp;</b>";
 	echo "<b><a class='hlink' href='contact.php'>Contact Us</a>&nbsp;</b>";
 	//search bar
-	echo "<form method='GET' style='display: inline; float: right; margin: 0px;' action='search-results.php'>";
+	echo "<form  method='GET' style='display: inline; float: right; margin: 0px;' action='search-results.php'>";
 	if(!$_GET["keywords"])
-		echo "<input type='text' name='keywords' style='width: 20em' placeholder='Enter keywords here' title='Search for users, contributions, types, subtypes, and game versions'>";
+		echo "<input id='search' type='text' name='keywords' style='width: 20em' placeholder='Enter keywords here' title='Search for users, contributions, types, subtypes, and game versions' autocomplete='false'>";
 	else
-		echo "<input type='text' name='keywords' style='width: 20em' value='".htmlspecialchars($_GET["keywords"], ENT_QUOTES, "UTF-8")."' title='Search for users, contributions, types, subtypes, and game versions'>";
+		echo "<input id='search' type='text' name='keywords' style='width: 20em' value='".htmlspecialchars($_GET["keywords"], ENT_QUOTES, "UTF-8")."' title='Search for users, contributions, types, subtypes, and game versions' autocomplete='false'>";
 	echo "<input type='hidden' name='csort' value='relevance'>";
 	echo "<input class='but' type='submit' value='Search'>";
 	echo "</form>";

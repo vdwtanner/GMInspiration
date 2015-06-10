@@ -24,8 +24,7 @@
 	</style>
 
 
-	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
-	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+	
 	<script src="http://cdn.jsdelivr.net/jquery.validation/1.13.1/jquery.validate.min.js"></script>
   	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	
